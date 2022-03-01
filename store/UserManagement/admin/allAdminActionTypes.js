@@ -1,0 +1,3 @@
+export const ADMIN_SUCCESS = "ADMIN_SUCCESS"
+export const ADMIN_FAILED = "ADMIN_FAILED"
+export const ADMIN_PENDING = "ADMIN_PENDING"
