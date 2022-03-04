@@ -19,7 +19,7 @@ export const getAllCourses = (t) => {
       .then((response) => {
         dispatch({
           type: GET_COURSE_SUCCESS,
-          payload: response.data.data.data,
+          payload: response.data.data.data.rows,
         });
         dispatch(loadingFalse());
       })

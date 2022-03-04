@@ -1,12 +1,11 @@
 import axios from "axios";
 import * as actionTypes from "./AdminAttendanceActionType";
-import URLst from '../../public/constants'
+import URLst from "../../public/constants";
 import { attendancePending } from "..";
-
 
 export const adminAttendanceStart = () => {
   return {
-    type: actionTypes.ADMIN_ATTENDANCE_START
+    type: actionTypes.ADMIN_ATTENDANCE_START,
   };
 };
 
@@ -14,15 +13,13 @@ export const adminAttendanceSuccess = (message) => {
   return {
     type: actionTypes.ADMIN_ATTENDANCE_SUCCESS,
     message: message,
-   
   };
 };
 
-export const adminAttendanceFail = error => {
-
+export const adminAttendanceFail = (error) => {
   return {
     type: actionTypes.ADMIN_ATTENDANCE_FAILED,
-    error: error
+    error: error,
   };
 };
 
@@ -30,30 +27,26 @@ export const attendDataSuccess = (message) => {
   return {
     type: actionTypes.ATTEND_GOT_DATA_SUCCESS,
     message: message,
-   
   };
 };
-
-
 
 export const studentAttendanceDetail = (studentId) => {
   return (dispatch, getState) => {
     dispatch(adminAttendanceStart());
     dispatch(attendancePending());
     const { token } = getState().auth;
-    
+
     axios
-      .get(URLst + `api/v1/attendance/student/${studentId}`,
-      {
+      .get(URLst + `api/v1/attendance/student/${studentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then(res => {
+      .then((res) => {
         const message = res.data.message;
-        console.log('actionnnn')
-        console.log(res.data.data)
-        dispatch(adminAttendanceSuccess(res.data.data.days))
+        console.log("actionnnn");
+        console.log(res.data.data);
+        dispatch(adminAttendanceSuccess(res.data.data.days));
         // dispatch({
         //   type: actionTypes.ADMIN_ATTENDANCE_SUCCESS,
         //   payload: {
@@ -62,21 +55,19 @@ export const studentAttendanceDetail = (studentId) => {
         //     classId: classId,
         //   },
         // });
-      }).then(res => {
-        dispatch(attendDataSuccess(true))
       })
-      .catch(err => {
+      .then((res) => {
+        dispatch(attendDataSuccess(true));
+      })
+      .catch((err) => {
         var errorData;
-        if (err.response!=null) {
-       
-          errorData=err.response.data.message
-        
+        if (err.response != null) {
+          errorData = err.response.data.message;
         } else {
-          errorData=err.message
+          errorData = err.message;
         }
         dispatch(adminAttendanceFail(errorData));
-        dispatch(attendDataSuccess(false))
+        dispatch(attendDataSuccess(false));
       });
   };
 };
-

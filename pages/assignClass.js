@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Select, Row, Col, Button, Tabs, Modal, Form, Spin, Input } from "antd";
 import { connect } from "react-redux";
 import withAuth from "../utils/protectRoute";
@@ -10,8 +10,10 @@ import {
   assignStudent,
   requestStudentsByFilter,
   assignTeacher,
+  getAllTeacherSuccess,
 } from "../store/index";
 import { getUnassignedStudents } from "../store/StudentFilter/StudentFilterAction";
+import { getAllCourses } from "../store/Course/CourseAction";
 
 function AssignClassPage({
   filter,
@@ -20,6 +22,10 @@ function AssignClassPage({
   getUnassignedStudents,
   assignStudent,
   assignStudents,
+  getAllCourses,
+  getAllTeacherSuccess,
+  courses,
+  teachers,
 }) {
   const [visible, setVisible] = useState(false);
   const [visibleTeacher, setVisibleTeacher] = useState(false);
@@ -28,6 +34,57 @@ function AssignClassPage({
   const [studentId, setStudentId] = useState("");
   const [studentIds, setStudentIds] = useState([]);
   const [teacherId, setTeacherId] = useState("");
+  const [coursesList, setCoursesList] = useState([]);
+  const [selectedCourse, setSelectedCourse] = useState("");
+  const [qualifiedTeachers, setQualifiedTeachers] = useState([]);
+
+  // get all courses on load
+  useEffect(() => {
+    getAllCourses();
+    getAllTeacherSuccess();
+  }, []);
+  useEffect(() => {
+    console.log("qualifiedTeachers", qualifiedTeachers);
+  }, [qualifiedTeachers]);
+
+  useEffect(() => {
+    const c = [];
+    // console.log(selectedCourse, teachers, "test");
+
+    teachers.forEach((teacher) => {
+      // if selectedCorse in teacher.qualifiedCourses
+      teacher.qualifiedCourses.forEach((course) => {
+        if (course.courseId === selectedCourse) {
+          c.push(
+            <Select.Option key={teacher.uuid}>
+              {teacher.userInformation.name}
+            </Select.Option>
+          );
+        }
+      });
+      console.log(c);
+    });
+    console.log(c, "final");
+    setQualifiedTeachers(c);
+    console.log(c, qualifiedTeachers);
+  }, [selectedCourse, teachers]);
+
+  // set courses list as filter changes
+  useEffect(() => {
+    if (filter.grade) {
+      const c = [];
+      courses.forEach((element) => {
+        if (element.grade === filter.grade) {
+          c.push(
+            <Select.Option key={element.uuid}>{element.name} </Select.Option>
+          );
+        }
+      });
+      setCoursesList(c);
+    } else {
+      setCoursesList([]);
+    }
+  }, [filter.grade]);
 
   const showModal = () => {
     setVisible(true);
@@ -35,7 +92,7 @@ function AssignClassPage({
   const showModalTeacher = () => {
     setVisibleTeacher(true);
   };
-  console.log(filter, "filter");
+
   const getUn = () => {
     if (filter.section && filter.grade) {
       getUnassignedStudents(filter.grade);
@@ -88,6 +145,7 @@ function AssignClassPage({
       </Select.Option>
     );
   }
+
   const unassignedStudents = [];
   console.log(studentsFiltered, unassignedStudents);
   for (let i = 0; i < studentsFiltered.students.length; i++) {
@@ -106,7 +164,7 @@ function AssignClassPage({
   }
 
   function handleChange(value) {
-    console.log(`selected ${value}`);
+    setSelectedCourse(value);
   }
 
   return (
@@ -337,20 +395,30 @@ function AssignClassPage({
             >
               {children}
             </Select> */}
-            <Input
-              style={{ width: "100%", marginBottom: "5px" }}
-              onChange={(val) => setTeacherId(val.target.value)}
-              placeholder="Teacher Id"
-            />
+
             <Filter min={true}></Filter>
             <Select
-              mode="multiple"
               allowClear
+              disabled={!filter.grade || !filter.section}
               style={{ width: "100%", marginBottom: "5px" }}
               placeholder="Please select a Course"
               onChange={handleChange}
             >
-              {children}
+              {coursesList}
+            </Select>
+
+            <p style={{ marginTop: "5px", marginLeft: "2px" }}>
+              Please select a teacher from list of qualified teachers
+            </p>
+
+            <Select
+              allowClear
+              disabled={!filter.grade || !filter.section}
+              style={{ width: "100%", marginBottom: "5px" }}
+              placeholder="Please select a Course"
+              onChange={handleChange}
+            >
+              {qualifiedTeachers}
             </Select>
           </div>
         )}
@@ -368,6 +436,8 @@ const mapStateToProps = (state) => {
     studentsFiltered: state.requestStudentsByFilter,
     classes: state.classList.classes,
     assignStudents: state.assignStudent,
+    courses: state.courseList.courses,
+    teachers: state.teacher.teachers,
   };
 };
 
@@ -381,6 +451,8 @@ const mapDispatchToProps = (dispatch) => {
     getUnassignedStudents: (grade) => dispatch(getUnassignedStudents(grade)),
     assignStudent: (studentIds, classId) =>
       dispatch(assignStudent(studentIds, classId)),
+    getAllCourses: () => dispatch(getAllCourses()),
+    getAllTeacherSuccess: () => dispatch(getAllTeacherSuccess()),
   };
 };
 
