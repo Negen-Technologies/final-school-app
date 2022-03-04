@@ -15,6 +15,7 @@ import {
   getMyNotification,
   addNotification,
 } from "../store/Notification/NotificationAction";
+import RankCard from "../Components/TeacherComponent/RankCard";
 
 import { primary_color } from "../public/constants";
 
@@ -46,7 +47,7 @@ function HomePage({
         <Row>
           <Col xs={24} lg={12} xl={12}>
             <Row>
-              <Col xs={24} lg={24} xl={24}>
+              <Col xs={18} lg={12} xl={12}>
                 <h1
                   style={{
                     textAlign: "center",
@@ -58,9 +59,25 @@ function HomePage({
                     paddingRight: "120px",
                   }}
                 >
-                  Average Mark Data
+                  Top Scores
                 </h1>
-                <LineChartComponent />
+                <RankCard width= {'95%'} title={"Top Three"} col={primary_color} />
+              </Col>
+              <Col xs={18} lg={12} xl={12}>
+                <h1
+                  style={{
+                    textAlign: "center",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: primary_color,
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                    paddingRight: "120px",
+                  }}
+                >
+                  Low Scores
+                </h1>
+                <RankCard width= {'95%'} title={"Bottom Three"} col={"red"} />
               </Col>
             </Row>
             <Row>

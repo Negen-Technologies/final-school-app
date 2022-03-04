@@ -1,55 +1,135 @@
-import React from 'react'
-import withAuth from '../utils/protectRoute'
+import React, { useEffect, useState } from "react";
+import withAuth from "../utils/protectRoute";
 import NotificationsPagination from "../Components/NotificationComponents/NotificationsPagination";
-import { Button } from 'antd';
-import router from 'next/router';
+import { Button, Select } from "antd";
+import router from "next/router";
+import { getNotificationForMe } from "../store/Notification/NotificationAction";
+import { connect } from "react-redux";
+import { parentGetMeAction } from "../store/ParentGetMe/parentGetMeAction";
 
+function ParentNotificationPage({
+  notification,
+  getNotificationForMe,
+  parentGetMe,
+  parentGetMeAction,
+}) {
+  const [filteredNotification, setFilteredNotification] = useState([]);
+  var selectedChildId = "";
+  const [selectedChild, setSelectedChild] = useState("All");
+  var childIds = [];
+  var forFilteredNotification = [];
+  var initialFiltered = [];
 
-function ParentNotificationPage() {
-    const notifications = [
-        {
-          name: "Administrator, Liya",
-          src: "/images/sampleWoman.jpg",
-          content:
-            "Ex consectetur consequat voluptate consectetur cillum magnaconsectetur elit laborum pariatur labore voluptate. Sint    mollit deserunt ea enim voluptate commodo mollit elit mollit.",
-        },
-        {
-          name: "Staff, Messi",
-          src: "/images/sampleMan.jpg",
-          content:
-            "Ex consectetur consequat voluptate consectetur cillum magnaconsectetur elit laborum pariatur labore voluptate. Sint    mollit deserunt ea enim voluptate commodo mollit elit mollit.",
-        },
-        {
-          name: "Staff, Shady",
-          src: "/images/sampleMan.jpg",
-          content:
-            "Ex consectetur consequat voluptate consectetur cillum magnaconsectetur elit laborum pariatur labore voluptate. Sint    mollit deserunt ea enim voluptate commodo mollit elit mollit.",
-        },
-        {
-          name: "Teacher, Kidst",
-          src: "/images/sampleWoman.jpg",
-          content:
-            "Ex consectetur consequat voluptate consectetur cillum magnaconsectetur elit laborum pariatur labore voluptate. Sint    mollit deserunt ea enim voluptate commodo mollit elit mollit.",
-        },
-        {
-          name: "Administrator, Henok",
-          src: "/images/sampleMan.jpg",
-          content:
-            "Ex consectetur consequat voluptate consectetur cillum magnaconsectetur elit laborum pariatur labore voluptate. Sint    mollit deserunt ea enim voluptate commodo mollit elit mollit.",
-        },
-      ];
+  useEffect(() => {
+    getNotificationForMe();
+    parentGetMeAction();
+  }, []);
 
-    return (
-        <div style={{
-            paddingLeft: "16px",
-            paddingRight: "16px",
-          }}>
-            <NotificationsPagination
-            notifications={notifications}
-          ></NotificationsPagination>
-            
-        </div>
-    )
+  useEffect(() => {
+    setNotificationList();
+  }, [notification]);
+
+  console.log("notification", notification);
+
+  if (parentGetMe.data) {
+    childIds.push({ id: "idx", name: "All" });
+    parentGetMe.data.children.rows.forEach((child) => {
+      childIds.push({
+        id: child.uuid,
+        name: child.firstName + " " + child.lastName,
+      });
+    });
+    console.log("childIds", childIds);
+  }
+
+  function setNotificationList() {
+    console.log("selected in the function", selectedChildId);
+    if (notification.notifications.length > 0) {
+      if (selectedChildId !== "" && selectedChildId !== "idx") {
+        console.log("===========");
+        notification.notifications.forEach((note) => {
+          note.studentId === selectedChildId
+            ? forFilteredNotification.push(note)
+            : null;
+        });
+      } else if (selectedChildId === "idx") {
+        notification.notifications.forEach((note) => {
+          forFilteredNotification.push(note);
+        });
+      } else {
+        notification.notifications.forEach((note) => {
+          forFilteredNotification.push(note);
+        });
+      }
+    }
+    setFilteredNotification(forFilteredNotification);
+  }
+
+  console.log("@@@filtered Notification", filteredNotification);
+  return (
+    <div
+      style={{
+        paddingLeft: "16px",
+        paddingRight: "16px",
+      }}
+    >
+      <Select
+        style={{ width: "100%", marginBottom: "2px" }}
+        value={selectedChild}
+        onChange={(value) => {
+          selectedChildId = value;
+          // setSelectedChildId(value);
+          childIds.forEach((child) => {
+            child.id === value
+              ? setSelectedChild(child.name)
+              : child.id === "idx"
+              ? setSelectedChild("All")
+              : null;
+          });
+          console.log("selected id", value);
+
+          setNotificationList();
+        }}
+        placeholder="Select Child"
+      >
+        {childIds.map((cl) => (
+          <Select.Option value={cl.id} key={cl.name}>
+            {cl.name}
+          </Select.Option>
+        ))}
+      </Select>
+
+      {filteredNotification.length > 0 ? (
+        <NotificationsPagination
+          notifications={filteredNotification.map((notification) => {
+            return {
+              name: notification.notificationInformation.ownerInformation.name,
+              src: "",
+              content: notification.notificationInformation.text,
+            };
+          })}
+        ></NotificationsPagination>
+      ) : (
+        ""
+      )}
+    </div>
+  );
 }
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notification,
+    parentGetMe: state.parentGetMe.parent,
+  };
+};
 
-export default withAuth(ParentNotificationPage)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getNotificationForMe: (value) => dispatch(getNotificationForMe(value)),
+    parentGetMeAction: () => dispatch(parentGetMeAction()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withAuth(ParentNotificationPage));
