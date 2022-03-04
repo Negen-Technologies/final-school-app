@@ -32,7 +32,7 @@ function StudentsFilterCriteria({
   loadingTrue,
   getClassList,
   token,
-  assessment
+  assessment,
 }) {
   useEffect(() => {
     if (classList.length == 0) {
@@ -41,8 +41,8 @@ function StudentsFilterCriteria({
     }
     if (assessment) {
       assessment.forEach((element) => {
-        totalAssessmentValue =+ assessment.value
-      })
+        totalAssessmentValue = +assessment.value;
+      });
     }
   }, []);
 
@@ -63,8 +63,6 @@ function StudentsFilterCriteria({
 
   console.log("CLASS LIST:", classList);
   console.log("ASSESSMENTS:", assessment);
-  
-  
 
   classList.forEach((element) => {
     const cl = classes.findIndex((c) => c.grade == element.grade);
@@ -105,13 +103,15 @@ function StudentsFilterCriteria({
           name: course.courseInformation.name,
         });
       });
-      setCourseList(crsList);
-      console.log("crsList: ", crsList);
-      setCourse(crsList[0].name);
-      setCourseId(crsList[0].key);
-      console.log("courseIDD selected: ", crsList[0]);
-      console.log("course selected: ", courseList);
-      console.log("sec selected: ", sectionsList);
+      if (crsList.length > 0) {
+        setCourseList(crsList);
+        console.log("crsList: ", crsList);
+        setCourse(crsList[0].name);
+        setCourseId(crsList[0].key);
+        console.log("courseIDD selected: ", crsList[0]);
+        console.log("course selected: ", courseList);
+        console.log("sec selected: ", sectionsList);
+      }
     }
   };
   console.log("courseIDD selected: ", crsList[0]);
@@ -120,7 +120,7 @@ function StudentsFilterCriteria({
     // setCoursesList(value)
     setCourse(value);
     const indx = courseList.findIndex((i) => i.name == value);
-    console.log('courselist', courseList, indx, value);
+    console.log("courselist", courseList, indx, value);
     setCourseId(courseList[indx].key);
   };
 
@@ -169,7 +169,7 @@ function StudentsFilterCriteria({
           {error}
         </div> */}
         {isForGradeChange ? (
-          <Col span = {24}>
+          <Col span={24}>
             <Row>
               <Col
                 xs={24}
@@ -261,7 +261,11 @@ function StudentsFilterCriteria({
                   onClick={showAssessmentModal}
                   htmlType="submit"
                   error={error}
-                  disabled={!section || totalAssessmentValue == 100 || totalAssessmentValue == 0}
+                  disabled={
+                    !section ||
+                    totalAssessmentValue == 100 ||
+                    totalAssessmentValue == 0
+                  }
                 >
                   Create Assessment
                 </Button>

@@ -1,8 +1,8 @@
 // import headerStyled from '../components/Header.module.css'
 import { Card, Row, Col, Divider, Radio } from "antd";
-import SliderChart from "../components/Dashboard Components/chart";
-import Demo from "../components/Dashboard Components/Carddash";
-import BarLabel from "../components/Dashboard Components/DemographyBar";
+import SliderChart from "../Components/Dashboard Components/chart";
+import Demo from "../Components/Dashboard Components/Carddash";
+import BarLabel from "../Components/Dashboard Components/DemographyBar";
 
 export default function dashboared() {
   return (

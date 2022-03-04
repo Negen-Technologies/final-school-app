@@ -1,51 +1,51 @@
 import * as actionTypes from "./gradeChangeActionTypes";
 
 const initialState = {
-  message:[],
+  message: {},
   error: null,
   loading: false,
-  
 };
 
 const initialAssessmentState = {
-  message:[],
+  message: [],
   error: null,
   loading: false,
-  
 };
 
-
-const gradeChangeStart = (state,) => {
-  return  {
-    ...state,
-    message:null,
-    error: null,
-    loading: true
-  }
-};
-
-const gradeChangeSuccess = (state, action) => {
-  console.log('IN REDUCER: ', action.message)
+const gradeChangeStart = (state) => {
   return {
     ...state,
-    message:action.message,
+    message: null,
     error: null,
-    loading: false
-  }
+    loading: true,
+  };
+};
+
+const gradeChangeSuccess = (state, action, getState) => {
+  console.log("IN st: ", getState);
+  console.log("IN REDUCER: ", action.message);
+
+  console.log("VAL: ", state.message);
+  return {
+    ...state,
+    message: action.message,
+    error: null,
+    loading: false,
+  };
 };
 
 const gradeChangeFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
+    loading: false,
+  };
+};
 
-
-export const gradeChangereducer = ( state = initialState, action) => {
+export const gradeChangereducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GRADE_CHANGE_START:
-      return gradeChangeStart(state,);
+      return gradeChangeStart(state);
     case actionTypes.GRADE_CHANGE_SUCCESS:
       return gradeChangeSuccess(state, action);
     case actionTypes.GRADE_CHANGE_FAIL:
@@ -55,41 +55,45 @@ export const gradeChangereducer = ( state = initialState, action) => {
   }
 };
 
-const getAssessmentStart = (state,) => {
-  return  {
+const getAssessmentStart = (state) => {
+  return {
     ...state,
-    message:[],
+    message: [],
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const getAssessmentSuccess = (state, action) => {
-  console.log('IN REDUCER ASSESSMENT: ', action.message)
+  console.log("IN REDUCER ASSESSMENT: ", action.message);
   return {
     ...state,
-    message:action.message,
+    message: action.message,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const getAssessmentFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
-
-  export const getAssessmentReducer = ( state = initialAssessmentState, action) => {
-    switch (action.type) {
-      case actionTypes.GET_ASSESSMENT_START:
-        return getAssessmentStart(state,);
-      case actionTypes.GET_ASSESSMENT_SUCCESS:
-        return getAssessmentSuccess(state, action);
-      case actionTypes.GET_ASSESSMENT_FAIL:
-        return getAssessmentFail(state, action);
-      default:
-        return state;
-    }
+    loading: false,
   };
+};
+
+export const getAssessmentReducer = (
+  state = initialAssessmentState,
+  action
+) => {
+  switch (action.type) {
+    case actionTypes.GET_ASSESSMENT_START:
+      return getAssessmentStart(state);
+    case actionTypes.GET_ASSESSMENT_SUCCESS:
+      return getAssessmentSuccess(state, action);
+    case actionTypes.GET_ASSESSMENT_FAIL:
+      return getAssessmentFail(state, action);
+    default:
+      return state;
+  }
+};

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { Layout } from "antd";
-import TopicMenu from "../components/layoutComponents/TopicMenu";
-import NavBar from "../components/layoutComponents/NavBar";
-import SideBar from "../components/layoutComponents/SideBar";
+import TopicMenu from "../Components/layoutComponents/TopicMenu";
+import NavBar from "../Components/layoutComponents/NavBar";
+import SideBar from "../Components/layoutComponents/SideBar";
 import {adminmenu, parentmenu, teachermenu} from "./menuLinks";
 import { connect } from "react-redux";
 

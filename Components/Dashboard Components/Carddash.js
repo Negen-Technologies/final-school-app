@@ -1,19 +1,30 @@
-import React, { useEffect} from "react";
-import { G2, Chart, Tooltip, Interval, Legend, useTheme,registerTheme,getTheme } from "bizcharts";
+import React, { useEffect } from "react";
+import {
+  G2,
+  Chart,
+  Tooltip,
+  Interval,
+  Legend,
+  useTheme,
+  registerTheme,
+  getTheme,
+} from "bizcharts";
 import { connect } from "react-redux";
 import primary_color from "../../public/constants";
 
-registerTheme('my-theme',{
-  defaultColor:primary_color,
+registerTheme("my-theme", {
+  defaultColor: primary_color,
   geometries: {
     interval: {
       rect: {
         default: { style: { fill: primary_color, fillOpacity: 0.95 } },
-        active: { style: { stroke: '#5AD8A6', lineWidth: 1 } },
+        active: { style: { stroke: "#5AD8A6", lineWidth: 1 } },
         inactive: { style: { fillOpacity: 0.3, strokeOpacity: 0.3 } },
         selected: {},
-      }}}
-})
+      },
+    },
+  },
+});
 
 // const data = [
 //   { name: "London", Mon: "Jan.", Absentees: 18.9 },
@@ -24,45 +35,66 @@ registerTheme('my-theme',{
 //   { name: "London", Mon: "Jun.", Absentees: 20.3 },
 //   { name: "London", Mon: "Jul.", Absentees: 24 },
 //   { name: "London", Mon: "Aug.", Absentees: 35.6 },
-  
+
 // ];
 
-
-
 function BarChart(dashboard) {
-  const [theme,setTheme] = useTheme('my-theme');
-  var chartData = []
-  
+  const [theme, setTheme] = useTheme("my-theme");
+  var chartData = [];
 
-  console.log('DASHBOARD', dashboard);
-  
-  var attendanceValues = []
+  console.log("DASHBOARD", dashboard);
+
+  var attendanceValues = [];
   // const academicDayOne = Date.parse(2021, 9, 20)
-  const academicDayOne = new Date('2021-9-20')
+  const academicDayOne = new Date("2021-9-20");
 
   var today = new Date();
-  var todayString =`${today.getFullYear()}` + '-' + `${(today.getMonth()+1)}` + '-' + `${today.getDate()}`
+  var todayString =
+    `${today.getFullYear()}` +
+    "-" +
+    `${today.getMonth() + 1}` +
+    "-" +
+    `${today.getDate()}`;
   var dateToday = new Date(todayString);
   var Difference_In_Time = dateToday.getTime() - academicDayOne.getTime();
-  
-// To calculate the no. of days between two dates
-var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-  
+
+  // To calculate the no. of days between two dates
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
   var datesTillToday = Math.abs(dateToday - academicDayOne);
-  const diffDays = Math.ceil(datesTillToday / (1000 * 60 * 60 * 24)); 
-  console.log('diff', dateToday, academicDayOne, Difference_In_Days);
-  var todayCount = dashboard.dashboard.today? `Today,${dashboard.dashboard.today.count}` : '0'
-  var lastSevenDaysCount = dashboard.dashboard.lastSevenDays? `Last Seven Days,${dashboard.dashboard.lastSevenDays.count / 7}`: '0'
-  var lastMonthCount = dashboard.dashboard.lastMonth? `Last Month,${dashboard.dashboard.lastMonth.count / 20}`: '0'
-  var lastYearCount = dashboard.dashboard.lastYear? `Last Year,${dashboard.dashboard.lastYear.count / diffDays}`: '0'
-  
-  attendanceValues.push(todayCount, lastSevenDaysCount, lastMonthCount, lastYearCount)
+  const diffDays = Math.ceil(datesTillToday / (1000 * 60 * 60 * 24));
+  console.log("diff", dateToday, academicDayOne, Difference_In_Days);
+  var todayCount = dashboard.dashboard.today
+    ? `Today,${dashboard.dashboard.today.count}`
+    : "0";
+  var lastSevenDaysCount = dashboard.dashboard.lastSevenDays
+    ? `Last Seven Days,${Number.parseFloat(
+        dashboard.dashboard.lastSevenDays.count / 7
+      ).toFixed(2).toString()}`
+    : "0";
+  var lastMonthCount = dashboard.dashboard.lastMonth
+    ? `Last Month,${Number.parseFloat(
+        dashboard.dashboard.lastMonth.count / 20
+      ).toFixed(2).toString()}`
+    : "0";
+  var lastYearCount = dashboard.dashboard.lastYear
+    ? `Last Year,${Number.parseFloat(
+        dashboard.dashboard.lastYear.count / diffDays
+      ).toFixed(2).toString()}`
+    : "0";
+
+  attendanceValues.push(
+    todayCount,
+    lastSevenDaysCount,
+    lastMonthCount,
+    lastYearCount
+  );
 
   attendanceValues.forEach((element) => {
-    console.log('ELEMENT', element);
-    var splitValues = element.split(",")
+    console.log("ELEMENT", element);
+    var splitValues = element.split(",");
     chartData.push({
-      Name: 'Attendance',
+      Name: "Attendance",
       When: splitValues[0],
       Absentees: splitValues[1],
     });
@@ -117,9 +149,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-   
-    
-  };
+  return {};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(BarChart);
