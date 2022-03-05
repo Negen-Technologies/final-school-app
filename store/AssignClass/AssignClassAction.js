@@ -12,6 +12,9 @@ import {
   ASSIGN_STUDENT_PENDING,
   ASSIGN_STUDENT_SUCCESS,
   ASSIGN_STUDENT_FAILED,
+  ASSIGN_TEACHERS_FAILED,
+  ASSIGN_TEACHERS_PENDING,
+  ASSIGN_TEACHERS_SUCCESS,
 } from "./AssignClassActionType";
 import {
   REQUEST_STUDENTS_SUCCESS,
@@ -139,43 +142,6 @@ export const clearCreateClass = () => {
   };
 };
 
-export const assignTeacher = (
-  teacherId,
-  courseId,
-  classIdData,
-  academicYear
-) => {
-  return (dispatch) => {
-    dispatch({ type: CREATE_CLASS_PENDING });
-    axios
-      .post(
-        `https://dev-the-school-app.herokuapp.com/api/v1/classes`,
-        {
-          teacherId: teacherId,
-          courseId: courseId,
-          classId: classIdData.uuid,
-          academicYear: academicYear,
-        },
-        {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNhNjNmZGFlLTBkOTUtNDZiMS1hODEzLTYwMDkwOGU2ZGRlNiIsImlhdCI6MTYyMTQxMjE3MiwiZXhwIjoxNjI5MTg4MTcyfQ.axcmHpRqyPInCE863R-O68YCQs5LyosXYttmaZ2xh1k`,
-          },
-        }
-      )
-      .then((response) => {
-        dispatch({
-          type: CREATE_CLASS_SUCCESS,
-          payload: response.data.data.data,
-        });
-        console.log(response.data.data.data);
-      })
-      .catch((error) => {
-        dispatch({ type: CREATE_CLASS_FAILED, payload: error.response });
-        console.log(error);
-      });
-  };
-};
-
 export const assignStudent = (studentIds, classIdData) => {
   return (dispatch, getState) => {
     dispatch({ type: ASSIGN_STUDENT_PENDING });
@@ -211,6 +177,53 @@ export const assignStudent = (studentIds, classIdData) => {
           dispatch(errorMessage(errorData));
         }
         dispatch({ type: ASSIGN_STUDENT_FAILED, payload: errorData });
+      });
+  };
+};
+
+export const assignTeacher = (
+  teacherIds,
+  classIdData,
+  courseId,
+  academicYear
+) => {
+  return (dispatch, getState) => {
+    dispatch({ type: ASSIGN_TEACHERS_PENDING });
+    const { token } = getState().auth;
+    console.log(teacherIds, classIdData, courseId, academicYear);
+    axios
+      .post(
+        `https://dev-the-school-app.herokuapp.com/api/v1/classes/teacher`,
+        {
+          teacherId: teacherIds,
+          classId: classIdData,
+          courseId: courseId,
+          academicYear: academicYear,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: ASSIGN_TEACHERS_SUCCESS,
+          payload: response.data.data.data,
+        });
+        console.log(response.data.data.data);
+      })
+      .catch((err) => {
+        var errorData;
+        if (err.response != null) {
+          errorData = err.response.data.message;
+          console.log(err.response.status);
+          dispatch(authErrorHandler(errorData, err.response.status));
+        } else {
+          errorData = err.message;
+          dispatch(errorMessage(errorData));
+        }
+        dispatch({ type: ASSIGN_TEACHERS_FAILED, payload: errorData });
       });
   };
 };

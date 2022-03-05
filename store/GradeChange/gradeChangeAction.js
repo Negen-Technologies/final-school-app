@@ -49,17 +49,15 @@ export const gradeChangeAction = (resultId, newResult, comment, oldValue) => {
     var newValue = newVal;
     var objects = [];
     for (var i in obj) {
-        if (!obj.hasOwnProperty(i)) continue;
-        if (typeof obj[i] == 'object') {
-            objects = objects.concat(getObjects(obj[i], key, val, newValue));
-        } else if (i == key && obj[key] == val) {
-            obj[key] = 'qwe';
-        }
+      if (!obj.hasOwnProperty(i)) continue;
+      if (typeof obj[i] == "object") {
+        objects = objects.concat(getObjects(obj[i], key, val, newValue));
+      } else if (i == key && obj[key] == val) {
+        obj[key] = "qwe";
+      }
     }
     return obj;
-}
-
-
+  }
 
   return (dispatch, getState) => {
     dispatch(gradeChangeStart());
@@ -100,7 +98,11 @@ export const gradeChangeAction = (resultId, newResult, comment, oldValue) => {
 
         dispatch(gradeChangeSuccess(message));
         dispatch(getAssessmentSuccess(updatedObj));
-        dispatch(loadingFalse());
+        dispatch(
+          getAssessment(
+            getState().getAssessment.message[0].courseTeacherClassId
+          )
+        );
       })
       .catch((err) => {
         var errorData;
@@ -134,6 +136,7 @@ export const getAssessment = (id) => {
         console.log("ACTION: ", res.data.data.data.rows);
 
         dispatch(getAssessmentSuccess(message));
+        dispatch(loadingFalse());
       })
       .catch((err) => {
         var errorData;

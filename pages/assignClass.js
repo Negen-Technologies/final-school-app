@@ -25,7 +25,9 @@ function AssignClassPage({
   getAllCourses,
   getAllTeacherSuccess,
   courses,
+  assignTeacher,
   teachers,
+  assignedTeacher,
 }) {
   const [visible, setVisible] = useState(false);
   const [visibleTeacher, setVisibleTeacher] = useState(false);
@@ -165,6 +167,9 @@ function AssignClassPage({
 
   function handleChange(value) {
     setSelectedCourse(value);
+  }
+  function handleChangeC(value) {
+    setTeacherId(value);
   }
 
   return (
@@ -360,8 +365,14 @@ function AssignClassPage({
               width: 200,
               marginLeft: "10px",
             }}
+            loading={assignedTeacher.isPending}
             onClick={() =>
-              addTeacher(getClassId(filter.grade, filter.section), teacherId)
+              assignTeacher(
+                teacherId,
+                getClassId(filter.grade, filter.section),
+                selectedCourse,
+                2014
+              )
             }
             htmlType="submit"
             // loading={isPending}
@@ -416,10 +427,24 @@ function AssignClassPage({
               disabled={!filter.grade || !filter.section}
               style={{ width: "100%", marginBottom: "5px" }}
               placeholder="Please select a Course"
-              onChange={handleChange}
+              onChange={handleChangeC}
             >
               {qualifiedTeachers}
             </Select>
+            {assignedTeacher.success ? (
+              <p style={{ color: "green" }}>
+                Teacher Successfully assigned to the class
+              </p>
+            ) : (
+              ""
+            )}
+            {assignedTeacher.error ? (
+              <p style={{ color: "red" }}>
+                A Teacher has already been assigned to the class
+              </p>
+            ) : (
+              ""
+            )}
           </div>
         )}
       </Modal>
@@ -429,7 +454,7 @@ function AssignClassPage({
 
 const mapStateToProps = (state) => {
   return {
-    assignedTeacher: state.assignTeacher.assignedTeacher,
+    assignedTeacher: state.assignTeacher,
     isPending: state.assignTeacher.isPending,
     error: state.assignTeacher.error,
     filter: state.classList.filter,
@@ -443,8 +468,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    assigningTeacher: (teacherId, courseId, academicYear) =>
-      dispatch(assignTeacher(teacherId, courseId, academicYear)),
+    assignTeacher: (teacherIds, classId, courseId, academicYear) =>
+      dispatch(assignTeacher(teacherIds, classId, courseId, academicYear)),
     assigningStudent: (studentId) => dispatch(assignStudent(studentId)),
     requestStudentsByFilter: (classId, params) =>
       dispatch(requestStudentsByFilter(classId, params)),
