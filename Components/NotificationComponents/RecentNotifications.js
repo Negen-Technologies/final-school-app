@@ -1,7 +1,7 @@
 import { Card, Col, Divider, Row } from "antd";
 import React from "react";
 // import NotificationCard from "../NotificationComponents/NotificationCard";
-import NotificationPagination from "../NotificationComponents/NotificationsPagination";
+import notificationsList from "../NotificationComponents/NotificationsPagination";
 
 export default function RecentNotifications({ notifications }) {
   return (
@@ -13,10 +13,10 @@ export default function RecentNotifications({ notifications }) {
         {notifications.map((notification, i) => {
           return (
             <Col key={i} xs={24}>
-              <NotificationPagination
+              <notificationsList
                 title={notification.title}
                 subject={notification.subject}
-              ></NotificationPagination>
+              ></notificationsList>
             </Col>
           );
         })}

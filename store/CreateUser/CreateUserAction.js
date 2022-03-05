@@ -7,14 +7,15 @@ import {
 } from "./CreateUserActionType";
 import URLst from "../../public/constants";
 
-import { errorMessage, authErrorHandler } from "../index";
+import { errorMessage, authErrorHandler,alluserSuccess } from "../index";
 
 export const createUser = (userData) => {
-  var token=localStorage.getItem('token')
 
   return (dispatch, getState) => {
     dispatch({ type: CREATE_USER_PENDING });
     const { token } = getState().auth;
+    const { allusers,count } = getState().allusers;
+
     
     axios
       .post(
@@ -33,13 +34,13 @@ export const createUser = (userData) => {
         }
       )
       .then((response) => {
-        console.log(response.data.data)
+        console.log(response.data.data.user)
+        var newData=[response.data.data.user,...allusers]
+        dispatch(alluserSuccess({"rows":newData,"count":count+1}))
         dispatch({
           type: CREATE_USER_SUCCESS,
           payload: response.data.data,
         });
-     
-
       })
       .catch((error) => {
         var errorData;

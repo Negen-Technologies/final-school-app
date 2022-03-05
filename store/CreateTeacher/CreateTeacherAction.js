@@ -4,26 +4,30 @@ import {
   CREATE_TEACHER_PENDING,
   CREATE_TEACHER_SUCCESS,
 } from "./CreateTeacherActionType";
+import URLst from "../../public/constants";
 
-export const createTeacher = (
-  userData
-) => {
-  return (dispatch) => {
+export const createTeacher = (userData) => {
+  return (dispatch, getState) => {
+    const { token } = getState().auth;
+    const { uuid } = getState().createUser.createdUser.user;
+    console.log(getState().createUser);
+
     dispatch({ type: CREATE_TEACHER_PENDING });
     axios
       .post(
-        `https://dev-the-school-app.herokuapp.com/api/v1/users`,
+        URLst + `api/v1/teachers`,
         {
-          qualifiedCourses: userData,
-          
+          userId: uuid,
+          qualifiedCourses:userData,
         },
         {
           headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNhNjNmZGFlLTBkOTUtNDZiMS1hODEzLTYwMDkwOGU2ZGRlNiIsImlhdCI6MTYyMTQxMjE3MiwiZXhwIjoxNjI5MTg4MTcyfQ.axcmHpRqyPInCE863R-O68YCQs5LyosXYttmaZ2xh1k`,
+            Authorization: `Bearer ${token}`,
           },
         }
       )
       .then((response) => {
+      console.log(response.data)
         dispatch({
           type: CREATE_TEACHER_SUCCESS,
           payload: response.data.data.data,
@@ -31,7 +35,7 @@ export const createTeacher = (
       })
       .catch((error) => {
         dispatch({ type: CREATE_TEACHER_FAILED, payload: error.response });
-        console.log(error);
+        console.log(error.response);
       });
   };
 };

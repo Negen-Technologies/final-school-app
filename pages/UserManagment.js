@@ -4,9 +4,20 @@ import AdminTable from "../Components/UsermanagementComponents/AdminTable";
 import ParentTable from "../Components/UsermanagementComponents/ParentTable";
 import TeacherTable from "../Components/UsermanagementComponents/TeacherTable";
 
-import { Button, Modal, Card, Col, Input, Row, Select, Steps } from "antd";
+import {
+  Button,
+  Modal,
+  Card,
+  Col,
+  Input,
+  Row,
+  Select,
+  Steps,
+  Result,
+  Divider,
+} from "antd";
 
-import { PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, PrinterOutlined  } from "@ant-design/icons";
 import withAuth from "../utils/protectRoute";
 
 import { connect } from "react-redux";
@@ -15,6 +26,7 @@ import {
   getAllTeacherSuccess,
   getAllParentSuccess,
   getAllAdminSuccess,
+  createTeacher,
 } from "../store/index";
 import { createUser } from "../store/CreateUser/CreateUserAction";
 import CreateUserForm from "../Components/CreateUser/CreateUserForm";
@@ -29,17 +41,27 @@ const UserManagementTable = (props) => {
   const [value, setValue] = useState("All Users");
   const [searchvalue, setsearchvalue] = useState("");
   const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [Children, setChildren] = useState([]);
   const [stepPage, setStepPage] = useState(0);
   const [role, setrole] = useState("");
+  const [isprinting, setisprinting] = useState(false);
+
+  useEffect(() => {
+    if (props.createTeacherData["uuid"] !== undefined) {
+      setStepPage(stepPage + 1);
+    }
+  }, [props.createTeacherData]);
 
   useEffect(() => {
     console.log(props.createUserData.createdUser);
-    if (props.createUserData.hasOwnProperty("phoneNumber")) {
-      setStepPage(stepPage + 1);
+    if (props.createUserData.createdUser["user"] !== undefined) {
+      if (role === "admin") {
+        setStepPage(2);
+      } else {
+        setStepPage(1);
+      }
     }
   }, [props.createUserData]);
-  
 
   useEffect(() => {
     if (props.users.length === 0 && value === "All Users") {
@@ -64,6 +86,13 @@ const UserManagementTable = (props) => {
     }
   }, [value]);
 
+  useEffect(() => {
+    if (isprinting) {
+      window.print();
+      setisprinting(false);
+    }
+  }, [isprinting]);
+
   function handleChange(value) {
     console.log(`selected ${value}`);
     setValue(value);
@@ -72,19 +101,59 @@ const UserManagementTable = (props) => {
   const showModal = () => {
     setVisible(true);
   };
-  const handleOk = () => {
-    setTimeout(() => {
-      setVisible(false);
-      setStepPage(0);
-    }, 2000);
-  };
+
 
   const handleCancel = () => {
     setVisible(false);
   };
 
-  const stepPageChange = () => {
-    setStepPage(2);
+  const DescriptionItem = ({ title, content }) => (
+    <div
+      style={{
+        marginBottom: "7px",
+        color: "rgba(0, 0, 0, 0.65)",
+        fontSize: "14px",
+        lineHeight: 1.5715,
+      }}
+    >
+      <p
+        style={{
+          display: "inline-block",
+          marginRight: "8px",
+          color: "rgba(0, 0, 0, 0.85)",
+        }}
+      >
+        {title}:
+      </p>
+      {content}
+    </div>
+  );
+
+  const ChildComponent = (user) => {
+    console.log(user);
+    return (
+      <>
+        <Row>
+          <Col span={12}>
+            <DescriptionItem
+              title="Full Name"
+              content={user.user.firstName + " " + user.user.lastName}
+            />
+          </Col>
+          <Col span={12}>
+            <DescriptionItem title="Grade" content={user.user.grade} />
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <DescriptionItem title="Age" content={user.user.age} />
+          </Col>
+          <Col span={12}>
+            <DescriptionItem title="Gender" content={user.user.sex} />
+          </Col>
+        </Row>
+      </>
+    );
   };
 
   return (
@@ -163,17 +232,20 @@ const UserManagementTable = (props) => {
           </Row>
         </Card>
         <Modal
-          title="Create a User"
+          title={!isprinting ? "Create a User" : ""}
           visible={visible}
           onCancel={handleCancel}
-          // width={"80vw"}
+          style={{ top: 20 }}
+          closable={!isprinting}
           bodyStyle={{ width: "100%" }}
           footer={null}
         >
           <div>
-            <Steps current={stepPage}>
+            <Steps
+              style={isprinting ? { display: "none" } : {}}
+              current={stepPage}
+            >
               <Step title="Create User" />
-              <Step title="Generated Password" />
               {role == "parent" ? (
                 <Step title="Create Child" />
               ) : role == "teacher" ? (
@@ -181,50 +253,113 @@ const UserManagementTable = (props) => {
               ) : (
                 <></>
               )}
+              <Step title="Generated Password" />
             </Steps>
             {/* <CreateUserPage /> */}
+            <div></div>
             {Object.keys(props.createUserData.createdUser).length !== 0 &&
-            stepPage === 1 ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: 200,
-                  width: "100%",
-                }}
-              >
-                <h1 style={{ paddingBottom: 4 }}>
-                  {`Your password is: ${props.createUserData.createdUser.password}`}
-                </h1>
-                <p style={{ paddingBottom: 20 }}>
-                  {"Keep this password since you will need it to login"}
-                </p>
-                <div>
+            stepPage === 2 ? (
+              <>
+                {isprinting ? (
+                  <></>
+                ) : (
+                  <Result
+                    status="success"
+                    title="Successfully Created a User"
+                  />
+                )}
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: 200,
+                    width: "100%",
+                  }}
+                >
                   <Button
-                    type="primary"
-                    key="ok"
-                    style={{
-                      width: 200,
-                      marginLeft: "10px",
-                    }}
-                    onClick={
-                      props.createUserData.createdUser.user.role === "parent"
-                        ? stepPageChange
-                        : handleOk
+                    style={
+                      isprinting ? { display: "none" } : { marginBottom: 20 }
                     }
-                    //   error={error}
+                    onClick={() => {
+                      setisprinting(true);
+                    }}
+                    icon={<PrinterOutlined />}
+                    type="primary"
                   >
-                    {props.createUserData.createdUser.user.role === "parent" ? (
-                      <p>Create Child</p>
-                    ) : (
-                      <p>Done</p>
-                    )}
+                    Print
                   </Button>
+
+                  <h1 style={{ paddingBottom: 4 }}>
+                    {`Your password is: ${props.createUserData.createdUser.password}`}
+                  </h1>
+                  <p>{"Keep this password since you will need it to login"}</p>
                 </div>
-              </div>
-            ) : stepPage === 2 ? (
+                <Divider orientation="left">User Information</Divider>
+                <Row>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="Full Name"
+                      content={props.createUserData.createdUser.user.name}
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="Email"
+                      content={props.createUserData.createdUser.user.email}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="Phone Number"
+                      content={
+                        "+251" +
+                        props.createUserData.createdUser.user.phoneNumber
+                      }
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="User Type"
+                      content={props.createUserData.createdUser.user.role}
+                    />
+                  </Col>
+                </Row>
+                {role === "parent" ? (
+                  <>
+                    <Divider orientation="left">Children Information</Divider>
+                    {Children.map((child, i) => {
+                      return (
+                        <>
+                          <ChildComponent key={i} user={child} />
+                          <Divider />
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <></>
+                )}
+                {isprinting ? (
+                  <></>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      setVisible(false);
+                      setStepPage(0);
+                    }}
+                    type="primary"
+                    key="console"
+                  >
+                    Finish
+                  </Button>
+                )}
+              </>
+            ) : stepPage === 1 ? (
               <div>
                 {role == "parent" ? (
                   <CreateChildForm
@@ -236,33 +371,19 @@ const UserManagementTable = (props) => {
                       props.createChildFunction(checkedValues);
                       console.log(checkedValues);
                     }}
-                    setStateValue={(value) => {
-                      console.log("step value", value);
-                      setStepPage(value);
+                    onDone={(createdChildren) => {
+                      setChildren(createdChildren);
+                      setStepPage(2);
                     }}
                   />
                 ) : (
-                  <AssignTeacherToCourseForm />
+                  <AssignTeacherToCourseForm
+                    onSubmit={(val) => {
+                      props.createTeacher(val);
+                    }}
+                    isLoading={props.createTeacherPending}
+                  />
                 )}
-              </div>
-            ) : props.createChild.createdChild.status === "Success" ? (
-              <div>
-                <CreateUserForm
-                  createUser={props.createUserData}
-                  onFinish={(checkedValues) => {
-                    checkedValues.Phone = "+251" + checkedValues.phoneNo;
-                    if (
-                      checkedValues.confirmPassword !== checkedValues.password
-                    ) {
-                      Modal.error({
-                        title: "passwords did not match.",
-                      });
-                    } else {
-                      props.createUserFunction(checkedValues);
-                      // setStepPage(1);
-                    }
-                  }}
-                />
               </div>
             ) : (
               <CreateUserForm
@@ -285,8 +406,6 @@ const UserManagementTable = (props) => {
                 }}
               />
             )}
-            {/* <AssignTeacherToCourseForm /> */}
-            
           </div>
         </Modal>
       </div>
@@ -324,6 +443,9 @@ const mapStateToProps = (state) => {
     createChild: state.createChild,
     createChildIsPending: state.createUser.isPending,
     createChildError: state.createUser.error,
+    createTeacherData: state.createTeacher.createdTeacher,
+    createTeacherPending: state.createTeacher.isPending,
+    createTeacherError: state.createTeacher.error,
   };
 };
 
@@ -334,7 +456,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllTeacherSuccess: () => dispatch(getAllTeacherSuccess()),
     getAllParentSuccess: () => dispatch(getAllParentSuccess()),
     getAllAdminSuccess: () => dispatch(getAllAdminSuccess()),
-
+    createTeacher: (courseId) => dispatch(createTeacher(courseId)),
     createUserFunction: (userData) => dispatch(createUser(userData)),
     createChildFunction: (value) => dispatch(createChild(value)),
   };

@@ -9,9 +9,8 @@ import URLst from '../../public/constants'
 export const createChild = (
   userData
 ) => {
-  var token=localStorage.getItem('token')
   console.log(userData.firstName, userData.lastName)
-  return (dispatch) => {
+  return (dispatch,getState) => {
     dispatch({ type: CREATE_CHILD_PENDING });
     const { token } = getState().auth;
 
@@ -22,10 +21,9 @@ export const createChild = (
           firstName: userData.firstName,
           lastName: userData.lastName,
           age: userData.age,
-          grade: userData.grade,
+          grade: userData.grade.value,
           sex: userData.sex.value,
           parentId: userData.parentId,
-          grade: userData.grade.value,
         },
         {
           headers: {
@@ -34,7 +32,7 @@ export const createChild = (
         }
       )
       .then((response) => {
-        console.log(response)
+        console.log(response);
 
         dispatch({
           type: CREATE_CHILD_SUCCESS,
@@ -42,7 +40,7 @@ export const createChild = (
         });
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
 
         dispatch({ type: CREATE_CHILD_FAILED, payload: error.response });
         console.log(error);

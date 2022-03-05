@@ -13,7 +13,7 @@ const initialStateUser = {
 export const createUserReducer = (state = initialStateUser, action = {}) => {
     switch (action.type) {
         case CREATE_USER_PENDING:
-          return Object.assign({}, state, { isPending: true });
+          return Object.assign({}, state, { isPending: true, error: "" });
         case CREATE_USER_SUCCESS:
           return Object.assign({}, state, {
             createdUser: action.payload,

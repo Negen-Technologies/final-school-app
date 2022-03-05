@@ -37,7 +37,7 @@ function StudentsFilterCriteria({
   useEffect(() => {
     if (classList.length == 0) {
       loadingTrue();
-      getClassList();
+      getClassList(token);
     }
     if (assessment) {
       assessment.forEach((element) => {
@@ -106,7 +106,6 @@ function StudentsFilterCriteria({
         });
       });
       setCourseList(crsList);
-      console.log("crsList: ", crsList);
       setCourse(crsList[0].name);
       setCourseId(crsList[0].key);
       console.log("courseIDD selected: ", crsList[0]);
@@ -119,9 +118,8 @@ function StudentsFilterCriteria({
   const handleCourseChange = (value) => {
     // setCoursesList(value)
     setCourse(value);
-    const indx = courseList.findIndex((i) => i.name == value);
-    console.log('courselist', courseList, indx, value);
-    setCourseId(courseList[indx].key);
+    const indx = crsList.findIndex((i) => i.grade == value);
+    setCourseId(crsList[indx].key);
   };
 
   const handleSectionChange = (value) => {
@@ -425,7 +423,7 @@ const mapDispatchToProps = (dispatch) => {
     onRequestStudents: (stdName, stdId, stdClass, stdSection) =>
       dispatch(requestStudents(stdName, stdId, stdClass, stdSection)),
     getAssessment: (id) => dispatch(getAssessment(id)),
-    getClassList: () => dispatch(getClassList()),
+    getClassList: (token) => dispatch(getClassList(token)),
     createAssessment: (assessmentTitle, assessmentValue, courseId, semester) =>
       dispatch(
         createAssessmentAction(

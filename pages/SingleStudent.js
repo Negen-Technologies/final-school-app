@@ -39,16 +39,21 @@ const SingleStudent = ({
   console.log('router query',router.query)
   const { studentid } = router.query
   useEffect(() => {
-    if (tab == 1 && studentAttendance.attendance.length == 0 ) {
+    if (
+      (studentid !== undefined || null) &&
+      tab == 1 &&
+      studentAttendance.attendance.length == 0
+    ) {
       studentAttendanceAction(studentid);
     }
-  }, [tab]);
+  }, [tab, studentid]);
 
   useEffect(() => {
-    if (singleStudentInfo.info == null) {
+    if ((studentid !==undefined||null) && singleStudentInfo.info == null) {
       studentInfoAction(studentid);
     }
-  }, []);
+  }, [studentid]);
+
 console.log('sdf', singleStudentInfo)
   function callback(key) {
     console.log('key ',key);
@@ -147,12 +152,12 @@ console.log('sdf', singleStudentInfo)
         <TabPane tab="Report-Card" key="4">
           <SingleReportCard student={singleStudentInfo.info}/>
         </TabPane>
-        <TabPane tab="Records" key="5">
+        {/* <TabPane tab="Records" key="5">
           Record
         </TabPane>
         <TabPane tab="Transcript" key="6">
           Transcript
-        </TabPane>
+        </TabPane> */}
       </Tabs>
     </div>
   );
