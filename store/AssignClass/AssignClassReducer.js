@@ -25,6 +25,7 @@ const initialStateClass = {
   assignedTeacher: "",
   class: "",
   error: "",
+  success: false,
 };
 const createClassState = {
   isPending: false,
@@ -113,16 +114,18 @@ export const assignTeacherReducer = (
 ) => {
   switch (action.type) {
     case ASSIGN_TEACHERS_PENDING:
-      return Object.assign({}, state, { isPending: true });
+      return Object.assign({}, state, { isPending: true, success: false });
     case ASSIGN_TEACHERS_SUCCESS:
       return Object.assign({}, state, {
         assignedTeacher: action.payload,
         isPending: false,
+        success: true,
       });
     case ASSIGN_TEACHERS_FAILED:
       return Object.assign({}, state, {
         error: action.payload,
         isPending: false,
+        success: false,
       });
     default:
       return state;
