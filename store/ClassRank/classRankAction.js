@@ -39,6 +39,7 @@ export const classRankAction = (classId) => {
         }
       )
       .then((res) => {
+        console.log('res', res.data.data);
         dispatch(classRankSuccess(res.data.data.students));
       })
       .catch((err) => {

@@ -30,8 +30,8 @@ export const parentmenu = [
     icon: <UsergroupAddOutlined style={{ fontSize: "26px" }} />,
   },
   {
-    name: "Transcript",
-    link: "/",
+    name: "Report Card",
+    link: "/parentReportCard",
     icon: <SolutionOutlined style={{ fontSize: "26px" }} />,
   },
   {

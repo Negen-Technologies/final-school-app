@@ -93,34 +93,8 @@ function parentAttendancePage({
               ))}
             </Select>
           </Col>
-          {/* <Col
-            xs={6}
-            xl={6}
-            style={{
-              marginRight: "5px",
-              marginLeft: "20px",
-              marginBottom: "20px",
-            }}
-            className="gutter-row"
-          >
-            <Button
-              type="primary"
-              style={{
-                width: "100%",
-                marginBottom: "2px",
-              }}
-              onClick={() => {
-                studentAttendanceDetail(childId);
-                console.log(childId);
-              }}
-              // htmlType="submit"
-              loading={singleStudentAttendanceLoading}
-              error={singleStudentAttendanceError}
-              // disabled={!section}
-            >
-              View Attendance
-            </Button>
-          </Col> */}
+          
+          
         </Row>
       </Col>
 

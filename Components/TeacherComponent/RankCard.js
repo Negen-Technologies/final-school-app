@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Card, List, Avatar } from "antd";
+import { Card, List, Avatar, Table } from "antd";
 import { classRankAction } from "../../store/ClassRank/classRankAction";
 import { getClassList } from "../../store/ClassList/ClassListAction";
 import { connect } from "react-redux";
@@ -9,36 +9,9 @@ function RankCard({
   width,
   hight,
   title,
-  classRankAction,
-  getClassList,
-  classList,
-  classRank,
+  data
 }) {
-  useEffect(() => {
-    getClassList();
-  }, []);
-  const classId =
-    classList.classes.length > 0 ? classList.classes.map(val => val.coursesList.length > 0 ? val : null) : null;
-
-  useEffect(() => {
-    if (classId) {
-      classRankAction(classId);
-    }
-  }, [classList]);
-  console.log("classRank", classId);
-  console.log("classList", classList);
-
-  const data = [
-    {
-      title: "Ant Design Title 1",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-  ];
+  
   return (
     <div>
       <Card
@@ -46,9 +19,10 @@ function RankCard({
         style={{
           width: `${width ? width : "400px"}`,
           hight: `${hight ? hight : "200px"}`,
-          border: `2px solid ${col}`,
+          // border: `2px solid ${col}`,
         }}
       >
+        
         <List
           itemLayout="horizontal"
           dataSource={data}
@@ -56,9 +30,9 @@ function RankCard({
             <List.Item>
               <List.Item.Meta
                 // avatar={
-                //   <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                //   <Avatar src="https://joeschmoe.io/api/v1/random" />
                 // }
-                title={<a href="">{item.title}</a>}
+                title={<p>{item.title}</p>}
               />
             </List.Item>
           )}

@@ -57,7 +57,7 @@ import {
   getReportCardReducer,
 } from "./ReportCard/reportCardReducer";
 
-import { AttendanceReducer } from "./Attendance/attendanceReducer";
+import { AttendanceReducer } from "./Attendance/AttendanceReducer";
 
 const rootReducer = combineReducers({
   auth: reducer,
