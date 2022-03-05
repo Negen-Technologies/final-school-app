@@ -16,20 +16,24 @@ function parentAttendancePage({
 }) {
   const [childNo, setChildNo] = useState("");
   const [childId, setChildId] = useState([]);
+  const [initChild, setInitChild] = useState('');
   useEffect(() => {
     parentGetMe();
-    parentData.data ? setChildNo(parentData.data.children.rows[0].uuid) : "";
-    parentData.data ? setChildId(parentData.data.children.rows[0].uuid) : "";
+    
   }, []);
+
+  useEffect(() => {
+    parentData.data ? setChildNo(parentData.data.children.rows[0].uuid) : null;
+    parentData.data ? studentAttendanceDetail(parentData.data.children.rows[0].uuid) : null;
+    parentData.data ? setInitChild(`${parentData.data.children.rows[0].firstName} ${parentData.data.children.rows[0].lastName}`) : null;
+  }, [parentData])
 
   console.log("parentt", parentData.data ? parentData.data.children : "");
 
   var child = [];
   // var childId = parentData.data ? parentData.data.children.rows[0].uuid : "";
   var childs = [];
-  var initChild = parentData.data
-    ? `${parentData.data.children.rows[0].firstName} ${parentData.data.children.rows[0].lastName}`
-    : "";
+  
   parentData.data
     ? parentData.data.children.rows.forEach((element) => {
         childs.push(element.uuid);
@@ -53,8 +57,8 @@ function parentAttendancePage({
       <Col span={24}>
         <Row>
           <Col
-            xs={6}
-            xl={6}
+            xs={24}
+            xl={24}
             style={{
               marginRight: "5px",
               marginLeft: "20px",
@@ -64,16 +68,23 @@ function parentAttendancePage({
           >
             <Select
               style={{ width: "100%", marginBottom: "2px" }}
-              // value={initChild}
+              value={initChild}
               onChange={(value) => {
-                console.log(value);
+                console.log('VALUE', value);
                 setChildId(value);
+                studentAttendanceDetail(value);
+                if(parentData.data) {
+                  var childSel;
+                  parentData.data.children.rows.forEach((child) => child.uuid === value ?  childSel = child : null);
+                  var selectedChild = `${childSel.firstName} ${childSel.lastName}`
+                  setInitChild(selectedChild)
+                }
                 // setChildNo(0)
               }}
               placeholder="Select Child"
             >
               {/* <Select.Option value={1} key={1}></Select.Option>
-          <Select.Option value={2} key={2}></Select.Option> */}
+               <Select.Option value={2} key={2}></Select.Option> */}
 
               {child.map((cl) => (
                 <Select.Option value={cl.childId} key={cl.childName}>
@@ -82,34 +93,8 @@ function parentAttendancePage({
               ))}
             </Select>
           </Col>
-          <Col
-            xs={6}
-            xl={6}
-            style={{
-              marginRight: "5px",
-              marginLeft: "20px",
-              marginBottom: "20px",
-            }}
-            className="gutter-row"
-          >
-            <Button
-              type="primary"
-              style={{
-                width: "100%",
-                marginBottom: "2px",
-              }}
-              onClick={() => {
-                studentAttendanceDetail(childId);
-                console.log(childId);
-              }}
-              // htmlType="submit"
-              loading={singleStudentAttendanceLoading}
-              error={singleStudentAttendanceError}
-              // disabled={!section}
-            >
-              View Attendance
-            </Button>
-          </Col>
+          
+          
         </Row>
       </Col>
 

@@ -20,7 +20,10 @@ import singleStudentAttendanceReducer from "./SingleStudentAttendance/singleStud
 import singleStudentInfoReducer from "./singleStudentInfo/singleStudentInfoReducer";
 import { changeProfileReducer } from "./ChangeProfile/changeProfileReducer";
 
-import { getClassListReducer } from "./ClassList/ClassListReducer";
+import {
+  getClassListReducer,
+  getAClassReducer,
+} from "./ClassList/ClassListReducer";
 import { requestTeachers } from "./TeacherFilter/TeacherFilterReducer";
 import adminReducer from "./UserManagement/admin/allAdminReducer";
 import parentReducer from "./UserManagement/parents/allParentsReducer";
@@ -45,10 +48,16 @@ import { getAssessmentReducer } from "./GradeChange/gradeChangeReducer";
 import { dashboardReducer } from "./Dashboard/dashboardReducer";
 import { getAllStudentsReducer } from "./StudentFilter/StudentFilterReducer";
 import { createAttendanceReducer } from "./CreateAttendance/createAttendanceReducer";
-import { parentGetMeReducer } from "./ParentGetMe/parentGetMeReducer"
-import { changeLogsReducer } from "./ChangeLogs/changeLogsReducer"
-import { classRankReducer } from "./ClassRank/classRankReducer"
-import { teacherGetMeReducer } from "./TeacherGetMe/teacherGetMeReducer"
+import { parentGetMeReducer } from "./ParentGetMe/parentGetMeReducer";
+import { changeLogsReducer } from "./ChangeLogs/changeLogsReducer";
+import { classRankReducer } from "./ClassRank/classRankReducer";
+import { teacherGetMeReducer } from "./TeacherGetMe/teacherGetMeReducer";
+import {
+  createReportCardReducer,
+  getReportCardReducer,
+} from "./ReportCard/reportCardReducer";
+
+import { AttendanceReducer } from "./Attendance/AttendanceReducer";
 
 const rootReducer = combineReducers({
   auth: reducer,
@@ -67,7 +76,6 @@ const rootReducer = combineReducers({
   message: messageReducer,
   forgotpassword: forgotreducer,
   resetPassword: resetPass,
-
   changeProfile: changeProfileReducer,
   singleStudentAttendance: singleStudentAttendanceReducer,
   singleStudentInfo: singleStudentInfoReducer,
@@ -92,7 +100,11 @@ const rootReducer = combineReducers({
   parentGetMe: parentGetMeReducer,
   changeLogs: changeLogsReducer,
   classRank: classRankReducer,
-  teacherGetMe: teacherGetMeReducer
+  teacherGetMe: teacherGetMeReducer,
+  singleClass: getAClassReducer,
+  createReportCard: createReportCardReducer,
+  getReportCard: getReportCardReducer,
+  attendanceData: AttendanceReducer,
 });
 
 export default rootReducer;

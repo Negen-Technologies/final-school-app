@@ -1,46 +1,42 @@
 import * as actionTypes from "./classRankActionTypes";
 
 const initialState = {
-  studentRank:[],
-  count:0,
+  studentRank: [],
+  count: 0,
   error: null,
   loading: false,
 };
 
-
-const classRankStart = (state,) => {
-  return  {
+const classRankStart = (state) => {
+  return {
     ...state,
-    message:null,
+    message: null,
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const classRankSuccess = (state, action) => {
-
-  console.log('rrrrrrr', action.message)
   return {
     ...state,
-    studentAttendance: action.message,
-    count:action.message.count,
+    studentRank: action.message,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const classRankFail = (state, action) => {
   return {
-    ...state,
+    studentRank: [],
     error: action.error,
-    loading: false
-  }}
+    loading: false,
+  };
+};
 
-
-export const classRankReducer = ( state = initialState, action) => {
+export const classRankReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CLASS_RANK_START:
-      return classRankStart(state,);
+      return classRankStart(state);
     case actionTypes.CLASS_RANK_SUCCESS:
       return classRankSuccess(state, action);
     case actionTypes.CLASS_RANK_FAILED:

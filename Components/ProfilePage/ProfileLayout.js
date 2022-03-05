@@ -72,7 +72,6 @@ console.log('las name', userData.data.phoneNumber)
           ];
         }
         setQualiCourseList(updateQualiCourse);
-
         for (let i = 0; i < userData.data.myClasses.length.length; i++) {
           const updateMyClass = [
             ...myClassList,
@@ -81,7 +80,6 @@ console.log('las name', userData.data.phoneNumber)
         }
         setMyClassList(updateMyClass);
       }
-
       console.log(userData)
 
       form.setFieldsValue({

@@ -7,7 +7,6 @@ import Filter from "../Components/classAssignA/Filter";
 import StudentsTable from "../Components/StudentsFilter/StudentsTable";
 
 function ReportCards({ students, selectedId }) {
-  console.log('students', students)
   return (
     <div
       style={{
@@ -16,9 +15,25 @@ function ReportCards({ students, selectedId }) {
     >
       <Row>
         <Col span={9}>
-          <h1>Filter by Class</h1>
+          <h1
+            style={{
+              textAlign: "center",
+              margin: "10px 0px",
+              fontSize: "19px",
+            }}
+          >
+            Filter by Class
+          </h1>
           <Filter add={false} />
-          <h1>Students List</h1>
+          <h1
+            style={{
+              textAlign: "center",
+              margin: "10px 0px",
+              fontSize: "19px",
+            }}
+          >
+            Students List
+          </h1>
           <StudentsTable detail={true}></StudentsTable>
         </Col>
         <Col span={1}></Col>

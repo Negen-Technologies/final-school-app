@@ -10,6 +10,7 @@ import {
   setFilter,
   clearCreateClass,
 } from "../../store";
+import { getAClass } from "../../store/ClassList/ClassListAction";
 import { requestStudents } from "../../store/StudentFilter/StudentFilterAction";
 
 const { Option } = Select;
@@ -38,6 +39,7 @@ function StudentsFilterCriteria({
   createClass,
   creatingClass,
   clearCreateClass,
+  getAClass,
 }) {
   useEffect(() => {
     if (classList.length == 0) {
@@ -120,6 +122,7 @@ function StudentsFilterCriteria({
   const onFinish = () => {
     const cl = classList.find((c) => c.grade == grade && c.section == section);
     onRequestStudents(cl.uuid);
+    getAClass(cl.uuid);
   };
 
   const onCreateClass = () => {
@@ -359,6 +362,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(createClass(classGradeAdd, classSectionAdd)),
     setFilter: (filter) => dispatch(setFilter(filter)),
     clearCreateClass: () => dispatch(clearCreateClass()),
+    getAClass: (id) => dispatch(getAClass(id)),
   };
 };
 

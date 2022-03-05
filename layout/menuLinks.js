@@ -9,7 +9,7 @@ import {
   TeamOutlined,
   UsergroupAddOutlined,
   UserOutlined,
-  UnorderedListOutlined
+  UnorderedListOutlined,
 } from "@ant-design/icons";
 
 export const parentmenu = [
@@ -30,8 +30,8 @@ export const parentmenu = [
     icon: <UsergroupAddOutlined style={{ fontSize: "26px" }} />,
   },
   {
-    name: "Transcript",
-    link: "/",
+    name: "Report Card",
+    link: "/parentReportCard",
     icon: <SolutionOutlined style={{ fontSize: "26px" }} />,
   },
   {
@@ -73,8 +73,13 @@ export const adminmenu = [
     icon: <UsergroupAddOutlined style={{ fontSize: "26px" }} />,
   },
   {
+    name: "Transcript",
+    link: "/transcripts",
+    icon: <SolutionOutlined style={{ fontSize: "26px" }} />,
+  },
+  {
     name: "Report Cards",
-    link: "/",
+    link: "/report-cards",
     icon: <IdcardOutlined style={{ fontSize: "26px" }} />,
   },
   {

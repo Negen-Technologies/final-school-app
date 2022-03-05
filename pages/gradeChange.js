@@ -39,6 +39,7 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
   const [recordKey, setRecordKey] = useState(false);
 
   const [editedMark, setEditedMark] = useState(0);
+  const [oldValue, setOldValue] = useState(0);
   const [reason, setReason] = useState("");
   const [resultId, setResultId] = useState("");
   const [valueId, setValueId] = useState("100");
@@ -149,11 +150,12 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
                 });
                 var k = `${value.target.id},id`;
                 var valueId = editedRow[0][k];
-                console.log("VALUE ID target: ", valueId);
+                console.log("VALUE ID target: ", editedRow[0][value.target.id]);
+                setOldValue(editedRow[0][value.target.id]);
                 setResultId(valueId);
                 console.log("VALUE ID RESULTiD: ", resultId);
                 console.log("type of data", data);
-                
+
                 console.log("the id ", typeof value.target.value);
                 setEditedMark(value.target.value);
               }}
@@ -340,9 +342,9 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
       const val = newData.find((item) => key === item.key);
       delete val.name;
       delete val.key;
-      Object.keys(row).map(function(key, index) {
-        row[key] = parseFloat(row[key]);
-      });
+      // Object.keys(row).map(function (key, index) {
+      //   row[key] = parseFloat(row[key]);
+      // });
 
       // val.find((item) => {})
       if (index > -1) {
@@ -352,9 +354,9 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
         newData.splice(index, 1, { ...item, ...row });
         console.log("bbb", newData);
 
-        // setStateValue(newData);
+        setStateValue(newData);
         // console.log("before CALL: ", resultId, editedMark, reason);
-        changeAssessment(resultId, editedMark, reason); ///patch request for grade change
+        changeAssessment(resultId, editedMark, reason, oldValue); ///patch request for grade change
       } else {
         newData.push(row);
         setStateValue(newData);
@@ -524,8 +526,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeAssessment: (resultId, newResult, comment) =>
-      dispatch(gradeChangeAction(resultId, newResult, comment)),
+    changeAssessment: (resultId, newResult, comment, oldValue) =>
+      dispatch(gradeChangeAction(resultId, newResult, comment, oldValue)),
     // loadingFalse: () => dispatch(loadingFalse()),
     // loadingTrue: () => dispatch(loadingTrue()),
   };

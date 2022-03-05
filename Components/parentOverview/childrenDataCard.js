@@ -4,18 +4,18 @@ import Avatar from "antd/lib/avatar/avatar";
 import { primary_color } from "../../public/constants";
 
 export default function ChildrenDataCard(props) {
-  console.log('===============================')
-  console.log(props)
+  console.log("===============================");
+  console.log(props);
 
   return (
     <div>
       <Card
         hoverable={true}
         bordered={true}
-
         style={{
           width: "100%",
           height: "600",
+          marginBottom: "10px",
           backgroundColor: "#fff",
           borderRadius: "10px",
           border: `1px solid ${primary_color}`,
@@ -48,7 +48,6 @@ export default function ChildrenDataCard(props) {
                 }}
               >
                 {props.rank}
-                
               </p>
               <p
                 style={{

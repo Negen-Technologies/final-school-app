@@ -1,76 +1,43 @@
 import React from "react";
 import { Button, Col, Input, Row, Select } from "antd";
 import { primary_color } from "../../public/constants";
-const studentInformation = {
-  name: "Eyasu Sisay",
-  grade: 10,
-  section: "A",
-  semester: "First",
-};
+import { getReportCardAction } from "../../store/ReportCard/reportCardAction";
+import withAuth from "../../utils/protectRoute";
+import { connect } from "react-redux";
+import { getStudentAttendanceAction } from "../../store/Attendance/AttendanceAction";
 
-const subjects = [
-  { name: "Biology", id: 1, first: 90, second: 80, third: 50, fourth: 70 },
-  { name: "Chemistry", id: 2, first: 97, second: 80, third: 50, fourth: 70 },
-  { name: "Physics", id: 3, first: 59, second: 80, third: 50, fourth: 70 },
-  { name: "Mathematics", id: 4, first: 100, second: 80, third: 50, fourth: 70 },
-  { name: "History", id: 5, first: 78, second: 80, third: 50, fourth: 70 },
-  { name: "Geography", id: 6, first: 90, second: 80, third: 50, fourth: 70 },
-  { name: "Physics", id: 3, first: 59, second: 80, third: 50, fourth: 70 },
-  { name: "Physics", id: 3, first: 59, second: 80, third: 50, fourth: 70 },
-];
+function SingleReportCard({
+  student,
+  getReportCardAction,
+  reportCard,
+  getStudentAttendanceAction,
+  attendanceDataS,
+}) {
+  // get report card when student changes
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [success, setSuccess] = React.useState(false);
 
-const comment =
-  "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
-const attendance = ["Total days of school", "Days present", "Days absent"];
-const attendanceData = [
-  {
-    name: "Total days of school",
-    first: "100",
-    second: "90",
-    third: "95",
-    fourth: "90",
-  },
-  {
-    name: "Days present",
-    first: "100",
-    second: "88",
-    third: "95",
-    fourth: "85",
-  },
-  {
-    name: "Days absent",
-    first: "0",
-    second: "2",
-    third: "0",
-    fourth: "5",
-  },
-];
-const grade = ["Total value", "Average value", "Rank"];
-const gradeData = [
-  {
-    name: "Total value",
-    first: "1000",
-    second: "900",
-    third: "950",
-    fourth: "900",
-  },
-  {
-    name: "Average value",
-    first: "100",
-    second: "90",
-    third: "95",
-    fourth: "90",
-  },
-  {
-    name: "Rank",
-    first: "1",
-    second: "8",
-    third: "9",
-    fourth: "5",
-  },
-];
-export default function SingleReportCard({ student }) {
-  return student ? (
+  var start = new Date("2021-09-11");
+  var end = Date.now();
+  var days = [];
+  var day = start;
+  while (start <= end) {
+    if (start.getDay() > 0 && start.getDay() <= 5) {
+      day = new Date(start);
+      days.push(day);
+    }
+    start.setDate(start.getDate() + 1);
+  }
+
+  React.useEffect(() => {
+    if (student) {
+      getReportCardAction(student.uuid);
+      getStudentAttendanceAction(student.uuid);
+    }
+  }, [student]);
+
+  return reportCard.reportCard ? (
     <div
       style={{
         border: "1px solid grey",
@@ -99,15 +66,17 @@ export default function SingleReportCard({ student }) {
         >
           <Row style={{ paddingTop: "20px" }}>
             <Col span={12}>
-              Name of student: {student.firstName} {student.lastName}
+              Name of student: {reportCard.reportCard.firstName}{" "}
+              {reportCard.reportCard.lastName}
             </Col>
             <Col span={12}>
-              Class: {student.grade} {student.section}
+              Class: {reportCard.reportCard.grade}{" "}
+              {reportCard.reportCard.section}
             </Col>
           </Row>
           <Row style={{ paddingTop: "20px" }}>
-            <Col span={12}>Semester: {studentInformation.semester} </Col>
-            <Col span={12}>School Year: 2013 </Col>
+            <Col span={12}>Semester: 1</Col>
+            <Col span={12}>School Year: 2014 </Col>
           </Row>
         </div>
         <div>
@@ -134,9 +103,10 @@ export default function SingleReportCard({ student }) {
                   <Col span={3}>4th</Col>
                 </Row>
               </div>
-              {subjects.map((subject, index) => {
+              {reportCard.reportCard.coursesList.map((subject, index) => {
                 return (
                   <div
+                    key={index}
                     style={
                       index % 2 !== 0
                         ? {
@@ -159,8 +129,8 @@ export default function SingleReportCard({ student }) {
                       }}
                       align="middle"
                     >
-                      <Col span={12}>{subject.name}</Col>
-                      <Col span={3}>{subject.first}</Col>
+                      <Col span={12}>{subject.courseName}</Col>
+                      <Col span={3}>{subject.result}</Col>
                       <Col span={3}>{subject.second}</Col>
                       <Col span={3}>{subject.third}</Col>
                       <Col span={3}>{subject.fourth}</Col>
@@ -220,40 +190,51 @@ export default function SingleReportCard({ student }) {
                   <Col span={3}>4th</Col>
                 </Row>
               </div>
-              {attendanceData.map((subject, index) => {
-                return (
-                  <div
-                    style={
-                      index % 2 !== 0
-                        ? {
-                            backgroundColor: "#E9F3F3",
-                            height: "50px",
-                            padding: "5px",
-                            color: "#354A54",
-                          }
-                        : {
-                            backgroundColor: "white",
-                            height: "50px",
-                            padding: "5px",
-                            color: "#354A54",
-                          }
-                    }
-                  >
-                    <Row
-                      style={{
-                        height: "100%",
-                      }}
-                      align="middle"
+              {["Total days of school", "Days Present", "Days Absent"].map(
+                (subject, index) => {
+                  return (
+                    <div
+                      key={index}
+                      style={
+                        index % 2 !== 0
+                          ? {
+                              backgroundColor: "#E9F3F3",
+                              height: "50px",
+                              padding: "5px",
+                              color: "#354A54",
+                            }
+                          : {
+                              backgroundColor: "white",
+                              height: "50px",
+                              padding: "5px",
+                              color: "#354A54",
+                            }
+                      }
                     >
-                      <Col span={12}>{subject.name}</Col>
-                      <Col span={3}>{subject.first}</Col>
-                      <Col span={3}>{subject.second}</Col>
-                      <Col span={3}>{subject.third}</Col>
-                      <Col span={3}>{subject.fourth}</Col>
-                    </Row>
-                  </div>
-                );
-              })}
+                      <Row
+                        style={{
+                          height: "100%",
+                        }}
+                        align="middle"
+                      >
+                        <Col span={12}>{subject}</Col>
+
+                        <Col span={3}>
+                          {index === 0
+                            ? days.length
+                            : index === 1
+                            ? days.length -
+                              attendanceDataS.studentAttendance.length
+                            : attendanceDataS.studentAttendance.length}
+                        </Col>
+                        <Col span={3}>{subject.second}</Col>
+                        <Col span={3}>{subject.third}</Col>
+                        <Col span={3}>{subject.fourth}</Col>
+                      </Row>
+                    </div>
+                  );
+                }
+              )}
               <div
                 style={{
                   marginTop: "50px",
@@ -280,9 +261,10 @@ export default function SingleReportCard({ student }) {
                   <Col span={3}>4th</Col>
                 </Row>
               </div>
-              {gradeData.map((subject, index) => {
+              {["Total", "Average", "Rank"].map((subject, index) => {
                 return (
                   <div
+                    key={index}
                     style={
                       index % 2 !== 0
                         ? {
@@ -305,8 +287,14 @@ export default function SingleReportCard({ student }) {
                       }}
                       align="middle"
                     >
-                      <Col span={12}>{subject.name}</Col>
-                      <Col span={3}>{subject.first}</Col>
+                      <Col span={12}>{subject}</Col>
+                      <Col span={3}>
+                        {index === 0
+                          ? reportCard.reportCard.totalResult
+                          : index === 1
+                          ? reportCard.reportCard.average
+                          : reportCard.reportCard.rank}
+                      </Col>
                       <Col span={3}>{subject.second}</Col>
                       <Col span={3}>{subject.third}</Col>
                       <Col span={3}>{subject.fourth}</Col>
@@ -340,9 +328,7 @@ export default function SingleReportCard({ student }) {
                   height: "260px",
                   padding: "20px",
                 }}
-              >
-                {comment}
-              </div>
+              ></div>
             </Col>
           </Row>
         </div>
@@ -350,3 +336,22 @@ export default function SingleReportCard({ student }) {
     </div>
   ) : null;
 }
+
+const mapStateToProps = (state) => {
+  return {
+    //students
+    reportCard: state.getReportCard,
+    attendanceDataS: state.attendanceData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    //students
+    getReportCardAction: (id) => dispatch(getReportCardAction(id)),
+    getStudentAttendanceAction: (id) =>
+      dispatch(getStudentAttendanceAction(id)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleReportCard);
