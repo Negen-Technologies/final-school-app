@@ -255,7 +255,6 @@ const UserManagementTable = (props) => {
               )}
               <Step title="Generated Password" />
             </Steps>
-            {/* <CreateUserPage /> */}
             <div></div>
             {Object.keys(props.createUserData.createdUser).length !== 0 &&
             stepPage === 2 ? (

@@ -231,8 +231,13 @@ function HomePage({
                 </div>
               </Col>
             </Row>
-            <FilterOutlined type='primary' />
-            {/* <Col
+            <br />
+            <Row>
+              <p style={{
+                marginTop: "5px",
+                marginRight: "20px",
+              }}>Filter by Class: </p>
+              <Col
               xs={6}
               xl={6}
               style={{
@@ -266,7 +271,9 @@ function HomePage({
               ) : (
                 <div></div>
               )}
-            </Col> */}
+            </Col>
+            </Row>
+            
             <Row>
               <Col xs={18} lg={12} xl={12}>
                 <h1
@@ -275,7 +282,7 @@ function HomePage({
                     fontSize: "16px",
                     // fontWeight: "bold",
                     color: primary_color,
-                    marginTop: "20px",
+                    marginTop: "5px",
                     marginBottom: "20px",
                     paddingRight: "120px",
                   }}
@@ -297,7 +304,7 @@ function HomePage({
                     fontSize: "16px",
                     // fontWeight: "bold",
                     color: primary_color,
-                    marginTop: "20px",
+                    marginTop: "5px",
                     marginBottom: "20px",
                     paddingRight: "120px",
                   }}
