@@ -20,7 +20,6 @@ import { FilterOutlined } from "@ant-design/icons";
 import { primary_color } from "../utils/constants";
 import { getClassList } from "../store/ClassList/ClassListAction";
 import { classRankAction } from "../store/ClassRank/classRankAction";
-
 function HomePage({
   getAttendanceStat,
   notification,
@@ -38,7 +37,6 @@ function HomePage({
   const [selectedClass, setSelectedClass] = useState("");
   const [classWithCourse, setClassWithCourse] = useState([]);
   var classCourse = [];
-
   const dataTop = [];
   const dataBottom = [];
 
@@ -50,6 +48,7 @@ function HomePage({
     getClassList();
     loadingFalse();
   }, []);
+  
 
   useEffect(() => {
     var listClass = [];

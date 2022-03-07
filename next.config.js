@@ -8,10 +8,12 @@ const path = require("path");
 // Where your antd-custom.less file lives
 const themeVariables = lessToJS(
   fs.readFileSync(path.resolve(__dirname, "./assets/antd-custom.less"), "utf8"),
-  fs.readFileSync(path.resolve(__dirname, "./assets/checkbox.less"), "utf8")
 );
 
 module.exports = withLess({
+  publicRuntimeConfig: {
+    noClassDates:["23-03-2022", "13-04-2022", "10-02-2022", "19-08-2022"],
+  },
   lessLoaderOptions: {
     javascriptEnabled: true,
     modifyVars: themeVariables, // make your antd custom effective
