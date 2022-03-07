@@ -18,13 +18,8 @@ function adminAttendancePage({singleStudentAttendance, loadingTrue, studentId}) 
   
 
   const showModal = () => {
-    // loadingTrue();
-    
     setVisible(true);
   };
-  // console.log('===================')
-  // console.log(students)
-
   const handleOk = () => {
     setConfirmLoading(true);
     setTimeout(() => {
@@ -34,14 +29,9 @@ function adminAttendancePage({singleStudentAttendance, loadingTrue, studentId}) 
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 
-  useEffect(() => {
-    console.log('***22*************22***')
-    console.log(singleStudentAttendance);
-  })
     return (
         <div style={{
             width: "80vw",
@@ -59,7 +49,6 @@ function adminAttendancePage({singleStudentAttendance, loadingTrue, studentId}) 
             isToCreateAttendance = {true}
             showModalFunc= {showModal}
           getid={(id) => {
-            console.log("888888888888888888", id);
             setstudentsid(id);
           }}
         />
@@ -79,8 +68,6 @@ function adminAttendancePage({singleStudentAttendance, loadingTrue, studentId}) 
                     width: 200,
                     marginLeft: "10px",
                   }}
-                  //   loading={isPending}
-                  //   error={error}
                 >
                   Ok
                 </Button>

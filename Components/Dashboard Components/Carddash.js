@@ -26,26 +26,13 @@ registerTheme("my-theme", {
   },
 });
 
-// const data = [
-//   { name: "London", Mon: "Jan.", Absentees: 18.9 },
-//   { name: "London", Mon: "Feb.", Absentees: 28.8 },
-//   { name: "London", Mon: "Mar.", Absentees: 39.3 },
-//   { name: "London", Mon: "Apr.", Absentees: 81.4 },
-//   { name: "London", Mon: "May", Absentees: 47 },
-//   { name: "London", Mon: "Jun.", Absentees: 20.3 },
-//   { name: "London", Mon: "Jul.", Absentees: 24 },
-//   { name: "London", Mon: "Aug.", Absentees: 35.6 },
 
-// ];
 
 function BarChart(dashboard) {
   const [theme, setTheme] = useTheme("my-theme");
   var chartData = [];
 
-  console.log("DASHBOARD", dashboard);
-
   var attendanceValues = [];
-  // const academicDayOne = Date.parse(2021, 9, 20)
   const academicDayOne = new Date("2021-9-20");
 
   var today = new Date();
@@ -63,7 +50,6 @@ function BarChart(dashboard) {
 
   var datesTillToday = Math.abs(dateToday - academicDayOne);
   const diffDays = Math.ceil(datesTillToday / (1000 * 60 * 60 * 24));
-  console.log("diff", dateToday, academicDayOne, Difference_In_Days);
   var todayCount = dashboard.dashboard.today
     ? `Today,${dashboard.dashboard.today.count}`
     : "0";
@@ -91,7 +77,6 @@ function BarChart(dashboard) {
   );
 
   attendanceValues.forEach((element) => {
-    console.log("ELEMENT", element);
     var splitValues = element.split(",");
     chartData.push({
       Name: "Attendance",
@@ -133,7 +118,6 @@ function BarChart(dashboard) {
             fill: primary_color,
           },
           formatter: (text, item, index) => {
-            console.log("text", text, item);
             return text === text;
           },
         }}

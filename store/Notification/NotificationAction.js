@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./NotificationActionType";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 import { errorMessage } from "../index";
 
 export const notificationStart = () => {
@@ -73,7 +73,6 @@ export const getNotificationForMe = () => {
         },
       })
       .then((res) => {
-        console.log(res.data.data);
         dispatch(notificationSuccess(res.data));
       })
       .catch((err) => {
@@ -136,7 +135,7 @@ export const addNotification = (data) => {
           errorData = err.message;
           dispatch(errorMessage(errorData));
         }
-        console.log(errorData);
+
         dispatch(addNotificationFail(errorData));
       });
   };

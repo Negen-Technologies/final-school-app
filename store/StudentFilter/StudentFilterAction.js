@@ -11,7 +11,7 @@ import {
   REQUEST_STUDENTS_BY_FILTER_SELECTED,
 } from "./StudentFilterActionType";
 import { errorMessage, authErrorHandler } from "../index";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 import axios from "axios";
 
 export const getAllStudents = () => {
@@ -19,14 +19,12 @@ export const getAllStudents = () => {
     dispatch({ type: GET_ALL_STUDENTS_PENDING });
     const { token } = getState().auth;
     axios
-      .get(`https://dev-the-school-app.herokuapp.com/api/v1/students`, {
+      .get(URLst+`api/v1/students`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log("+++++++++++++++++++");
-        console.log(response.data.data.data);
         dispatch({
           type: GET_ALL_STUDENTS_SUCCESS,
           payload: response.data.data.data,
@@ -38,7 +36,7 @@ export const getAllStudents = () => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(err.response.status);
+
           dispatch(authErrorHandler(errorData, err.response.status));
         } else {
           errorData = err.message;
@@ -63,11 +61,6 @@ export const requestStudents = (stdClassId) => {
         },
       })
       .then((response) => {
-        console.log("+++++++++++++++++++");
-        console.log(response.data.data.data);
-        console.log(response.data.data.data.rows);
-        console.log(response.data.data.data.count);
-
         dispatch({
           type: REQUEST_STUDENTS_SUCCESS,
           payload: response.data.data.data,
@@ -79,7 +72,7 @@ export const requestStudents = (stdClassId) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(err.response.status);
+
           dispatch(authErrorHandler(errorData, err.response.status));
         } else {
           errorData = err.message;
@@ -105,9 +98,6 @@ export const requestStudentsByFilter = (classId, params) => {
         },
       })
       .then((response) => {
-        console.log("*******************");
-        console.log(response.data.data.data);
-        console.log("*******************");
         dispatch({
           type: REQUEST_STUDENTS_BY_FILTER_SUCCESS,
           payload: {
@@ -121,7 +111,7 @@ export const requestStudentsByFilter = (classId, params) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(err.response.status);
+
           dispatch(authErrorHandler(errorData, err.response.status));
         } else {
           errorData = err.message;
@@ -142,7 +132,7 @@ export const getUnassignedStudents = (grade) => {
     dispatch({ type: REQUEST_STUDENTS_BY_FILTER_PENDING });
     const { token } = getState().auth;
     axios
-      .get(`https://dev-the-school-app.herokuapp.com/api/v1/students`, {
+      .get(URLst+`api/v1/students`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -152,9 +142,6 @@ export const getUnassignedStudents = (grade) => {
         },
       })
       .then((response) => {
-        console.log("*******************");
-        console.log(response.data.data.data);
-        console.log("*******************");
         dispatch({
           type: REQUEST_STUDENTS_BY_FILTER_SUCCESS,
           payload: [...response.data.data.data.rows],
@@ -164,7 +151,7 @@ export const getUnassignedStudents = (grade) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(err.response.status);
+
           dispatch(authErrorHandler(errorData, err.response.status));
         } else {
           errorData = err.message;

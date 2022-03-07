@@ -35,7 +35,6 @@ useEffect(() => {
 }, [tab]);
 
   function callback(key) {
-    console.log(key);
     setTab(key)
   }
   const notifications = [

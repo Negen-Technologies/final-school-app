@@ -8,15 +8,14 @@ const initialState = {
 };
 
 const teacherStart = (state, action) => {
-  return  {
+  return {
     ...state,
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const teacherSuccess = (state, action) => {
-  console.log(action.data)
   return {
     ...state,
     teachers: action.data,
@@ -30,9 +29,9 @@ const teacherFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }
-}
+    loading: false,
+  };
+};
 
 const teacherreducer = (state = initialState, action) => {
   switch (action.type) {

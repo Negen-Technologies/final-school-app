@@ -28,10 +28,7 @@ function parentAttendancePage({
     parentData.data ? setInitChild(`${parentData.data.children.rows[0].firstName} ${parentData.data.children.rows[0].lastName}`) : null;
   }, [parentData])
 
-  console.log("parentt", parentData.data ? parentData.data.children : "");
-
   var child = [];
-  // var childId = parentData.data ? parentData.data.children.rows[0].uuid : "";
   var childs = [];
   
   parentData.data
@@ -44,7 +41,6 @@ function parentAttendancePage({
       })
     : null;
 
-  console.log("child", child);
   return (
     <div>
       <div style={{
@@ -70,7 +66,6 @@ function parentAttendancePage({
               style={{ width: "100%", marginBottom: "2px" }}
               value={initChild}
               onChange={(value) => {
-                console.log('VALUE', value);
                 setChildId(value);
                 studentAttendanceDetail(value);
                 if(parentData.data) {

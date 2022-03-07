@@ -89,11 +89,8 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
   ];
 
   const [searchField, setsearchField] = useState("");
-  const [classId, setclassId] = useState("");
 
   studentsList.splice(0, studentsList.length);
-  console.log("=========");
-  console.log(students);
   students.forEach((student) => {
     studentsList.push({
       key: student.uuid,
@@ -125,7 +122,6 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
             style={{ width: "240px", marginBottom: "10px", marginLeft: "10px" }}
             onChange={(input) => {
               setsearchField(input.target.value);
-              console.log(input.target.value);
             }}
           />
         </Row>

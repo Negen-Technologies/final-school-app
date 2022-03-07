@@ -36,7 +36,6 @@ function TranscriptClass({
   useEffect(() => {
     if (singleClass) {
       if (!!singleClass.class) {
-        console.log(singleClass.class);
         setGrade(singleClass.class.grade);
         setSection(singleClass.class.section);
         let c = [
@@ -83,7 +82,6 @@ function TranscriptClass({
     if (studentRank.length > 0) {
       let d = [];
       studentRank.forEach((element, i) => {
-        console.log(element);
         let row = {
           key: i,
           name: element.firstName + " " + element.lastName,
@@ -129,8 +127,6 @@ function TranscriptClass({
       });
     });
     createReportCard(singleClass.class.uuid, finalData);
-
-    console.log(finalData);
   };
 
   return (

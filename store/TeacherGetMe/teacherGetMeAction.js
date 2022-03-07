@@ -27,7 +27,6 @@ export const teacherGetMeAction = () => {
   return (dispatch, getState) => {
     dispatch(teacherGetMeStart());
     const { token } = getState().auth;
-    console.log(token);
 
     axios
       .get(
@@ -41,18 +40,15 @@ export const teacherGetMeAction = () => {
       )
       .then((res) => {
         const message = res.data.message;
-        console.log("actionnnn");
-        console.log(res.data.data);
+
         dispatch(teacherGetMeSuccess(res.data.data));
       })
       .catch((err) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(errorData);
         } else {
           errorData = err.message;
-          console.log(errorData);
         }
         dispatch(teacherGetMeFail(errorData));
       });

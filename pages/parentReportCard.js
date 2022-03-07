@@ -36,7 +36,6 @@ function parentReportCard({ parentData, parentGetMe, loading, error }) {
           })
         : null;
 
-console.log('ooooo', childSelectedInfo)
 
   return <div>
       <div style={{
@@ -61,7 +60,6 @@ console.log('ooooo', childSelectedInfo)
               value={initChild}
               onChange={(value) => {
                 setChildId(value);
-                // studentAttendanceDetail(value);
                 if(parentData.data) {
                     var childSel;
                     parentData.data.children.rows.forEach((child) => child.uuid === value ?  childSel = child : null);

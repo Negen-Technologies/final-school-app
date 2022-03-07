@@ -53,7 +53,6 @@ const UserManagementTable = (props) => {
   }, [props.createTeacherData]);
 
   useEffect(() => {
-    console.log(props.createUserData.createdUser);
     if (props.createUserData.createdUser["user"] !== undefined) {
       if (role === "admin") {
         setStepPage(2);
@@ -65,7 +64,7 @@ const UserManagementTable = (props) => {
 
   useEffect(() => {
     if (props.users.length === 0 && value === "All Users") {
-      console.log("user length");
+
       props.getAllUserSuccess(10, 1);
     }
   }, []);
@@ -94,7 +93,6 @@ const UserManagementTable = (props) => {
   }, [isprinting]);
 
   function handleChange(value) {
-    console.log(`selected ${value}`);
     setValue(value);
   }
 
@@ -130,7 +128,6 @@ const UserManagementTable = (props) => {
   );
 
   const ChildComponent = (user) => {
-    console.log(user);
     return (
       <>
         <Row>
@@ -199,7 +196,6 @@ const UserManagementTable = (props) => {
                 size="large"
                 placeholder="Search Here"
                 onChange={(e) => {
-                  console.log(e.target.value);
                   setsearchvalue(e.target.value);
                 }}
               />
@@ -368,7 +364,7 @@ const UserManagementTable = (props) => {
                       checkedValues["parentId"] =
                         props.createUserData.createdUser.user.uuid;
                       props.createChildFunction(checkedValues);
-                      console.log(checkedValues);
+
                     }}
                     onDone={(createdChildren) => {
                       setChildren(createdChildren);
@@ -397,7 +393,6 @@ const UserManagementTable = (props) => {
                     });
                   } else {
                     props.createUserFunction(checkedValues);
-                    // setStepPage(1);
                   }
                 }}
                 onRoleChange={(r) => {

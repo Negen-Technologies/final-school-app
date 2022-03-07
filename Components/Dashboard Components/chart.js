@@ -65,7 +65,6 @@ function SliderChart(getAllStudents) {
       value: 0,
     },
   ];
-  console.log("GET ALL STUDENTS: ", getAllStudents.getAllStudents.students);
   getAllStudents.getAllStudents.students.forEach((element) => {
     if (element.sex === "Male") {
       male++;

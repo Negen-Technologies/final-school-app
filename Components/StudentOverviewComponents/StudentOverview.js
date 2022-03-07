@@ -3,7 +3,6 @@ import { Col, DatePicker, Row } from "antd";
 import moment from "moment";
 import DaysLateCard from "../AttendanceComponents/DaysLateCard";
 import AttendanceMonth from "../AttendanceComponents/AttendanceMonth";
-// import RecentNotifications from "../NotificationComponents/RecentNotifications";
 import NotificationsPagination from "../NotificationComponents/NotificationsPagination";
 
 
@@ -25,7 +24,6 @@ export default function StudentOverview({studentAttendance}) {
 var absentDays=[]
 
 var today=moment().format("DD-MM-YYYY").split('-')
-console.log("abcdd", studentAttendance)
 studentAttendance.attendance.forEach(element => {
   if (element.month==today[1]){
     absentDays.push(element.day)
@@ -89,9 +87,6 @@ studentAttendance.attendance.forEach(element => {
                   };
                 })}
               ></NotificationsPagination>
-              {/* <RecentNotifications
-            notifications={testNotifications}
-          ></RecentNotifications> */}
             </Col>
           </Row>
         </div>

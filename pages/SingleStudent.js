@@ -34,9 +34,7 @@ const SingleStudent = ({
   
 }) => {
   const [tab, setTab] = useState("1");
-  const [display, setDisplay] = useState(false);
   const router = useRouter()
-  console.log('router query',router.query)
   const { studentid } = router.query
   useEffect(() => {
     if (
@@ -54,9 +52,7 @@ const SingleStudent = ({
     }
   }, [studentid]);
 
-console.log('sdf', singleStudentInfo)
   function callback(key) {
-    console.log('key ',key);
     setTab(key);
   }
   const notifications = [

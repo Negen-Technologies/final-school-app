@@ -46,7 +46,7 @@ export const createReportCard = (classId, data) => {
   return (dispatch, getState) => {
     dispatch(createReportCardStart());
     const { token } = getState().auth;
-    // console.log('TOKEN', token);
+    //
     axios
       .post(
         URLst + `api/v1/assessments/report-card/class/${classId}`,
@@ -66,10 +66,8 @@ export const createReportCard = (classId, data) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(errorData);
         } else {
           errorData = err.message;
-          console.log(errorData);
         }
         dispatch(createReportCardFail(errorData));
       });
@@ -80,7 +78,7 @@ export const getReportCardAction = (studentId) => {
   return (dispatch, getState) => {
     dispatch(getReportCardStart());
     const { token } = getState().auth;
-    // console.log('TOKEN', token);
+    //
     axios
       .get(URLst + `api/v1/assessments/report-card/student/${studentId}`, {
         headers: {
@@ -94,10 +92,8 @@ export const getReportCardAction = (studentId) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(errorData);
         } else {
           errorData = err.message;
-          console.log(errorData);
         }
         dispatch(getReportCardFail(errorData));
       });

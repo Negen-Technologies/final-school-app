@@ -91,7 +91,6 @@ function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoadi
   }, [selectedGrade]);
 
   useEffect(() => {
-    console.log(selectedCourses);
     generateTags();
   }, [selectedCourses]);
 
@@ -111,7 +110,6 @@ function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoadi
         <Select
           placeholder="Select Class"
           onChange={(value) => {
-            console.log(value);
             setselectedGrade(value);
           }}
           style={{ width: "200px" }}

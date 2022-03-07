@@ -9,6 +9,7 @@ import {
 } from "./ClassListActionType";
 import { loadingFalse, errorMessage } from "../index";
 import axios from "axios";
+import URLst from "../../utils/constants";
 
 export const setFilter = (filter) => {
   return (dispatch) => {
@@ -22,7 +23,7 @@ export const getClassList = () => {
     const { token } = getState().auth;
     axios
       .get(
-        `https://dev-the-school-app.herokuapp.com/api/v1/classes?sort=grade,section`,
+        URLst+`api/v1/classes?sort=grade,section`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -30,7 +31,6 @@ export const getClassList = () => {
         }
       )
       .then((response) => {
-        console.log(response);
         dispatch({
           type: GET_CLASS_LIST_SUCCESS,
           payload: response.data.data.data.rows,
@@ -40,7 +40,7 @@ export const getClassList = () => {
       })
       .catch((err) => {
         var errorData;
-        console.log(err.response);
+
         if (err.response != null) {
           errorData = err.response.data.message;
           dispatch(errorMessage(errorData, err.response.status));
@@ -58,13 +58,12 @@ export const getAClass = (id) => {
     dispatch({ type: GET_A_CLASS_PENDING });
     const { token } = getState().auth;
     axios
-      .get(`https://dev-the-school-app.herokuapp.com/api/v1/classes/${id}`, {
+      .get(URLst+`api/v1/classes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log(response);
         dispatch({
           type: GET_A_CLASS_SUCCESS,
           payload: response.data.data.data,
@@ -73,7 +72,7 @@ export const getAClass = (id) => {
       })
       .catch((err) => {
         var errorData;
-        console.log(err.response);
+
         if (err.response != null) {
           errorData = err.response.data.message;
           dispatch(errorMessage(errorData, err.response.status));

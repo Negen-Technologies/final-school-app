@@ -8,32 +8,30 @@ const initialState = {
 };
 
 const parentStart = (state, action) => {
-  return  {
+  return {
     ...state,
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const parentSuccess = (state, action) => {
-  console.log('in the reducer', action)
   return {
     ...state,
     parents: action.data,
-    count:action.count,
+    count: action.count,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const parentFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
-
-
+    loading: false,
+  };
+};
 
 const parentreducer = (state = initialState, action) => {
   switch (action.type) {

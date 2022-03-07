@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { Select, Row, Col, Button, Modal, Form } from "antd";
 import { connect } from "react-redux";
-// import StudentsList from "../Components/ClassAssign/StudentsList";
-// import TeachersList from "../Components/ClassAssign/TeachersList";
 import {
   assignClass,
   createClass,
 } from "../../store/AssignClass/AssignClassAction";
-// import { createClass } from "../../store/AssignClass/AssignClassAction";
-// import { assignTeacher } from "../../store/AssignClass/AssignClassAction";
-// import { requestStudents } from "../../store/StudentFilter/StudentFilterAction";
 
 const { Option } = Select;
 const children = [];
@@ -48,7 +43,6 @@ function ClassFilterAdd({
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 
@@ -56,7 +50,6 @@ function ClassFilterAdd({
     wrapperCol: { span: 20, offset: 1 },
   };
 
-  console.log(students);
 
   return (
     <div>
@@ -71,9 +64,6 @@ function ClassFilterAdd({
                 remember: true,
               }}
               onFinish={(value) => {
-                console.log("------------------------------");
-                console.log(value.class.value);
-                console.log(value.section.value);
                 requestingClass(value.class.value, value.section);
               }}
               // onSubmit={handleSubmit}
@@ -144,13 +134,7 @@ function ClassFilterAdd({
                     width: 200,
                     marginLeft: "10px",
                   }}
-                  // onClick={
-
-                  //   creatingClass(value.classToAdd.value, value.sectionToAdd)
-                  // }
                   htmlType="submit"
-                  //   loading={isPending}
-                  //   error={error}
                 >
                   Add
                 </Button>,
@@ -167,7 +151,6 @@ function ClassFilterAdd({
                     remember: true,
                   }}
                   onFinish={(value) => {
-                    console.log(value);
                     creatingClass(value.classToAdd.value, value.sectionToAdd);
                     // onRequestTeachers(value.classGrade);
                   }}

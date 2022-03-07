@@ -21,7 +21,6 @@ function assesmentPage() {
 
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 
@@ -116,15 +115,12 @@ function assesmentPage() {
           }}>
             <Input
               style={{ width: "100%", marginBottom: "5px" }}
-              // onChange={(val) => setStudentId(val.target.value)}
               placeholder="Test Name"
             />
             <Input
               style={{ width: "100%", marginBottom: "5px" }}
-              // onChange={(val) => setStudentId(val.target.value)}
               placeholder="Test Value"
             />
-            {/* <Filter min={true}></Filter> */}
           </div>
         }
       </Modal>

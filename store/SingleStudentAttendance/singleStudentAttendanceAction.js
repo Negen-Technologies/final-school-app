@@ -1,52 +1,44 @@
 import axios from "axios";
-import URLst from '../../public/constants'
+import URLst from "../../utils/constants";
 import * as actionTypes from "./singleStudentAttendanceActionTypes";
-import { loadingTrue, loadingFalse,errorMessage } from "../../store";
+import { loadingTrue, loadingFalse, errorMessage } from "../../store";
 
 export const attendancePending = () => {
-    return {
-      type: actionTypes.SINGLE_STUDENT_ATTENDANCE_PENDING,
-      isPending:true,
-      
-    };
+  return {
+    type: actionTypes.SINGLE_STUDENT_ATTENDANCE_PENDING,
+    isPending: true,
   };
-  
-  export const attendanceSuccess = (data) => {
-    return {
-      type: actionTypes.SINGLE_STUDENT_ATTENDANCE_SUCCESS,
-      isPending:false,
-      data:data
-      
-    };
+};
+
+export const attendanceSuccess = (data) => {
+  return {
+    type: actionTypes.SINGLE_STUDENT_ATTENDANCE_SUCCESS,
+    isPending: false,
+    data: data,
   };
-  
-  export const attendanceFail = error => {
-  
-    return {
-      type: actionTypes.SINGLE_STUDENT_ATTENDANCE_FAILED,
-      error: error,
-      isPending:false
+};
 
-    };
+export const attendanceFail = (error) => {
+  return {
+    type: actionTypes.SINGLE_STUDENT_ATTENDANCE_FAILED,
+    error: error,
+    isPending: false,
   };
+};
 
+export const getSingleStudentAttendance = (id) => {
+  var token = localStorage.getItem("token");
 
-  
-  export const getSingleStudentAttendance = (id) => {
-      var token=localStorage.getItem('token')
-  console.log('action id', id)
-      return dispatch => {
-        
-        dispatch(attendancePending())
-        // dispatch(loadingTrue());
-      axios.get(
-        URLst + `api/v1/attendance/student/${id}`,
-        {
+  return (dispatch) => {
+    dispatch(attendancePending());
+    // dispatch(loadingTrue());
+    axios
+      .get(URLst + `api/v1/attendance/student/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`}
-        })
-      .then(res => {
-        console.log('ressss', res)
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
         dispatch({
           type: actionTypes.SINGLE_STUDENT_ATTENDANCE_SUCCESS,
           payload: {
@@ -57,20 +49,17 @@ export const attendancePending = () => {
         });
         // dispatch(loadingFalse());
       })
-      .catch(err => {
+      .catch((err) => {
         var errorData;
-        
-        if (err.response!=null) {
-          errorData=err.response.data.message
-          console.log(errorData)
+
+        if (err.response != null) {
+          errorData = err.response.data.message;
         } else {
-          errorData=err.message
-          console.log(errorData)
+          errorData = err.message;
         }
         dispatch(attendanceFail(errorData));
-        dispatch(errorMessage(errorData))
+        dispatch(errorMessage(errorData));
         // dispatch(loadingFalse());
-
       });
-      }
-  }
+  };
+};

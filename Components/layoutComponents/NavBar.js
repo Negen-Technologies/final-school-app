@@ -102,9 +102,6 @@ function NavBar({
         </Col>
         <Col>
           <Row
-            onClick={() => {
-              console.log("Test");
-            }}
             align="middle"
           >
             <div

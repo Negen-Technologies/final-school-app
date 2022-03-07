@@ -19,7 +19,6 @@ function CreateChildForm({ onError, createChild, onDone, onFinish }) {
 
   useEffect(() => {
     if (createdChild.data !== undefined) {
-      console.log("NEW CHILD CREATED");
       if (!createdChildren.includes(createdChild.data.data))
       {
          setshowForm(false);

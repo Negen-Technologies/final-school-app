@@ -33,7 +33,6 @@ function AssignClassPage({
   const [visibleTeacher, setVisibleTeacher] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [confirmLoadingTeacher, setConfirmLoadingTeacher] = useState(false);
-  const [studentId, setStudentId] = useState("");
   const [studentIds, setStudentIds] = useState([]);
   const [teacherId, setTeacherId] = useState("");
   const [coursesList, setCoursesList] = useState([]);
@@ -46,15 +45,12 @@ function AssignClassPage({
     getAllTeacherSuccess();
   }, []);
   useEffect(() => {
-    console.log("qualifiedTeachers", qualifiedTeachers);
   }, [qualifiedTeachers]);
 
   useEffect(() => {
     const c = [];
-    // console.log(selectedCourse, teachers, "test");
 
     teachers.forEach((teacher) => {
-      // if selectedCorse in teacher.qualifiedCourses
       teacher.qualifiedCourses.forEach((course) => {
         if (course.courseId === selectedCourse) {
           c.push(
@@ -64,11 +60,8 @@ function AssignClassPage({
           );
         }
       });
-      console.log(c);
     });
-    console.log(c, "final");
     setQualifiedTeachers(c);
-    console.log(c, qualifiedTeachers);
   }, [selectedCourse, teachers]);
 
   // set courses list as filter changes
@@ -115,7 +108,6 @@ function AssignClassPage({
     return classId.uuid;
   };
   const addStudent = (id) => {
-    console.log(id, studentIds);
     assignStudent(studentIds, id);
   };
   const handleOkTeacher = () => {
@@ -128,12 +120,10 @@ function AssignClassPage({
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 
   const handleCancelTeacher = () => {
-    console.log("Clicked cancel button");
     setVisibleTeacher(false);
   };
 
@@ -149,7 +139,6 @@ function AssignClassPage({
   }
 
   const unassignedStudents = [];
-  console.log(studentsFiltered, unassignedStudents);
   for (let i = 0; i < studentsFiltered.students.length; i++) {
     if (!studentsFiltered.students[i].classId) {
       if (
@@ -255,8 +244,6 @@ function AssignClassPage({
             }
             loading={assignStudents.isPending}
             disabled={!filter.section && studentIds}
-            // loading={isPending}
-            // error={error}
           >
             Add
           </Button>,
@@ -277,22 +264,7 @@ function AssignClassPage({
           </div>
         ) : (
           <div>
-            {/* <Select
-              mode="multiple"
-              allowClear
-              style={{ width: "100%", marginBottom: "5px" }}
-              placeholder="Please select students"
-              onChange={handleChange}
-            >
-              {children}
-            </Select> */}
-            {/* <Input
-              style={{ width: "100%", marginBottom: "5px" }}
-              onChange={(val) => setStudentId(val.target.value)}
-              placeholder="Student Id"
-            /> */}
-            {/* {assignStudents.error}
-            {assignStudent.success} */}
+
 
             <Filter min={true}></Filter>
             {unassignedStudents.length > 0 ? (
@@ -375,13 +347,10 @@ function AssignClassPage({
               )
             }
             htmlType="submit"
-            // loading={isPending}
-            // error={error}
           >
             Add
           </Button>,
         ]}
-        // confirmLoading={isPending}
         confirmLoading={confirmLoadingTeacher}
         onCancel={handleCancelTeacher}
       >
@@ -485,4 +454,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(withAuth(AssignClassPage));
-// export default withAuth(AssignClassPage)

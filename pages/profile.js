@@ -5,8 +5,6 @@ import { connect } from "react-redux";
 import { changeProfileAction } from "../store/index";
 
 function profile({ userData, changeProfile, onFinish }) {
-  console.log("userData", userData)
-  console.log(userData)
   return (
     <div>
       <ProfileLayout
@@ -14,7 +12,6 @@ function profile({ userData, changeProfile, onFinish }) {
         userData={userData}
         onFinish={(checkedValues) => {
           checkedValues.Phone = "251" + checkedValues.Phone;
-          console.log("cccccccccc", checkedValues);
           changeProfile(checkedValues);
         }}
       />

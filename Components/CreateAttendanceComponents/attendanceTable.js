@@ -13,7 +13,6 @@ const columns = [
   },
 ];
 
-const data = [];
 for (let i = 0; i < 46; i++) {
   data.push({
     key: i,
@@ -33,9 +32,7 @@ function AttendanceTable({ students, absenteesDataToParent,attendanceError , att
       setLoading(false);
     }, 1000);
   }, []);
-  // debugger
   const onSelectChange = (selectedRow) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
     setSelectedRowKeys(selectedRow);
   };
 
@@ -51,8 +48,6 @@ function AttendanceTable({ students, absenteesDataToParent,attendanceError , att
   var classId = "";
 
   studentsList.splice(0, studentsList.length);
-  console.log("=========");
-  console.log(students);
   students.forEach((student) => {
     classId = student.classId;
     studentsList.push({
@@ -61,7 +56,6 @@ function AttendanceTable({ students, absenteesDataToParent,attendanceError , att
       id: student.uuid,
     });
   });
-  console.log(classId);
 
   return (
     <div>

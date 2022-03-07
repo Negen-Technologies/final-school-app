@@ -1,44 +1,42 @@
 import * as actionTypes from "./changeLogsActionTypes";
 
-
 const initialState = {
-  changeLogs:[],
-  count:0,
+  changeLogs: [],
+  count: 0,
   error: null,
   loading: false,
 };
 
-
-const changeLogsStart = (state,) => {
-  return  {
+const changeLogsStart = (state) => {
+  return {
     ...state,
-    changeLogs:[],
+    changeLogs: [],
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const changeLogsSuccess = (state, action) => {
-  console.log('reducer', action)
   return {
     ...state,
     changeLogs: action.message.rows,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const changeLogsFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
+    loading: false,
+  };
+};
 
-export const changeLogsReducer = ( state = initialState, action) => {
+export const changeLogsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CHANGE_LOGS_START:
-      return changeLogsStart(state,);
+      return changeLogsStart(state);
     case actionTypes.CHANGE_LOGS_SUCCESS:
       return changeLogsSuccess(state, action);
     case actionTypes.CHANGE_LOGS_FAILED:
@@ -47,4 +45,3 @@ export const changeLogsReducer = ( state = initialState, action) => {
       return state;
   }
 };
-

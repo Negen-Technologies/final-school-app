@@ -10,7 +10,6 @@ function createAssessmentResult() {
       isForCreateAssessment = {true} 
       style={{ marginTop: "20px" }}
       isAssessmentRequested = {(value) => {
-        //console.log("888888888888888888", value);
       }}
        />
   </div>;

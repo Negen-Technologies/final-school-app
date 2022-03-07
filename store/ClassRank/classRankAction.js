@@ -27,7 +27,7 @@ export const classRankAction = (classId) => {
   return (dispatch, getState) => {
     dispatch(classRankStart());
     const { token } = getState().auth;
-    // console.log('TOKEN', token);
+    //
     axios
       .get(
         URLst + `api/v1/assessments/results/getRank/${classId}/2014`,
@@ -39,17 +39,14 @@ export const classRankAction = (classId) => {
         }
       )
       .then((res) => {
-        console.log('res', res.data.data);
         dispatch(classRankSuccess(res.data.data.students));
       })
       .catch((err) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(errorData);
         } else {
           errorData = err.message;
-          console.log(errorData);
         }
         dispatch(classRankFail(errorData));
       });

@@ -36,7 +36,6 @@ function Notifications({
   const [classId, setClassId] = useState("");
 
   const onFinish = () => {
-    console.log(notFor, text, title, grade, userId, studentId, classId);
     if (notFor === "user") {
       if (userId === "" || text === "" || title === "") {
         alert("Please fill all the fields");

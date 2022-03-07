@@ -3,9 +3,6 @@ import { Row, Col, Divider, Card, Calendar } from "antd";
 import moment from "moment";
 
 
-function onPanelChange(value, mode) {
-  console.log(value, mode);
-}
 function YearAttendace(){
   const now = moment();
 
@@ -27,7 +24,6 @@ function YearAttendace(){
                     headerRender={() => {}}
                     defaultValue
                     fullscreen={false}
-                    onPanelChange={onPanelChange}
                   />
                 </div>
               </Card>
@@ -44,7 +40,6 @@ function YearAttendace(){
                   <Calendar
                     headerRender={() => {}}
                     fullscreen={false}
-                    onPanelChange={onPanelChange}
                     defaultValue={null}
                   />
                 </div>
@@ -63,7 +58,6 @@ function YearAttendace(){
                     headerRender={() => {}}
                     defaultValue
                     fullscreen={false}
-                    onPanelChange={onPanelChange}
                   />
                 </div>
               </Card>
@@ -81,7 +75,6 @@ function YearAttendace(){
                     headerRender={() => {}}
                     defaultValue
                     fullscreen={false}
-                    onPanelChange={onPanelChange}
                   />
                 </div>
               </Card>

@@ -18,7 +18,6 @@ function ParentNotificationPage({
   const [selectedChild, setSelectedChild] = useState("All");
   var childIds = [];
   var forFilteredNotification = [];
-  var initialFiltered = [];
 
   useEffect(() => {
     getNotificationForMe();
@@ -29,8 +28,6 @@ function ParentNotificationPage({
     setNotificationList();
   }, [notification]);
 
-  console.log("notification", notification);
-
   if (parentGetMe.data) {
     childIds.push({ id: "idx", name: "All" });
     parentGetMe.data.children.rows.forEach((child) => {
@@ -39,14 +36,11 @@ function ParentNotificationPage({
         name: child.firstName + " " + child.lastName,
       });
     });
-    console.log("childIds", childIds);
   }
 
   function setNotificationList() {
-    console.log("selected in the function", selectedChildId);
     if (notification.notifications.length > 0) {
       if (selectedChildId !== "" && selectedChildId !== "idx") {
-        console.log("===========");
         notification.notifications.forEach((note) => {
           note.studentId === selectedChildId
             ? forFilteredNotification.push(note)
@@ -65,7 +59,6 @@ function ParentNotificationPage({
     setFilteredNotification(forFilteredNotification);
   }
 
-  console.log("@@@filtered Notification", filteredNotification);
   return (
     <div
       style={{
@@ -86,7 +79,6 @@ function ParentNotificationPage({
               ? setSelectedChild("All")
               : null;
           });
-          console.log("selected id", value);
 
           setNotificationList();
         }}

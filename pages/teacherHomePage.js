@@ -33,11 +33,6 @@ function teacherHomePage({
   classList,
 }) {
   var myClasses = [];
-  var router = useRouter();
-  const [value, setValue] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
-  const options = [];
-  var placeholder = loading ? "Loading..." : "Select student...";
   const dataTop = [];
   const dataBottom = [];
   const [selectedClass, setSelectedClass] = useState("");
@@ -48,28 +43,16 @@ function teacherHomePage({
     getMyNotification();
     getNotificationForMe();
     teacherGetMeAction();
-    // getClassList();
     teacherGetMeAction();
     loadingFalse();
   }, []);
-  // useEffect(() => {
-  // loadTeacherData();
-  // }, [teacherGetMe]);
 
   useEffect(() => {
-    var listClass = [];
-
-    // listClass > 0 ? classRankAction(listClass[0].uuid) : null;
 
     myClasses = teacherGetMe.data ? teacherGetMe.data.myClasses : [];
     if (myClasses.length > 0) {
-      console.log("dddddddddddd", teacherGetMe.data, myClasses);
 
       classRankAction(myClasses[0].classId, "2014");
-      // myClasses.forEach((element) => {
-      //   element.length > 0 ? classCourse.push(element) : null;
-      // });
-      // listClass = classCourse;
       setClassWithCourse(myClasses);
     }
 
@@ -84,25 +67,13 @@ function teacherHomePage({
       : null;
   }, [teacherGetMe]);
 
-  console.log("classCourse", classWithCourse);
-  // const loadTeacherData = () => {
-  //   myClasses = teacherGetMe.hasOwnProperty("data")
-  //     ? teacherGetMe.data.myClasses
-  //     : [];
-  //   if (myClasses.length > 0) {
-  //     classRankAction(myClasses[0].classId, "2014");
-  //   }
-  //   loadingFalse();
-  // };
+
   for (let i = 10; i < 36; i++) {
     const value = i.toString(36) + i;
     options.push({
       label: `neymar: ${value}`,
       value,
     });
-  }
-  function onChange(a, b, c) {
-    console.log(a, b, c);
   }
 
   classRank.studentRank.length > 0
@@ -245,7 +216,6 @@ function teacherHomePage({
                     style={{ width: "100%", marginBottom: "2px" }}
                     value={selectedClass}
                     onChange={(value) => {
-                      console.log("value", value.split("*")[1]);
                       setSelectedClass(value.split("*")[0]);
                       classRankAction(value.split("*")[1]);
                     }}

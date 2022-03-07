@@ -9,7 +9,7 @@ import Router from "next/router";
 function StudentFilterPage() {
   const [studentsList, setstudentsList] = useState([]);
   const [studentsid, setstudentsid] = useState(null);
-console.log('asdfgh', studentsid)
+
   if (studentsid) {
     Router.push(
       {

@@ -4,8 +4,6 @@ import Avatar from "antd/lib/avatar/avatar";
 import { primary_color } from "../../public/constants";
 
 export default function ChildrenDataCard(props) {
-  console.log("===============================");
-  console.log(props);
 
   return (
     <div>

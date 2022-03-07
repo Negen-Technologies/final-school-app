@@ -60,7 +60,6 @@ export default function notificationsList({
           total={notifications.length}
           style={{ marginTop: "10px", marginBottom: "10px" }}
           onChange={(page, pageSize) => {
-            console.log(page);
             setPage(page);
           }}
           showSizeChanger={false}

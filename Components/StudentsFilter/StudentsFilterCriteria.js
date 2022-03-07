@@ -60,10 +60,6 @@ function StudentsFilterCriteria({
   const classes = [];
   const coursesInTheClass = [];
   var totalAssessmentValue = 0;
-
-  console.log("CLASS LIST:", classList);
-  console.log("ASSESSMENTS:", assessment);
-
   classList.forEach((element) => {
     const cl = classes.findIndex((c) => c.grade == element.grade);
     if (cl > -1) {
@@ -95,9 +91,7 @@ function StudentsFilterCriteria({
       const classSelected = classList.find(
         (c) => c.grade == value && c.section == classes[i].sections[0].value
       );
-      console.log("class selected: ", classSelected.coursesList[0]);
       classSelected.coursesList.forEach((course) => {
-        console.log(course.courseInformation);
         crsList.push({
           key: course.uuid,
           name: course.courseInformation.name,
@@ -105,22 +99,16 @@ function StudentsFilterCriteria({
       });
       if (crsList.length > 0) {
         setCourseList(crsList);
-        console.log("crsList: ", crsList);
         setCourse(crsList[0].name);
         setCourseId(crsList[0].key);
-        console.log("courseIDD selected: ", crsList[0]);
-        console.log("course selected: ", courseList);
-        console.log("sec selected: ", sectionsList);
       }
     }
   };
-  console.log("courseIDD selected: ", crsList[0]);
 
   const handleCourseChange = (value) => {
     // setCoursesList(value)
     setCourse(value);
     const indx = courseList.findIndex((i) => i.name == value);
-    console.log("courselist", courseList, indx, value);
     setCourseId(courseList[indx].key);
   };
 
@@ -138,22 +126,16 @@ function StudentsFilterCriteria({
   };
 
   const showAssessmentModal = () => {
-    // loadingTrue();
     setVisible(true);
   };
   const handleOk = () => {
-    // setConfirmLoading(true);
-    // save(recordKey);
     createAssessment(assessmentTitle, assessmentValue, courseId, semester);
-
     setTimeout(() => {
       setVisible(false);
-      // setConfirmLoading(false);
     }, 4000);
   };
 
   const handleCancel = () => {
-    //console.log("Clicked cancel button");
     setVisible(false);
   };
 
@@ -274,11 +256,7 @@ function StudentsFilterCriteria({
             <Modal
               title="Create Assessment"
               visible={visible}
-              // onOk={handleOk}
-              // confirmLoading={confirmLoading}
               onCancel={handleCancel}
-              // width={"80vw"}
-              // disabled={reason != ""}
               bodyStyle={{ width: "100%" }}
               footer={[
                 <Button

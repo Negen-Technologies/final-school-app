@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./authactionTypes";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 import { loadingTrue } from "../Loading/loadingAction";
 
 export const authStart = () => {

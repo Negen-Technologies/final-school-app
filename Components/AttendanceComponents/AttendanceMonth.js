@@ -90,11 +90,9 @@ export default function AttendanceMonth({ day, absentDays, width }) {
         //validRange={[moment(Date.now())]}
         disabledDate={(current) => {
           var month = date.getUTCMonth(); //months from 1-12
-          // console.log(date.getUTCMonth());
           return current && current.month() != month;
         }}
         onSelect={(date) => {
-          console.log(date.format());
         }}
         dateFullCellRender={dateCellRender}
         headerRender={() => (

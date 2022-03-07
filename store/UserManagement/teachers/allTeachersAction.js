@@ -1,5 +1,5 @@
 import axios from "axios";
-import URLst from "../../../public/constants";
+import URLst from "../../../utils/constants";
 import * as actionTypes from "./allTeachersActionTypes";
 import { loadingTrue, loadingFalse, errorMessage } from "../../../store";
 
@@ -29,7 +29,7 @@ export const teacherFail = (error) => {
 export const getAllTeacherSuccess = (limit, page) => {
   return (dispatch, getState) => {
     const { token } = getState().auth;
-    
+
     dispatch(teacherPending());
     dispatch(loadingTrue());
     axios({
@@ -41,11 +41,10 @@ export const getAllTeacherSuccess = (limit, page) => {
     })
       .then((res) => {
         dispatch(teacherSuccess(res.data.data.data));
-        console.log(res.data.data.data)
+
         dispatch(loadingFalse());
-     
-       })
-       
+      })
+
       .catch((err) => {
         var errorData;
         if (err.response != null) {
@@ -59,15 +58,13 @@ export const getAllTeacherSuccess = (limit, page) => {
 };
 
 export const AllTeacherEdit = (id, users, edited) => {
-  console.log(edited);
- 
   const newData = [...users];
   const index = newData.findIndex((ii) => id === ii.uuid);
 
   const thedata = newData[index];
   newData.splice(index, 1, { ...thedata, ...edited });
 
-  return (dispatch,getState) => {
+  return (dispatch, getState) => {
     const { token } = getState().auth;
 
     dispatch(teacherPending());
@@ -102,8 +99,6 @@ export const AllTeacherEdit = (id, users, edited) => {
       });
   };
 };
-
-
 
 export const AllTeacherDelete = (id, users) => {
   var filtereddata = users.filter((item) => item.uuid !== id);

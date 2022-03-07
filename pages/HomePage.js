@@ -16,7 +16,7 @@ import {
   addNotification,
 } from "../store/Notification/NotificationAction";
 import RankCard from "../Components/TeacherComponent/RankCard";
-import {FilterOutlined} from "@ant-design/icons";
+import { FilterOutlined } from "@ant-design/icons";
 import { primary_color } from "../public/constants";
 import { getClassList } from "../store/ClassList/ClassListAction";
 import { classRankAction } from "../store/ClassRank/classRankAction";
@@ -57,21 +57,16 @@ function HomePage({
       });
       listClass = classCourse;
       setClassWithCourse(classCourse);
+      if (listClass.length > 0) {
+        setSelectedClass(`${listClass[0].grade + "" + listClass[0].section}`);
+        classRankAction(listClass[0].uuid);
+      }
     }
-
-    listClass.length > 0
-      ? setSelectedClass(`${listClass[0].grade + "" + listClass[0].section}`)
-      : null;
-    listClass > 0 ? classRankAction(listClass[0].uuid) : null;
   }, [classList]);
 
-  const dataTop = [];
-  const dataBottom = [];
-  console.log("rankRANK", classRank);
-  console.log("**********", classList.length > 0 ? classList : "");
-
-  classRank.studentRank.length > 0
-    ? dataTop.push(
+  useEffect(() => {
+    if (classRank.studentRank.length > 0) {
+      dataTop.push(
         {
           title: `${
             classRank.studentRank[0].rank +
@@ -113,11 +108,10 @@ function HomePage({
               }`,
             }
           : {}
-      )
-    : {};
-  //[classRank.studentRank.length - 1]
-  classRank.studentRank.length > 0
-    ? dataBottom.push(
+      );
+
+      //DATA BOTTOM
+      dataBottom.push(
         {
           title: `${
             classRank.studentRank[classRank.studentRank.length - 1].rank +
@@ -167,18 +161,15 @@ function HomePage({
               }`,
             }
           : {}
-      )
-    : {};
-
-  console.log("NOtification", notification);
-  console.log("ClassList", classList);
+      );
+    }
+  }, [classRank]);
 
   return (
     <div>
       <Col span={24}>
         <Row>
           <Col xs={24} lg={12} xl={12}>
-            
             <Row>
               <Col xs={12} lg={12} xl={12}>
                 <h1
@@ -233,47 +224,40 @@ function HomePage({
             </Row>
             <br />
             <Row>
-              <p style={{
-                marginTop: "5px",
-                marginRight: "20px",
-              }}>Filter by Class: </p>
-              <Col
-              xs={6}
-              xl={6}
-              style={{
-                // marginRight: "5px",
-                // marginLeft: "20px",
-                // margin: 'auto'
-                // marginBottom: "20px",
-              }}
-              className="gutter-row"
-            >
-              {classWithCourse.length > 0 ? (
-                <Select
-                  style={{ width: "100%", marginBottom: "2px" }}
-                  value={selectedClass}
-                  onChange={(value) => {
-                    console.log("value", value.split("*")[1]);
-                    setSelectedClass(value.split("*")[0]);
-                    classRankAction(value.split("*")[1]);
-                  }}
-                  placeholder="Select Child"
-                >
-                  {classWithCourse.map((cl) => (
-                    <Select.Option
-                      value={`${cl.grade + " " + cl.section + "*" + cl.uuid}`}
-                      key={cl.uuid}
-                    >
-                      {cl.grade + " " + cl.section}
-                    </Select.Option>
-                  ))}
-                </Select>
-              ) : (
-                <div></div>
-              )}
-            </Col>
+              <p
+                style={{
+                  marginTop: "5px",
+                  marginRight: "20px",
+                }}
+              >
+                Filter by Class:{" "}
+              </p>
+              <Col xs={6} xl={6} className="gutter-row">
+                {classWithCourse.length > 0 ? (
+                  <Select
+                    style={{ width: "100%", marginBottom: "2px" }}
+                    value={selectedClass}
+                    onChange={(value) => {
+                      setSelectedClass(value.split("*")[0]);
+                      classRankAction(value.split("*")[1]);
+                    }}
+                    placeholder="Select Child"
+                  >
+                    {classWithCourse.map((cl) => (
+                      <Select.Option
+                        value={`${cl.grade + " " + cl.section + "*" + cl.uuid}`}
+                        key={cl.uuid}
+                      >
+                        {cl.grade + " " + cl.section}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                ) : (
+                  <div></div>
+                )}
+              </Col>
             </Row>
-            
+
             <Row>
               <Col xs={18} lg={12} xl={12}>
                 <h1
@@ -320,7 +304,6 @@ function HomePage({
                 />
               </Col>
             </Row>
-            
           </Col>
 
           <Col

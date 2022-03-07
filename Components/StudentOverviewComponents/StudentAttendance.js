@@ -9,12 +9,7 @@ import moment from "moment";
 
 import { connect } from "react-redux";
 function StudentAttendance({attendData, fromSingleStudent, studId, studentAttendanceDetail,adminAttendanceReducer, loadingTrue, loadingFalse, studentAttendance}) {
-  const [gotData, setGotData] = useState(false)
-  useEffect(() => {
-    // !fromParent ? studentAttendanceDetail(studId): null
-    // console.log(adminAttendanceReducer)
-      
-  }, []);
+
 
   const attendance = [
     {monthNumber:1, month: "2021-1-2", absentDays: [] },
@@ -30,38 +25,17 @@ function StudentAttendance({attendData, fromSingleStudent, studId, studentAttend
     {monthNumber:11, month: "2021-11-2", absentDays: [] },
     {monthNumber:12, month: "2021-12-2", absentDays: [] },
   ];
-  console.log('0000000000')
-  console.log(attendData)
-  // studentAttendance.forEach(atten => {
-  //   attendance.forEach(element => {
-  //  if( element.monthNumber==atten.month){
-  //    element.absentDays.push(atten.day)
-  //  }
-      
-  //   });
-  // });
-  if(adminAttendanceReducer>0) {
-    console.log('BBB',adminAttendanceReducer.studentAttendance)
-    // adminAttendanceReducer.rows.forEach(attend => {
-    //   console.log(attend)
-    // })
-  }
+
   var currentTime = new Date()
   var year = currentTime.getFullYear()
-  
-  console.log('AAA',adminAttendanceReducer.studentAttendance)
   var daysAbsent;
   if (fromSingleStudent) {
     var absentDays=[]
 
-    var today=moment().format("DD-MM-YYYY").split('-')
-    console.log("abcdd", studentAttendance)
     studentAttendance.attendance.forEach(element => {
         absentDays.push(element.day)
       
       var monthValue = `${element.year}-${element.month}-${element.day}`
-
-    console.log(element)
     attendance.forEach(e => {
       
       if (element.year === year) {
@@ -73,7 +47,6 @@ function StudentAttendance({attendData, fromSingleStudent, studId, studentAttend
       if( e.monthNumber==element.month){
         e.absentDays.push(element.day)
         e.month = monthValue
-        console.log('absent', daysAbsent)
      
       }
          
@@ -85,7 +58,6 @@ function StudentAttendance({attendData, fromSingleStudent, studId, studentAttend
     
     var monthValue = `${attend.year}-${attend.month}-${attend.day}`
 
-    console.log(attend)
     attendance.forEach(element => {
       
       if (attend.year === year) {
@@ -97,7 +69,6 @@ function StudentAttendance({attendData, fromSingleStudent, studId, studentAttend
       if( element.monthNumber==attend.month){
         element.absentDays.push(attend.day)
         element.month = monthValue
-        console.log('absent', daysAbsent)
      
       }
          
@@ -106,11 +77,6 @@ function StudentAttendance({attendData, fromSingleStudent, studId, studentAttend
 
    daysAbsent = adminAttendanceReducer.studentAttendance.length
   }
-  
-  // var daysAbsent = attendance.map((att) => {
-  //   return att.absentDays.length;
-  // });
-  // daysAbsent = daysAbsent.reduce((prev, cur) => prev + cur);
   return (
     attendData ? <div style={{ backgroundColor: "white", padding: "10px" }}>
       <Row span={12} style={{ marginBottom: "10px" }} justify="space-between">
@@ -121,10 +87,6 @@ function StudentAttendance({attendData, fromSingleStudent, studId, studentAttend
             >
               ATTENDANCE
             </h1>
-            {/* <DatePicker
-              style={{ border: "1px solid grey", margin: "10px" }}
-              size="small"
-            /> */}
           </Row>
         </Col>
         <Col span={11}>
@@ -134,17 +96,7 @@ function StudentAttendance({attendData, fromSingleStudent, studId, studentAttend
               label="Days Absent"
               col="#eb6841"
             ></DaysLateCard>
-            {/* <DaysLateCard
-              day={5}
-              label="Days Present"
-              col="#9ec583"
-            ></DaysLateCard>
-            <DaysLateCard
-              day={5}
-              label="Days Without Record"
-              width="180px"
-              col="#cccccc"
-            ></DaysLateCard> */}
+          
           </Row>
         </Col>
       </Row>
@@ -187,4 +139,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(StudentAttendance);
-//  export default StudentAttendance

@@ -24,7 +24,6 @@ const adminAttendanceStart = (state) => {
 };
 
 const adminAttendanceSuccess = (state, action) => {
-  console.log("rrrrrrr", action.message);
   return {
     ...state,
     studentAttendance: action.message.rows,

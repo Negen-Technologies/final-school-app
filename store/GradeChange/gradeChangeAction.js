@@ -44,7 +44,6 @@ export const getAssessmentFail = (error) => {
 };
 
 export const gradeChangeAction = (resultId, newResult, comment, oldValue) => {
-  console.log("FROM THE ACTION", resultId, newResult, comment);
   function getObjects(obj, key, val, newVal) {
     var newValue = newVal;
     var objects = [];
@@ -64,19 +63,16 @@ export const gradeChangeAction = (resultId, newResult, comment, oldValue) => {
     dispatch(loadingTrue());
     const { token } = getState().auth;
     var assessmentData = getState().getAssessment.message;
-    console.log("ass data", assessmentData, resultId);
-    // console.log("row", row);
+
+    //
     // var indx = assessmentData.findIndex(x => x.uuid === row.key)
 
     const newData = [...assessmentData];
     var updatedObj = getObjects(newData, resultId, oldValue, newResult);
     // const index = newData.findIndex((ii) => id === ii.uuid);
-    console.log("updatedObj", updatedObj);
-    console.log("updatedObj newData", newData);
+
     // const thedata = newData[indx];
     // newData.splice(indx, 1, { ...thedata, ...row });
-
-    console.log("new data", newData);
 
     axios
       .patch(
@@ -93,7 +89,6 @@ export const gradeChangeAction = (resultId, newResult, comment, oldValue) => {
         }
       )
       .then((res) => {
-        console.log("in action", res.data.data);
         const message = res.data.data;
 
         dispatch(gradeChangeSuccess(message));
@@ -108,10 +103,8 @@ export const gradeChangeAction = (resultId, newResult, comment, oldValue) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log("in action", errorData);
         } else {
           errorData = err.message;
-          console.log("in action", errorData);
         }
         dispatch(gradeChangeFail(errorData));
         dispatch(loadingFalse());
@@ -121,7 +114,7 @@ export const gradeChangeAction = (resultId, newResult, comment, oldValue) => {
 
 export const getAssessment = (id) => {
   var token = localStorage.getItem("token");
-  console.log("idRequest", id);
+
   return (dispatch) => {
     dispatch(getAssessmentStart());
 
@@ -133,7 +126,6 @@ export const getAssessment = (id) => {
       })
       .then((res) => {
         const message = res.data.data.data.rows;
-        console.log("ACTION: ", res.data.data.data.rows);
 
         dispatch(getAssessmentSuccess(message));
         dispatch(loadingFalse());
@@ -142,10 +134,8 @@ export const getAssessment = (id) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log("error", errorData);
         } else {
           errorData = err.message;
-          console.log("error", errorData);
         }
         dispatch(getAssessmentFail(errorData));
       });

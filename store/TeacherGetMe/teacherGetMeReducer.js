@@ -1,46 +1,42 @@
 import * as actionTypes from "./teacherGetMeActionTypes";
 
 const initialState = {
-  teacher:{},
+  teacher: {},
   error: null,
   loading: false,
 };
 
-
-const teacherGetMeStart = (state,) => {
-  return  {
+const teacherGetMeStart = (state) => {
+  return {
     ...state,
     teacher: {},
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const teacherGetMeSuccess = (state, action) => {
-
-  console.log('rrrrrrr', action.message)
   return {
     ...state,
     teacher: action.message,
     // count:action.message.count,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const teacherGetMeFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
+    loading: false,
+  };
+};
 
-
-
-export const teacherGetMeReducer = ( state = initialState, action) => {
+export const teacherGetMeReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.TEACHER_GET_ME_START:
-      return teacherGetMeStart(state,);
+      return teacherGetMeStart(state);
     case actionTypes.TEACHER_GET_ME_SUCCESS:
       return teacherGetMeSuccess(state, action);
     case actionTypes.TEACHER_GET_ME_FAILED:
@@ -49,4 +45,3 @@ export const teacherGetMeReducer = ( state = initialState, action) => {
       return state;
   }
 };
-

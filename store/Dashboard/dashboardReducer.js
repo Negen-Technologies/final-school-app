@@ -1,45 +1,41 @@
 import * as actionTypes from "./dashboardActionTypes";
 
 const initialState = {
-  message:{},
+  message: {},
   error: null,
   loading: false,
-  
 };
 
-
-
-const dashboardStart = (state,) => {
-  return  {
+const dashboardStart = (state) => {
+  return {
     ...state,
-    message:{},
+    message: {},
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const dashboardSuccess = (state, action) => {
-  console.log('IN REDUCER: ', action.message)
   return {
     ...state,
-    message:action.message,
+    message: action.message,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const dashboardFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
+    loading: false,
+  };
+};
 
-
-export const dashboardReducer = ( state = initialState, action) => {
+export const dashboardReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.DASHBOARD_START:
-      return dashboardStart(state,);
+      return dashboardStart(state);
     case actionTypes.DASHBOARD_SUCCESS:
       return dashboardSuccess(state, action);
     case actionTypes.DASHBOARD_FAIL:

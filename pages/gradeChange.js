@@ -18,24 +18,11 @@ import { gradeChangeAction } from "../store/GradeChange/gradeChangeAction";
 
 const originData = [];
 
-// for (let i = 0; i < 2; i++) {
-//     originData.push({
-//       key: i.toString(),
-//       name: `Abebe ${i}`,
-//       outOf15: 32,
-//       outOf20: 32,
-//       outOf50: 32,
-//     });
-//   }
-
 function gradeChange({ assessment, changeAssessment, loading, error }) {
   const [form] = Form.useForm();
   const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState("");
-  const [numOfColumns, setNumOfColumns] = useState(0);
-  const [commentForChange, setCommentForChange] = useState("");
   const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const [recordKey, setRecordKey] = useState(false);
 
   const [editedMark, setEditedMark] = useState(0);
@@ -99,7 +86,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
     children,
     ...restProps
   }) => {
-    // const inputNode =  <InputNumber /> ;
     return (
       <td {...restProps}>
         {editing ? (
@@ -115,7 +101,7 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
               },
             ]}
           >
-            {/* parseInt(valueId) */}
+            
             <Input
               min={0}
               max={100}
@@ -123,18 +109,13 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
               onClick={(value) => {
                 var key = [];
                 var keyWithComma = [];
-                var keyWithCommaSplit = [];
 
                 keyWithComma.forEach((e) => {
-                  //console.log('e', e.split(',')[0])
                   keyWithCommaSplit.push();
                 });
               }}
               onChange={(value) => {
                 var key = [];
-                var keyWithComma = [];
-
-                console.log("VALUE on change: ", value);
                 setValueId(parseInt(`${value.target.id}`));
                 var editedRow = columnAssessmentReplica.filter(
                   (item) => item.key === editingKey
@@ -150,13 +131,8 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
                 });
                 var k = `${value.target.id},id`;
                 var valueId = editedRow[0][k];
-                console.log("VALUE ID target: ", editedRow[0][value.target.id]);
                 setOldValue(editedRow[0][value.target.id]);
                 setResultId(valueId);
-                console.log("VALUE ID RESULTiD: ", resultId);
-                console.log("type of data", data);
-
-                console.log("the id ", typeof value.target.value);
                 setEditedMark(value.target.value);
               }}
             />
@@ -167,13 +143,9 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
       </td>
     );
   };
-  console.log("VVVVVVVVVVV: ", resultId);
-  console.log("VALUE ID RESULT: ", valueId);
-
   const listOfAssessment = assessment;
   var listOfAssessValue = [];
   var totalAssess = 0;
-  console.log("LIST CONSOLE", listOfAssessment);
 
   listOfAssessment.forEach((value) => {
     listOfAssessValue.push({ val: value.value, assessName: value.name });
@@ -189,8 +161,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
   var col1 = [];
   var columnAssessmentData = [];
   var columnAssessmentReplica = [];
-
-  console.log("LIST OF ASSESSMENT: ", listOfAssessValue);
   listOfAssessValue.forEach((value) => {
     colu.splice(i, 0, {
       title: `${value.assessName} (${value.val})`,
@@ -201,8 +171,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
     i++;
   });
 
-  var resultIdValuePair = [];
-  //console.log('1234512345', listOfAssessment)
   listOfAssessment.forEach((value) => {
     value.results.forEach((result) => {
       col1.push({
@@ -221,7 +189,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
     });
   });
 
-  console.log("ARRAY colllll: ", col1);
   var result = Object.values(
     col1.reduce((a, c) => {
       (
@@ -265,8 +232,7 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
     delete columnAssessmentReplica.outOfList;
     obj1 = [];
   });
-  //console.log('ARRAY resull: ', result)
-  console.log("ARRAY iddddd: ", columnAssessmentReplica);
+
 
   result.forEach((value) => {
     var obj1 = [];
@@ -295,32 +261,17 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
     value["100"] = numAssessment;
     numAssessment = 0;
   });
-
-  console.log("ARRAY ccccccc: ", columnAssessmentData);
-
   const onChange = (e) => {
     setReason(e.target.value);
-    //console.log('Change:', e.target.value);
   };
 
   const edit = (record) => {
     setData(columnAssessmentData);
-    // var dataForEdit = columnAssessmentData[0]
     const dataForEdit = Object.assign({}, columnAssessmentData[0]);
     for (var key in dataForEdit) {
       dataForEdit[key] = "";
     }
     delete dataForEdit.key;
-    // form.setFieldsValue({
-    //   name: '',
-    //   outOf10: '',
-    //   outOf20: '',
-    //   outOf30: '',
-    //   outOf40: '',
-    //   address: '',
-    //   ...record,
-    // });
-
     form.setFieldsValue({ ...dataForEdit, ...record });
     setEditingKey(record.key);
   };
@@ -342,27 +293,19 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
       const val = newData.find((item) => key === item.key);
       delete val.name;
       delete val.key;
-      // Object.keys(row).map(function (key, index) {
-      //   row[key] = parseFloat(row[key]);
-      // });
-
-      // val.find((item) => {})
+ 
       if (index > -1) {
         const item = newData[index];
-        // var mergedItem = {...item, ...row};
-        console.log("NEWDATA", row);
+
         newData.splice(index, 1, { ...item, ...row });
-        console.log("bbb", newData);
 
         setStateValue(newData);
-        // console.log("before CALL: ", resultId, editedMark, reason);
         changeAssessment(resultId, editedMark, reason, oldValue); ///patch request for grade change
       } else {
         newData.push(row);
         setStateValue(newData);
       }
     } catch (errInfo) {
-      console.log("Validate Failed:", errInfo);
     }
   };
 
@@ -384,24 +327,19 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
   });
 
   const showModal = () => {
-    // loadingTrue();
     setVisible(true);
   };
   const handleOk = () => {
-    // setConfirmLoading(true);
     save(recordKey);
 
     setTimeout(() => {
       setVisible(false);
-      // setConfirmLoading(false);
     }, 3000);
   };
 
   const handleCancel = () => {
-    //console.log("Clicked cancel button");
     setVisible(false);
   };
-  console.log("rrrrrrrrrrrrrr: ", resultId);
   return (
     <div>
       <div
@@ -423,7 +361,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
           isForGradeChange={true}
           style={{ marginTop: "20px" }}
           isAssessmentRequested={(value) => {
-            //console.log("888888888888888888", value);
           }}
         />
       </div>
@@ -456,8 +393,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
       <Modal
         title="Grade Change Reason"
         visible={visible}
-        // onOk={handleOk}
-        // confirmLoading={confirmLoading}
         onCancel={handleCancel}
         width={"80vw"}
         disabled={reason != ""}

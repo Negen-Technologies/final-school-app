@@ -54,7 +54,6 @@ function TeachersTable({ classes, mini, grade = 0, section }) {
         course: course.courseInformation.name,
       });
     });
-    console.log(teachersList);
     const filteredTeachers = teachersList.filter((stu) => {
       return stu.name.toLowerCase().includes(searchField.toLowerCase());
     });
@@ -67,7 +66,6 @@ function TeachersTable({ classes, mini, grade = 0, section }) {
             style={{ width: "240px", marginBottom: "10px", marginLeft: "10px" }}
             onChange={(input) => {
               setsearchField(input.target.value);
-              console.log(input.target.value);
             }}
           />
         </Row>

@@ -6,14 +6,6 @@ import { connect } from 'react-redux'
 import { resetPasswordAction } from '../../store/index'
 
 
-
-
-
-function onFinishFailed() {
-  console.log("on finish failed");
-}
-
-
 function ResetPassword({resetpassword,
   resetPasswordFunction}) {
 
@@ -38,7 +30,6 @@ function ResetPassword({resetpassword,
 
 const onSubmit = (value) => {
     
-    console.log(value)
     if (value.confirmPassword !== value.newPassword) {
       Modal.error({
         title: 'passwords did not match.' ,
@@ -95,7 +86,6 @@ const onSubmit = (value) => {
              
               // onFinish={onFinish}
               onFinish={(e) => onSubmit(e)}
-              onFinishFailed={onFinishFailed}
             >
               
               <Form.Item

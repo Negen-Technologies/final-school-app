@@ -6,7 +6,6 @@ import StudentParentCard from "../StudentBioComponents/StudentParentCard"
 
 export default function StudentCard({ singleStudentInfo }) {
   var info=singleStudentInfo.info
-  console.log('ffffff', singleStudentInfo)
   return (
     <div>
       {singleStudentInfo.loading || singleStudentInfo.error ||info==null ? (

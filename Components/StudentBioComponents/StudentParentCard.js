@@ -1,11 +1,9 @@
 import React from "react";
 import { Col, Row, Avatar } from "antd";
 import { EditOutlined } from "@ant-design/icons";
-// import { StudentContext } from "../../utils/studentsContext";
 
 function StudentParentCard({ singleStudentInfo }) {
   const parentInfo = singleStudentInfo ? singleStudentInfo.info.parent : null;
-  console.log("asdsdsdsd", singleStudentInfo);
 
   return (
     <div>

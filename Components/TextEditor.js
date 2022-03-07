@@ -33,7 +33,6 @@ const formats = [
 ];
 
 const OnChangeHandler = (e) => {
-  console.log(e);
 };
 
 Props = {

@@ -11,18 +11,14 @@ var studentsList = [];
 
 function StudentListTable({ 
   students, mini, studentAttendanceDetail, attendanceError, attendanceLoading, createAttendance, showModalFunc,getid, isToCreateAttendance, isPending, error}) {
-  const [attendanceStateValue, setAttendanceStateValue] = useState({});
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [absenteeData, setAbsenteeData] = useState()
 
-  const showModal = () => {
-    // loadingTrue();
-    
+  const showModal = () => { 
     setVisible(true);
   };
-  // console.log('===================')
-  // console.log(students)
+
 
   const handleOk = () => {
     setConfirmLoading(true);
@@ -34,7 +30,6 @@ function StudentListTable({
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 
@@ -86,11 +81,8 @@ function StudentListTable({
   ];
 
   const [searchField, setsearchField] = useState("");
-  const [classId, setclassId] = useState("");
 
   studentsList.splice(0, studentsList.length);
-  console.log('=========');
-  console.log(students)
   students.forEach((student) => {
     studentsList.push({
       key: student.uuid,
@@ -106,7 +98,6 @@ function StudentListTable({
   });
 
   const absenteesDataToParent = (data) => {
-    console.log("absentee data", data);
     setAbsenteeData(data)
   }
 
@@ -128,7 +119,6 @@ function StudentListTable({
             style={{ width: "240px", marginBottom: "10px", marginLeft: "10px" }}
             onChange={(input) => {
               setsearchField(input.target.value);
-              console.log(input.target.value);
             }}
           />
           {isToCreateAttendance ? <Col>

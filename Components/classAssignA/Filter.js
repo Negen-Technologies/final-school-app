@@ -1,4 +1,3 @@
-// import React, { useState, useEffect } from "react";
 import { PlusCircleFilled } from "@ant-design/icons";
 import { Select, Row, Col, Modal, Form, Button } from "antd";
 import { useEffect, useState } from "react";
@@ -76,7 +75,6 @@ function StudentsFilterCriteria({
   };
 
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setVisible(false);
   };
 

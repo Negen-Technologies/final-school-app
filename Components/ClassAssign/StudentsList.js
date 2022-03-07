@@ -3,18 +3,6 @@ import { Table } from "antd";
 import { connect } from "react-redux";
 
 const dataSource = [
-  // {
-  //   key: "1",
-  //   name: "Mike",
-  //   class: 32,
-  //   section: "10",
-  // },
-  // {
-  //   key: "2",
-  //   name: "John",
-  //   class: 42,
-  //   section: "10",
-  // },
 ];
 
 const columns = [
@@ -42,7 +30,6 @@ const columns = [
 
 function StudentsList(props) {
   var studentsListInClass = [];
-  console.log(props.students);
   studentsListInClass.splice(0, studentsListInClass.length);
 
   props.students.forEach((student) => {
@@ -53,7 +40,6 @@ function StudentsList(props) {
     });
   });
 
-  console.log(studentsListInClass);
   if (studentsListInClass.length == 0) {
     return (
       <div>

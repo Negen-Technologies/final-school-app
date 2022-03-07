@@ -1,13 +1,11 @@
-
 import axios from "axios";
 import * as actionTypes from "./createAttendanceActionType";
-import URLst from '../../public/constants'
+import URLst from "../../public/constants";
 import { attendancePending } from "..";
-
 
 export const createAttendanceStart = () => {
   return {
-    type: actionTypes.CREATE_ATTENDANCE_START
+    type: actionTypes.CREATE_ATTENDANCE_START,
   };
 };
 
@@ -15,43 +13,40 @@ export const createAttendanceSuccess = (message) => {
   return {
     type: actionTypes.CREATE_ATTENDANCE_SUCCESS,
     message: message,
-   
   };
 };
 
-export const createAttendanceFail = error => {
-
+export const createAttendanceFail = (error) => {
   return {
     type: actionTypes.CREATE_ATTENDANCE_FAILED,
-    error: error
+    error: error,
   };
 };
-
-
 
 export const createAttendance = (studentsId, date, classId) => {
   return (dispatch, getState) => {
     dispatch(createAttendanceStart());
     dispatch(attendancePending());
     const { token } = getState().auth;
-    
+
     axios
-      .post(URLst + 'api/v1/attendance',
-      {
-        studentsId: studentsId,
-        date: date,
-        classId: classId
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      .post(
+        URLst + "api/v1/attendance",
+        {
+          studentsId: studentsId,
+          date: date,
+          classId: classId,
         },
-      })
-      .then(res => {
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
         const message = res.data.message;
-        console.log('actionnnn')
-        console.log(res.data.data)
-        dispatch(createAttendanceSuccess(res.data.data.days))
+
+        dispatch(createAttendanceSuccess(res.data.data.days));
         // dispatch({
         //   type: actionTypes.CREATE_ATTENDANCE_SUCCESS,
         //   payload: {
@@ -60,17 +55,15 @@ export const createAttendance = (studentsId, date, classId) => {
         //     classId: classId,
         //   },
         // });
-      }).catch(err => {
+      })
+      .catch((err) => {
         var errorData;
-        if (err.response!=null) {
-       
-          errorData=err.response.data.message
-        
+        if (err.response != null) {
+          errorData = err.response.data.message;
         } else {
-          errorData=err.message
+          errorData = err.message;
         }
         dispatch(createAttendanceFail(errorData));
       });
   };
 };
-

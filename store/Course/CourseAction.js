@@ -5,13 +5,14 @@ import {
 } from "./CourseActionType";
 import { loadingFalse, errorMessage } from "../index";
 import axios from "axios";
+import URLst from "../../utils/constants";
 
 export const getAllCourses = (t) => {
   return (dispatch, getState) => {
     dispatch({ type: GET_COURSE_PENDING });
     const { token } = getState().auth;
     axios
-      .get(`https://dev-the-school-app.herokuapp.com/api/v1/courses`, {
+      .get(URLst+`api/v1/courses`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -25,7 +26,7 @@ export const getAllCourses = (t) => {
       })
       .catch((err) => {
         var errorData;
-        console.log(err.response);
+
         if (err.response != null) {
           errorData = err.response.data.message;
           dispatch(errorMessage(errorData, err.response.status));

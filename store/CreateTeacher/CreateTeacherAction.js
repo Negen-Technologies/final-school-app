@@ -4,13 +4,12 @@ import {
   CREATE_TEACHER_PENDING,
   CREATE_TEACHER_SUCCESS,
 } from "./CreateTeacherActionType";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 
 export const createTeacher = (userData) => {
   return (dispatch, getState) => {
     const { token } = getState().auth;
     const { uuid } = getState().createUser.createdUser.user;
-    console.log(getState().createUser);
 
     dispatch({ type: CREATE_TEACHER_PENDING });
     axios
@@ -18,7 +17,7 @@ export const createTeacher = (userData) => {
         URLst + `api/v1/teachers`,
         {
           userId: uuid,
-          qualifiedCourses:userData,
+          qualifiedCourses: userData,
         },
         {
           headers: {
@@ -27,7 +26,6 @@ export const createTeacher = (userData) => {
         }
       )
       .then((response) => {
-      console.log(response.data)
         dispatch({
           type: CREATE_TEACHER_SUCCESS,
           payload: response.data.data.data,
@@ -35,7 +33,6 @@ export const createTeacher = (userData) => {
       })
       .catch((error) => {
         dispatch({ type: CREATE_TEACHER_FAILED, payload: error.response });
-        console.log(error.response);
       });
   };
 };

@@ -1,5 +1,5 @@
 import axios from "axios";
-import URLst from "../../../public/constants";
+import URLst from "../../../utils/constants";
 import * as actionTypes from "./allParentsActionTypes";
 import { loadingTrue, loadingFalse, errorMessage } from "../../../store";
 

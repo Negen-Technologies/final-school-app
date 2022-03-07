@@ -6,7 +6,6 @@ import { Form, Input, Button, Row,
 import { PhoneOutlined } from '@ant-design/icons';
 
 function ForgotPasswordModal({ isVisible }) {
-  console.log("IS VISIBLE: " +isVisible)
     const [isModalVisible, setIsModalVisible] = useState(isVisible);
    
 

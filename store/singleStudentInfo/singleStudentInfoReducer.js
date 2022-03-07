@@ -3,37 +3,33 @@ import * as actionTypes from "./singleStudentInfoActionTypes";
 const initialState = {
   error: null,
   loading: false,
-  info:null
+  info: null,
 };
 
 const infoStart = (state, action) => {
-  return  {
+  return {
     ...state,
     error: null,
-    loading: true
-    
-  }
+    loading: true,
+  };
 };
 
 const infoSuccess = (state, action) => {
-  console.log('reducer data', action)
   return {
     ...state,
     info: action.data,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const infoFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
-
-
-
+    loading: false,
+  };
+};
 
 const singleStudentInfoReducer = (state = initialState, action) => {
   switch (action.type) {

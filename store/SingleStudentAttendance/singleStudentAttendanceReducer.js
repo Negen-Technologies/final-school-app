@@ -4,20 +4,18 @@ const initialState = {
   error: null,
   loading: false,
   attendance: [],
-  count:0,
+  count: 0,
 };
 
 const attendanceStart = (state, action) => {
-  return  {
+  return {
     ...state,
     error: null,
-    loading: true
-    
-  }
+    loading: true,
+  };
 };
 
 const attendanceSuccess = (state, action) => {
-  console.log('reducer', action.payload)
   return {
     ...state,
     attendance: action.payload.payload,
@@ -32,11 +30,9 @@ const attendanceFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
-
-
-
+    loading: false,
+  };
+};
 
 const singleStudentAttendanceReducer = (state = initialState, action) => {
   switch (action.type) {

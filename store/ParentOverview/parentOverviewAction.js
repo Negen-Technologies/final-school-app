@@ -1,5 +1,5 @@
 import axios from "axios";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 import * as actionTypes from "./parentOverviewActionTypes";
 import { authSuccess, errorMessage } from "../index";
 
@@ -26,19 +26,17 @@ export const parentOverviewFail = (error) => {
 };
 
 export const parentOverviewAction = () => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(parentOverviewPending());
-    axios.get(URLst+`/api/v1/parents/getMe`)
+    axios
+      .get(URLst + `/api/v1/parents/getMe`)
       .then((res) => {
-   
-console.log('ACTION', res);
         dispatch({
           type: actionTypes.PARENT_OVERVIEW_SUCCESS,
           payload: {
             payload: res.data.data.children.rows,
             count: res.data.data.children.count,
-        },
-
+          },
         });
         dispatch(loadingFalse());
       })

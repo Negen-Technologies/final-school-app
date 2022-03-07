@@ -4,16 +4,6 @@ import { connect } from "react-redux";
 
 
 const dataSource = [
-  // {
-  //   key: "1",
-  //   name: "Mike",
-  //   id: 32,
-  // },
-  // {
-  //   key: "2",
-  //   name: "John",
-  //   id: 42,
-  // },
 ];
 
 const columns = [
@@ -31,8 +21,7 @@ const columns = [
 
 function TeachersList(props) {
   var teachersListInClass=[];
-  console.log('====================================='),
-  console.log(props.teachers)
+
    teachersListInClass.splice(0, teachersListInClass.length);
 
   props.teachers.forEach((teacher) => {
@@ -54,9 +43,6 @@ function TeachersList(props) {
     );
     } else {
   return (
-    // console.log('====================================='),
-    // console.log(teachersListInClass.teachersListInClass),
-    // console.log('====================================='),
 
     <div>
       <Table

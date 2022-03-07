@@ -4,13 +4,10 @@ import {
   CREATE_CHILD_PENDING,
   CREATE_CHILD_SUCCESS,
 } from "./CreateChildActionType";
-import URLst from '../../public/constants'
+import URLst from "../../public/constants";
 
-export const createChild = (
-  userData
-) => {
-  console.log(userData.firstName, userData.lastName)
-  return (dispatch,getState) => {
+export const createChild = (userData) => {
+  return (dispatch, getState) => {
     dispatch({ type: CREATE_CHILD_PENDING });
     const { token } = getState().auth;
 
@@ -32,18 +29,13 @@ export const createChild = (
         }
       )
       .then((response) => {
-        console.log(response);
-
         dispatch({
           type: CREATE_CHILD_SUCCESS,
           payload: response.data,
         });
       })
       .catch((error) => {
-        console.log(error);
-
         dispatch({ type: CREATE_CHILD_FAILED, payload: error.response });
-        console.log(error);
       });
   };
 };

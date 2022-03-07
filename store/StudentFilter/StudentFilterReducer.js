@@ -8,7 +8,7 @@ import {
   REQUEST_STUDENTS_BY_FILTER_FAILED,
   REQUEST_STUDENTS_BY_FILTER_PENDING,
   REQUEST_STUDENTS_BY_FILTER_SUCCESS,
-  REQUEST_STUDENTS_BY_FILTER_SELECTED
+  REQUEST_STUDENTS_BY_FILTER_SELECTED,
 } from "./StudentFilterActionType";
 
 const initialStateStudents = {
@@ -26,7 +26,7 @@ const initialStateStudentsByFilter = {
   section: "",
   students: [],
   error: "",
-  selectedId:""
+  selectedId: "",
 };
 
 const initialStateSAllStudents = {
@@ -37,17 +37,20 @@ const initialStateSAllStudents = {
   section: "",
   students: [],
   error: "",
-  selectedId:""
+  selectedId: "",
 };
 
-export const getAllStudentsReducer = (state = initialStateSAllStudents, action = {}) => {
+export const getAllStudentsReducer = (
+  state = initialStateSAllStudents,
+  action = {}
+) => {
   switch (action.type) {
     case GET_ALL_STUDENTS_PENDING:
       return Object.assign({}, state, { isPending: true });
     case GET_ALL_STUDENTS_SUCCESS:
       return Object.assign({}, state, {
         students: action.payload.rows,
-        count:action.payload.count,
+        count: action.payload.count,
         isPending: false,
       });
     case GET_ALL_STUDENTS_FAILED:
@@ -65,11 +68,9 @@ export const requestStudents = (state = initialStateStudents, action = {}) => {
     case REQUEST_STUDENTS_PENDING:
       return Object.assign({}, state, { isPending: true });
     case REQUEST_STUDENTS_SUCCESS:
-      console.log();
-      console.log(action.payload.rows);
       return Object.assign({}, state, {
         students: action.payload.rows,
-        count:action.payload.count,
+        count: action.payload.count,
         isPending: false,
       });
     case REQUEST_STUDENTS_FAILED:
@@ -81,8 +82,6 @@ export const requestStudents = (state = initialStateStudents, action = {}) => {
       return state;
   }
 };
-
-
 
 export const requestStudentsByFilter = (
   state = initialStateStudentsByFilter,

@@ -43,18 +43,8 @@ export const studentAttendanceDetail = (studentId) => {
         },
       })
       .then((res) => {
-        const message = res.data.message;
-        console.log("actionnnn");
-        console.log(res.data.data);
         dispatch(adminAttendanceSuccess(res.data.data.days));
-        // dispatch({
-        //   type: actionTypes.ADMIN_ATTENDANCE_SUCCESS,
-        //   payload: {
-        //     payload: res.data.data.data,
-        //     count: res.data.data.data.count,
-        //     classId: classId,
-        //   },
-        // });
+
       })
       .then((res) => {
         dispatch(attendDataSuccess(true));

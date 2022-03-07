@@ -23,26 +23,7 @@ const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
 
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-function onFinishFailed() {
-  console.log("on finish failed");
-}
 
-
- 
-
-// const checkPrice = (_, value) => {
-//   var phoneno = /^\d{9}$/;
-
-//   if (value.match(phoneno)) {
-//     return Promise.resolve();
-//   } else {
-//     return Promise.reject(new Error("Please input a valid phone number!"));
-//   }
-  
-// };
 
 function ProfileLayout({ changeProfile, userData, courses}) {
   const [fileList, setFileList] = useState([]);
@@ -52,16 +33,8 @@ function ProfileLayout({ changeProfile, userData, courses}) {
   const [form] = Form.useForm();
   const router = useRouter();
 
-  const [fName, setFname] = useState('')
-  const [lName, setLname] = useState('')
-  
-console.log('fir name', userData.data.name)
-console.log('las name', lName)
-console.log('las name', userData.data.phoneNumber)
-
   useEffect(() => {
     if (userData.token) {
-    console.log('USER data: ', userData.data)
       if (userData.role == "teacher") {
         for (let i = 0; i < courses.data.length; i++) {
           const updateQualiCourse = [
@@ -80,7 +53,6 @@ console.log('las name', userData.data.phoneNumber)
         }
         setMyClassList(updateMyClass);
       }
-      console.log(userData)
 
       form.setFieldsValue({
         email: userData.data.email,
@@ -110,7 +82,6 @@ console.log('las name', userData.data.phoneNumber)
 
       setFileList(newFileList);
       setImageFile(URL.createObjectURL(file));
-      // return false;
     },
     fileList,
   };
@@ -123,18 +94,9 @@ console.log('las name', userData.data.phoneNumber)
   if(changeProfile.message){
     success()
   }
-console.log('change profile', userData.data)
 const onSubmit = (checkedValues) => {
-  console.log('on submit', checkedValues)
-  
-  // if (changeProfile !== checkedValues) {
-  //   Modal.error({
-  //     title: 'profile edit failed' ,
-  //   });
-  // } else {
+
     changeProfile(checkedValues);
-   
-  // }
 }
 
   return (
@@ -145,7 +107,6 @@ const onSubmit = (checkedValues) => {
           form={form}
           labelCol={{ span: 4 }}
           onFinish={(checkedValues) => onSubmit(checkedValues)}
-          onFinishFailed={onFinishFailed}
           wrapperCol={{
             xs: { span: 16, offset: 1 },
             sm: { span: 16, offset: 3 },
@@ -225,7 +186,6 @@ const onSubmit = (checkedValues) => {
                     style={{ width: "100%" }}
                     placeholder="Please select"
                     defaultValue={["a10", "c12"]}
-                    onChange={handleChange}
                   >
                     {myClassList}
                   </Select>
@@ -244,7 +204,6 @@ const onSubmit = (checkedValues) => {
                     style={{ width: "100%" }}
                     placeholder="Please select"
                     defaultValue={["Physics", "Chemistry"]}
-                    onChange={handleChange}
                    
                   >
                     {qualiCourseList}

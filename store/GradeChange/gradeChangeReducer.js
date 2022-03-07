@@ -22,10 +22,6 @@ const gradeChangeStart = (state) => {
 };
 
 const gradeChangeSuccess = (state, action, getState) => {
-  console.log("IN st: ", getState);
-  console.log("IN REDUCER: ", action.message);
-
-  console.log("VAL: ", state.message);
   return {
     ...state,
     message: action.message,
@@ -65,7 +61,6 @@ const getAssessmentStart = (state) => {
 };
 
 const getAssessmentSuccess = (state, action) => {
-  console.log("IN REDUCER ASSESSMENT: ", action.message);
   return {
     ...state,
     message: action.message,

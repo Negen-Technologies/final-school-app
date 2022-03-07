@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./forgetactionTypes";
-import URLst from '../../public/constants'
+import URLst from '../../utils/constants'
 
 
 export const forgotPassStart = () => {

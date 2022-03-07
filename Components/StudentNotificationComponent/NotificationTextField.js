@@ -21,9 +21,6 @@ const Complete = () => {
     );
   };
 
-  const onSelect = (data) => {
-    console.log('onSelect', data);
-  };
 
   const onChange = (data) => {
     setValue(data);
@@ -45,7 +42,6 @@ function NotificationTextField() {
             <AutoComplete
               // options={options}
               style={{ width: 200 }}
-              onSelect={onSelect}
               onSearch={onSearch}
               placeholder="search here"
               prefix="TO:"

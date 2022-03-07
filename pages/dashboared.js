@@ -1,4 +1,3 @@
-// import headerStyled from '../components/Header.module.css'
 import { Card, Row, Col, Divider, Radio } from "antd";
 import SliderChart from "../Components/Dashboard Components/chart";
 import Demo from "../Components/Dashboard Components/Carddash";
@@ -20,9 +19,6 @@ export default function dashboared() {
                 <Radio.Group
                   defaultValue="a"
                   buttonStyle="solid"
-                  onChange={(value) => {
-                    console.log(value);
-                  }}
                 >
                   <Radio.Button value="a">All</Radio.Button>
                   <Radio.Button value="b">This Month</Radio.Button>

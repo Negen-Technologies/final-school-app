@@ -23,6 +23,7 @@ import {
 } from "../StudentFilter/StudentFilterActionType";
 import { errorMessage, authErrorHandler, getClassList } from "../index";
 import axios from "axios";
+import URLst from "../../utils/constants";
 
 export const assignClass = (classGrade, classSection) => {
   var classIdData;
@@ -30,7 +31,7 @@ export const assignClass = (classGrade, classSection) => {
     dispatch({ type: ASSIGN_CLASS_PENDING });
     const { token } = getState().auth;
     axios
-      .get(`https://dev-the-school-app.herokuapp.com/api/v1/classes/`, {
+      .get(URLst+`api/v1/classes/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -45,11 +46,10 @@ export const assignClass = (classGrade, classSection) => {
           payload: response.data.data.data,
         });
         classIdData = response.data.data.data;
-        console.log(classIdData);
         axios
-          .get(`https://dev-the-school-app.herokuapp.com/api/v1/students`, {
+          .get(URLst + `api/v1/students`, {
             headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNhNjNmZGFlLTBkOTUtNDZiMS1hODEzLTYwMDkwOGU2ZGRlNiIsImlhdCI6MTYyMTQxMjE3MiwiZXhwIjoxNjI5MTg4MTcyfQ.axcmHpRqyPInCE863R-O68YCQs5LyosXYttmaZ2xh1k`,
+              Authorization: `Bearer ${token}`,
             },
             params: {
               classId: response.data.data.data.uuid,
@@ -66,12 +66,11 @@ export const assignClass = (classGrade, classSection) => {
               type: REQUEST_STUDENTS_FAILED,
               payload: error.response,
             });
-            console.log(error);
           });
         axios
-          .get(`https://dev-the-school-app.herokuapp.com/api/v1/teachers`, {
+          .get(URLst + `api/v1/teachers`, {
             headers: {
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNhNjNmZGFlLTBkOTUtNDZiMS1hODEzLTYwMDkwOGU2ZGRlNiIsImlhdCI6MTYyMTQxMjE3MiwiZXhwIjoxNjI5MTg4MTcyfQ.axcmHpRqyPInCE863R-O68YCQs5LyosXYttmaZ2xh1k`,
+              Authorization: `Bearer ${token}`,
             },
             params: {
               myClasses: response.data.data.data.uuid,
@@ -82,17 +81,13 @@ export const assignClass = (classGrade, classSection) => {
               type: GET_TEACHERS_SUCCESS,
               payload: response.data.data.data,
             });
-            console.log("00000000000000000000");
-            console.log(response.data.data.data);
           })
           .catch((error) => {
             dispatch({ type: GET_TEACHERS_FAILED, payload: error.response });
-            console.log(error);
           });
       })
       .catch((error) => {
         dispatch({ type: ASSIGN_CLASS_FAILED, payload: error.response });
-        console.log(error);
       });
   };
 };
@@ -103,7 +98,7 @@ export const createClass = (classGrade, classSection) => {
     const { token } = getState().auth;
     axios
       .post(
-        `https://dev-the-school-app.herokuapp.com/api/v1/classes`,
+        URLst+`api/v1/classes`,
         {
           section: classSection,
           grade: classGrade,
@@ -125,7 +120,6 @@ export const createClass = (classGrade, classSection) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(err.response.status);
           dispatch(authErrorHandler(errorData, err.response.status));
         } else {
           errorData = err.message;
@@ -148,7 +142,7 @@ export const assignStudent = (studentIds, classIdData) => {
     const { token } = getState().auth;
     axios
       .patch(
-        `https://dev-the-school-app.herokuapp.com/api/v1/students/assignClass`,
+        URLst+`api/v1/students/assignClass`,
         {
           studentsId: studentIds,
           classId: classIdData,
@@ -164,13 +158,11 @@ export const assignStudent = (studentIds, classIdData) => {
           type: ASSIGN_STUDENT_SUCCESS,
           payload: response.data.data.data,
         });
-        console.log(response.data.data.data);
       })
       .catch((err) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(err.response.status);
           dispatch(authErrorHandler(errorData, err.response.status));
         } else {
           errorData = err.message;
@@ -190,10 +182,9 @@ export const assignTeacher = (
   return (dispatch, getState) => {
     dispatch({ type: ASSIGN_TEACHERS_PENDING });
     const { token } = getState().auth;
-    console.log(teacherIds, classIdData, courseId, academicYear);
     axios
       .post(
-        `https://dev-the-school-app.herokuapp.com/api/v1/classes/teacher`,
+        URLst+`api/v1/classes/teacher`,
         {
           teacherId: teacherIds,
           classId: classIdData,
@@ -211,13 +202,11 @@ export const assignTeacher = (
           type: ASSIGN_TEACHERS_SUCCESS,
           payload: response.data.data.data,
         });
-        console.log(response.data.data.data);
       })
       .catch((err) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(err.response.status);
           dispatch(authErrorHandler(errorData, err.response.status));
         } else {
           errorData = err.message;

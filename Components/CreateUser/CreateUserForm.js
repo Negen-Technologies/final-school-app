@@ -60,7 +60,6 @@ function CreateUserForm({ createUser, onFinish, onCancel, onRoleChange }) {
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-            console.log(url);
             setImageUrl(url);
           });
       });

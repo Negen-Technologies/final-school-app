@@ -14,7 +14,6 @@ function GradeChangeLogs({ changeLogsAction, changeLogs, loading, error }) {
     changeLogsAction();
   }, []);
 
-  console.log("CHANGE LOGS", changeLogs);
 
   for (let i = 0; i < changeLogs.length; i++) {
     changeLogsArray.push(
@@ -87,8 +86,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     changeLogsAction: () => dispatch(changeLogsAction()),
-    // loadingFalse: () => dispatch(loadingFalse()),
-    // loadingTrue: () => dispatch(loadingTrue()),
   };
 };
 

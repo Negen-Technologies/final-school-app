@@ -17,13 +17,13 @@ const alluserStart = (state, action) => {
 
 const alluserSuccess = (state, action) => {
   // users=[...state.allusers,action.data]
-  // console.log(users)
-  // console.log('users in reducer')
+  //
+  //
 
   return {
     ...state,
     // allusers: state.allusers.concat(action.data),
-    allusers:action.data,
+    allusers: action.data,
     error: null,
     loading: false,
     count: action.count,
@@ -39,7 +39,9 @@ const alluserFail = (state, action) => {
 };
 
 const updateUserSuccess = (state, action) => {
-  var index=state.allusers.findIndex((user) => user.uuid === action.data.uuid);
+  var index = state.allusers.findIndex(
+    (user) => user.uuid === action.data.uuid
+  );
   state.allusers.splice(index, 1, action.data);
   return {
     ...state,
@@ -49,7 +51,6 @@ const updateUserSuccess = (state, action) => {
 };
 
 const deleteUserSuccess = (state, action) => {
-
   const newUsers = state.allusers.filter((user) => {
     return user.uuid !== action.data.id;
   });

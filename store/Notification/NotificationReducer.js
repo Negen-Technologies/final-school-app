@@ -32,7 +32,6 @@ const notificationStart = (state) => {
 };
 
 const notificationSuccess = (state, action) => {
-  console.log(action);
   return {
     ...state,
     notifications: action.message.data,
@@ -59,7 +58,6 @@ const myNotificationStart = (state) => {
 };
 
 const myNotificationSuccess = (state, action) => {
-  console.log(action);
   return {
     ...state,
     notifications: action.message.data,
@@ -87,7 +85,6 @@ const addNotificationStart = (state) => {
 };
 
 const addNotificationSuccess = (state, action) => {
-  console.log(action);
   return {
     ...state,
     error: null,

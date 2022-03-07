@@ -12,8 +12,6 @@ import {
   addNotification,
 } from "../store/Notification/NotificationAction";
 
-// import { parentOverviewAction } from "../store/ParentOverview/parentOverviewAction";
-
 function ParentOverviewPage({
   parentGetMe, 
   parentGetMeAction,
@@ -22,30 +20,20 @@ function ParentOverviewPage({
   notification,
   myNotification,
  }) {
-  // useEffect(() => {
-  //   parentOverviewAction();
-  // }, []);
-  
 
   var child = [];
 
   useEffect(() => {
-    console.log('tttttt')
     parentGetMeAction();
     getMyNotification();
     getNotificationForMe();
-    console.log('vvvvvv')
 
   }, [])
-
- 
-console.log(parentGetMe.data ? parentGetMe.data.children.rows.length : '');
 if (parentGetMe.data) {
  
   for (let i = 0; i < parentGetMe.data.children.rows.length; i++) {
     var rank = parentGetMe.data.rank[i].rank
     var average = parentGetMe.data.rank[i].average
-console.log('idd pased', parentGetMe.data.children.rows[i].uuid)
     child.push(
       <div onClick={() => {
         Router.push(

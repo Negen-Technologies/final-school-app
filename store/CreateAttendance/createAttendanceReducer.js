@@ -1,48 +1,44 @@
 import * as actionTypes from "./createAttendanceActionType";
 
 const initialState = {
-  filledAttendance:[],
-  count:0,
+  filledAttendance: [],
+  count: 0,
   error: null,
   loading: false,
 };
 
-
-const createAttendanceStart = (state,) => {
-  return  {
+const createAttendanceStart = (state) => {
+  return {
     ...state,
     filledAttendance: [],
-    count:0,
+    count: 0,
     error: null,
-    loading: true
-  }
+    loading: true,
+  };
 };
 
 const createAttendanceSuccess = (state, action) => {
-
-  console.log('rrrrrrr', action.message)
   return {
     ...state,
     filledAttendance: action.message.rows,
-    count:action.message.count,
+    count: action.message.count,
     error: null,
-    loading: false
-  }
+    loading: false,
+  };
 };
 
 const createAttendanceFail = (state, action) => {
   return {
     ...state,
     error: action.error,
-    loading: false
-  }}
+    loading: false,
+  };
+};
 
-
-
-export const createAttendanceReducer = ( state = initialState, action) => {
+export const createAttendanceReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.CREATE_ATTENDANCE_START:
-      return createAttendanceStart(state,);
+      return createAttendanceStart(state);
     case actionTypes.CREATE_ATTENDANCE_SUCCESS:
       return createAttendanceSuccess(state, action);
     case actionTypes.CREATE_ATTENDANCE_FAILED:
@@ -51,4 +47,3 @@ export const createAttendanceReducer = ( state = initialState, action) => {
       return state;
   }
 };
-

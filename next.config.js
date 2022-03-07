@@ -19,6 +19,10 @@ module.exports = withLess({
   resolve: {
     extensions: [".js", ".jsx", ".less"],
   },
+  images: {
+    loader: "imgix",
+    path: "/",
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       const antStyles = /antd\/.*?\/style.*?/;

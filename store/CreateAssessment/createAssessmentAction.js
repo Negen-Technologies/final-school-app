@@ -50,8 +50,7 @@ export const createAssessmentAction = (
       )
       .then((res) => {
         const message = res.data.message;
-        console.log("actionnnn");
-        console.log(res.data.data);
+
         dispatch(createAssessmentSuccess(res.data.data));
         // dispatch({
         //   type: actionTypes.CREATE_ASSESSMENT_SUCCESS,
@@ -66,10 +65,8 @@ export const createAssessmentAction = (
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(errorData);
         } else {
           errorData = err.message;
-          console.log(errorData);
         }
         dispatch(createAssessmentFail(errorData));
       });

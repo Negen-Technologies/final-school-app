@@ -1,5 +1,5 @@
 import axios from "axios";
-import URLst from "../../../public/constants";
+import URLst from "../../../utils/constants";
 import * as actionTypes from "./allAdminActionTypes";
 import { loadingTrue, loadingFalse, errorMessage } from "../../../store";
 
@@ -8,15 +8,15 @@ export const adminPending = () => {
     type: actionTypes.ADMIN_PENDING,
     isPending: true,
   };
-}
-  export const adminSuccess = (rows,count) => {
-    return {
-      type: actionTypes.ADMIN_SUCCESS,
-      isPending: false,
-      data: rows,
-      count: count,
-    };
+};
+export const adminSuccess = (rows, count) => {
+  return {
+    type: actionTypes.ADMIN_SUCCESS,
+    isPending: false,
+    data: rows,
+    count: count,
   };
+};
 
 export const adminFail = (error) => {
   return {
@@ -27,8 +27,6 @@ export const adminFail = (error) => {
 };
 
 export const getAllAdminSuccess = (limit, page) => {
-
-
   return (dispatch, getState) => {
     const { token } = getState().auth;
 
@@ -40,16 +38,15 @@ export const getAllAdminSuccess = (limit, page) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      
     })
       .then((res) => {
-      
-        dispatch(adminSuccess(res.data.data.data.rows, res.data.data.data.count));
-        console.log(res.data.data.data)
+        dispatch(
+          adminSuccess(res.data.data.data.rows, res.data.data.data.count)
+        );
+
         dispatch(loadingFalse());
-       
       })
-     
+
       .catch((err) => {
         var errorData;
         if (err.response != null) {
@@ -64,8 +61,6 @@ export const getAllAdminSuccess = (limit, page) => {
 };
 
 export const AllAdminEdit = (id, users, edited) => {
-
-
   const newData = [...users];
   const index = newData.findIndex((ii) => id === ii.uuid);
 
@@ -108,10 +103,7 @@ export const AllAdminEdit = (id, users, edited) => {
 };
 
 export const AllAdminDelete = (id, users) => {
-
-
   var filtereddata = users.filter((item) => item.uuid !== id);
-  console.log(filtereddata);
 
   return (dispatch, getState) => {
     const { token } = getState().auth;
