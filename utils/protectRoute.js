@@ -1,25 +1,19 @@
 import { useRouter } from "next/router";
 import Layout from "../layout";
-import { parentmenu, adminmenu, teachermenu } from "../layout/menuLinks";
-
+import { adminroutes, parentroutes, teacherroutes } from "../layout/menuLinks";
+import ErrorHandlingPage from "../pages/error-handling-page";
 const checkIfValueExistsInArrayOfDictionaries = (
   value,
   arrayOfDictionaries
 ) => {
-  let result = false;
-  arrayOfDictionaries.forEach((element) => {
-    if (element.link === value) {
-      result = true;
-    }
-  });
-  return result;
+  return arrayOfDictionaries.includes(value);
 };
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
     if (typeof window !== "undefined") {
       const Router = useRouter();
-
+      console.log(Router.pathname);
       const accessToken = localStorage.getItem("token");
       const role = localStorage.getItem("role");
 
@@ -28,24 +22,33 @@ const withAuth = (WrappedComponent) => {
         return null;
       }
 
-      // if (role === "parent") {
-      //   if (!checkIfValueExistsInArrayOfDictionaries(Router.pathname, parentmenu)) {
-      //   Router.replace("/parent-overview-page");
-      //   }
-      // }
-      // if (role === "admin") {
-      //   if (!checkIfValueExistsInArrayOfDictionaries(Router.pathname, adminmenu)) {
-
-      //   Router.replace("/HomePage");
-      //   }
-      // }
-      // if (role === "teacher") {
-      //   if (
-      //     !checkIfValueExistsInArrayOfDictionaries(Router.pathname, teachermenu)
-      //   ) {
-      //     Router.replace("/teacherHomePage");
-      //   }
-      // }
+      if (role === "parent") {
+        if (
+          !checkIfValueExistsInArrayOfDictionaries(
+            Router.pathname,
+            parentroutes
+          )
+        ) {
+          return <ErrorHandlingPage route="/parent-overview-page" />;
+        }
+      }
+      if (role === "admin") {
+        if (
+          !checkIfValueExistsInArrayOfDictionaries(Router.pathname, adminroutes)
+        ) {
+          return <ErrorHandlingPage route="/HomePage" />;
+        }
+      }
+      if (role === "teacher") {
+        if (
+          !checkIfValueExistsInArrayOfDictionaries(
+            Router.pathname,
+            teacherroutes
+          )
+        ) {
+          return <ErrorHandlingPage route="/teacherHomePage" />;
+        }
+      }
       if (
         Router.pathname == "/Login" ||
         Router.pathname == "/ForgotPassword" ||

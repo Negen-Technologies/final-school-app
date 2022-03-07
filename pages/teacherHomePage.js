@@ -10,7 +10,7 @@ import RankCard from "../Components/TeacherComponent/RankCard";
 import NotificationsPagination from "../Components/NotificationComponents/NotificationsPagination";
 import { teacherGetMeAction } from "../store/TeacherGetMe/teacherGetMeAction";
 import { classRankAction } from "../store/ClassRank/classRankAction";
-import { primary_color } from "../public/constants";
+import { primary_color } from "../utils/constants";
 import {
   getNotificationForMe,
   getMyNotification,
@@ -48,10 +48,8 @@ function teacherHomePage({
   }, []);
 
   useEffect(() => {
-
     myClasses = teacherGetMe.data ? teacherGetMe.data.myClasses : [];
     if (myClasses.length > 0) {
-
       classRankAction(myClasses[0].classId, "2014");
       setClassWithCourse(myClasses);
     }
@@ -66,7 +64,6 @@ function teacherHomePage({
         )
       : null;
   }, [teacherGetMe]);
-
 
   for (let i = 10; i < 36; i++) {
     const value = i.toString(36) + i;

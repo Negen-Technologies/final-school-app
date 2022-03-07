@@ -1,10 +1,9 @@
 import React from "react";
 import { Card, Row, Col } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
-import { primary_color } from "../../public/constants";
+import { primary_color } from "../../utils/constants";
 
 export default function ChildrenDataCard(props) {
-
   return (
     <div>
       <Card

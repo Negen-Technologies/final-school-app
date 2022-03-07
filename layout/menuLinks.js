@@ -92,11 +92,6 @@ export const adminmenu = [
     link: "/gradeChangeLogs",
     icon: <UnorderedListOutlined style={{ fontSize: "26px" }} />,
   },
-  // {
-  //   name: "Profile",
-  //   link: "/profile",
-  //   icon: <UserOutlined style={{ fontSize: "26px" }} />,
-  // },
 ];
 
 export const teachermenu = [
@@ -125,4 +120,35 @@ export const teachermenu = [
     link: "/adminAttendancePage",
     icon: <UsergroupAddOutlined style={{ fontSize: "26px" }} />,
   },
+];
+
+export const adminroutes = [
+  "/HomePage",
+  "/students",
+  "/UserManagment",
+  "/assignClass",
+  "/notifications",
+  "/adminAttendancePage",
+  "/transcripts",
+  "/report-cards",
+  "/gradeChange",
+  "/gradeChangeLogs",
+  "/SingleStudent",
+];
+export const parentroutes = [
+  "/parent-overview-page",
+  "/parent-notification-page",
+  "/parentAttendancePage",
+  "/parentReportCard",
+  "/profile",
+  "/SingleStudent",
+];
+
+export const teacherroutes = [
+  "/teacherHomePage",
+  "/SingleStudent",
+  "/students",
+  "/notifications",
+  "/gradeChange",
+  "/adminAttendancePage",
 ];

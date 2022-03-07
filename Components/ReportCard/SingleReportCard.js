@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Col, Input, Row, Select } from "antd";
-import { primary_color } from "../../public/constants";
+import { primary_color } from "../../utils/constants";
 import { getReportCardAction } from "../../store/ReportCard/reportCardAction";
 import withAuth from "../../utils/protectRoute";
 import { connect } from "react-redux";

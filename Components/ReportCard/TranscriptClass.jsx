@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import Filter from "../classAssignA/Filter";
 import { useState, useEffect } from "react";
 import { classRankAction } from "../../store/ClassRank/classRankAction";
-import { primary_color } from "../../public/constants";
+import { primary_color } from "../../utils/constants";
 import { createReportCard } from "../../store/ReportCard/reportCardAction";
 
 function TranscriptClass({

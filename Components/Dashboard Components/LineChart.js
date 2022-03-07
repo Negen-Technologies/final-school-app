@@ -1,6 +1,6 @@
 import React from "react";
 import { Chart, Line, Point, Tooltip, Legend } from "bizcharts";
-import { primary_color } from "../../public/constants";
+import { primary_color } from "../../utils/constants";
 const data = [
   // {
   // 	month: "Jan",

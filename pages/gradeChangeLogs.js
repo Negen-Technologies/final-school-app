@@ -4,7 +4,7 @@ import { CaretRightOutlined } from "@ant-design/icons";
 import { Collapse } from "antd";
 import { connect } from "react-redux";
 import { changeLogsAction } from "../store/ChangeLogs/changeLogsAction";
-import { primary_color } from "../public/constants";
+import { primary_color } from "../utils/constants";
 import GradeChangeLog from "../Components/ChangeLogsComponents/gradeChangeLog";
 function GradeChangeLogs({ changeLogsAction, changeLogs, loading, error }) {
   const { Panel } = Collapse;
@@ -13,7 +13,6 @@ function GradeChangeLogs({ changeLogsAction, changeLogs, loading, error }) {
   useEffect(() => {
     changeLogsAction();
   }, []);
-
 
   for (let i = 0; i < changeLogs.length; i++) {
     changeLogsArray.push(

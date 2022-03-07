@@ -4,7 +4,7 @@ import {
   CREATE_CHILD_PENDING,
   CREATE_CHILD_SUCCESS,
 } from "./CreateChildActionType";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 
 export const createChild = (userData) => {
   return (dispatch, getState) => {

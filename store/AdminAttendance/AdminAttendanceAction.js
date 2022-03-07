@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./AdminAttendanceActionType";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 import { attendancePending } from "..";
 
 export const adminAttendanceStart = () => {
@@ -44,7 +44,6 @@ export const studentAttendanceDetail = (studentId) => {
       })
       .then((res) => {
         dispatch(adminAttendanceSuccess(res.data.data.days));
-
       })
       .then((res) => {
         dispatch(attendDataSuccess(true));

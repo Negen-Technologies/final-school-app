@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout } from "antd";
-import {primary_color} from '../../public/constants'
+import { primary_color } from "../../utils/constants";
 export default function SideBar({ menu, onBreakpoint }) {
   return (
     <Layout.Sider

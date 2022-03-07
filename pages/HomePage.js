@@ -17,7 +17,7 @@ import {
 } from "../store/Notification/NotificationAction";
 import RankCard from "../Components/TeacherComponent/RankCard";
 import { FilterOutlined } from "@ant-design/icons";
-import { primary_color } from "../public/constants";
+import { primary_color } from "../utils/constants";
 import { getClassList } from "../store/ClassList/ClassListAction";
 import { classRankAction } from "../store/ClassRank/classRankAction";
 
@@ -35,10 +35,12 @@ function HomePage({
   classRank,
   classRankAction,
 }) {
-  var router = useRouter();
   const [selectedClass, setSelectedClass] = useState("");
   const [classWithCourse, setClassWithCourse] = useState([]);
   var classCourse = [];
+
+  const dataTop = [];
+  const dataBottom = [];
 
   useEffect(() => {
     getMyNotification();

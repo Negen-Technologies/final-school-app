@@ -19,7 +19,7 @@ import {
   loadingTrue,
 } from "../../store/index";
 import Router, { useRouter } from "next/router";
-import { primary_color } from "../../public/constants";
+import { primary_color } from "../../utils/constants";
 function NavBar({
   menu,
   userData,
@@ -101,9 +101,7 @@ function NavBar({
           </a>
         </Col>
         <Col>
-          <Row
-            align="middle"
-          >
+          <Row align="middle">
             <div
               style={{
                 width: "1px",

@@ -14,7 +14,7 @@ import {
   getTheme,
 } from "bizcharts";
 import { connect } from "react-redux";
-import { primary_color } from "../../public/constants";
+import { primary_color } from "../../utils/constants";
 
 const sliceNumber = 0.01;
 

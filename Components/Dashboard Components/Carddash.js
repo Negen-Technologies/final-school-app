@@ -10,7 +10,7 @@ import {
   getTheme,
 } from "bizcharts";
 import { connect } from "react-redux";
-import primary_color from "../../public/constants";
+import primary_color from "../../utils/constants";
 
 registerTheme("my-theme", {
   defaultColor: primary_color,

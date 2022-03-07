@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as actionTypes from "./createAttendanceActionType";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 import { attendancePending } from "..";
 
 export const createAttendanceStart = () => {

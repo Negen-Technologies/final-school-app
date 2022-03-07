@@ -5,7 +5,7 @@ import {
   CREATE_USER_PENDING,
   CREATE_USER_SUCCESS,
 } from "./CreateUserActionType";
-import URLst from "../../public/constants";
+import URLst from "../../utils/constants";
 
 import { errorMessage, authErrorHandler, alluserSuccess } from "../index";
 

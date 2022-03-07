@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Router from "next/router";
 import { connect } from "react-redux";
 import { authLogin } from "../store/index";
-import { primary_color } from "../public/constants";
+import { primary_color } from "../utils/constants";
 export function testLogin({ userData, authLogin }) {
   if (userData.token) {
     if (userData.data.role == "admin") {
@@ -122,11 +122,6 @@ export function testLogin({ userData, authLogin }) {
                 </Button>
               </Row>
             </Col>
-          </Row>
-          <Row justify="center" style={{ marginTop: "45px" }}>
-            <Button size="large" style={{ color: "black" }} type="link">
-              Forget password?
-            </Button>
           </Row>
         </div>
       </Row>

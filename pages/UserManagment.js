@@ -17,7 +17,7 @@ import {
   Divider,
 } from "antd";
 
-import { PlusOutlined, PrinterOutlined  } from "@ant-design/icons";
+import { PlusOutlined, PrinterOutlined } from "@ant-design/icons";
 import withAuth from "../utils/protectRoute";
 
 import { connect } from "react-redux";
@@ -33,7 +33,7 @@ import CreateUserForm from "../Components/CreateUser/CreateUserForm";
 import CreateChildForm from "../Components/CreateChild/CreateChildForm"; //HERE
 import AssignTeacherToCourseForm from "../Components/CreateTeacher/AssignTeacherTOCourseForm";
 import { createChild } from "../store/CreateChild/CreateChildAction";
-import { primary_color } from "../public/constants";
+import { primary_color } from "../utils/constants";
 const { Option } = Select;
 const { Step } = Steps;
 
@@ -64,7 +64,6 @@ const UserManagementTable = (props) => {
 
   useEffect(() => {
     if (props.users.length === 0 && value === "All Users") {
-
       props.getAllUserSuccess(10, 1);
     }
   }, []);
@@ -99,7 +98,6 @@ const UserManagementTable = (props) => {
   const showModal = () => {
     setVisible(true);
   };
-
 
   const handleCancel = () => {
     setVisible(false);
@@ -364,7 +362,6 @@ const UserManagementTable = (props) => {
                       checkedValues["parentId"] =
                         props.createUserData.createdUser.user.uuid;
                       props.createChildFunction(checkedValues);
-
                     }}
                     onDone={(createdChildren) => {
                       setChildren(createdChildren);
