@@ -1,5 +1,5 @@
 import React from "react";
-import TranscriptClass from "../Components/ReportCard/transcriptClass";
+import TranscriptClass from "../Components/ReportCard/TranscriptClass";
 
 export default function transcripts() {
   return (

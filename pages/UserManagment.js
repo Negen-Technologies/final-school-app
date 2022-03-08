@@ -31,7 +31,7 @@ import {
 import { createUser } from "../store/CreateUser/CreateUserAction";
 import CreateUserForm from "../Components/CreateUser/CreateUserForm";
 import CreateChildForm from "../Components/CreateChild/CreateChildForm"; //HERE
-import AssignTeacherToCourseForm from "../Components/CreateTeacher/AssignTeacherTOCourseForm";
+import AssignTeacherToCourseForm from "../Components/CreateTeacher/AssignTeacherToCourseForm";
 import { createChild } from "../store/CreateChild/CreateChildAction";
 import { primary_color } from "../utils/constants";
 const { Option } = Select;

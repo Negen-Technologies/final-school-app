@@ -47,6 +47,7 @@ export const parentGetMeAction = () => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
+          console.log(`Error: ${errorData}`);
         } else {
           errorData = err.message;
         }
