@@ -11,6 +11,7 @@ import {
   getTeachersReducer,
   assignTeacherReducer,
   assignStudentReducer,
+  changeHomeRoomReducer,
 } from "./AssignClass/AssignClassReducer";
 import { loadingReducer } from "./Loading/loadingReducers";
 import reducer from "./Authentication/authreducer";
@@ -105,7 +106,8 @@ const rootReducer = combineReducers({
   createReportCard: createReportCardReducer,
   getReportCard: getReportCardReducer,
   attendanceData: AttendanceReducer,
-  userStats: userStatsReducer
+  changeHomeRoomReducer: changeHomeRoomReducer,
+  userStats: userStatsReducer,
 });
 
 export default rootReducer;

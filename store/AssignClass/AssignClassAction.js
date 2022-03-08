@@ -15,6 +15,9 @@ import {
   ASSIGN_TEACHERS_FAILED,
   ASSIGN_TEACHERS_PENDING,
   ASSIGN_TEACHERS_SUCCESS,
+  CHANGE_HOME_ROOM_PENDING,
+  CHANGE_HOME_ROOM_SUCCESS,
+  CHANGE_HOME_ROOM_FAILED,
 } from "./AssignClassActionType";
 import {
   REQUEST_STUDENTS_SUCCESS,
@@ -31,7 +34,7 @@ export const assignClass = (classGrade, classSection) => {
     dispatch({ type: ASSIGN_CLASS_PENDING });
     const { token } = getState().auth;
     axios
-      .get(URLst+`api/v1/classes/`, {
+      .get(URLst + `api/v1/classes/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -98,7 +101,7 @@ export const createClass = (classGrade, classSection) => {
     const { token } = getState().auth;
     axios
       .post(
-        URLst+`api/v1/classes`,
+        URLst + `api/v1/classes`,
         {
           section: classSection,
           grade: classGrade,
@@ -142,7 +145,7 @@ export const assignStudent = (studentIds, classIdData) => {
     const { token } = getState().auth;
     axios
       .patch(
-        URLst+`api/v1/students/assignClass`,
+        URLst + `api/v1/students/assignClass`,
         {
           studentsId: studentIds,
           classId: classIdData,
@@ -184,7 +187,7 @@ export const assignTeacher = (
     const { token } = getState().auth;
     axios
       .post(
-        URLst+`api/v1/classes/teacher`,
+        URLst + `api/v1/classes/teacher`,
         {
           teacherId: teacherIds,
           classId: classIdData,
@@ -213,6 +216,86 @@ export const assignTeacher = (
           dispatch(errorMessage(errorData));
         }
         dispatch({ type: ASSIGN_TEACHERS_FAILED, payload: errorData });
+      });
+  };
+};
+
+export const updateClassTeacher = (
+  teacherIds,
+  classIdData,
+  courseId,
+  academicYear
+) => {
+  return (dispatch, getState) => {
+    dispatch({ type: ASSIGN_TEACHERS_PENDING });
+    const { token } = getState().auth;
+    axios
+      .patch(
+        URLst + `api/v1/classes/teacher`,
+        {
+          teacherId: teacherIds,
+          classId: classIdData,
+          courseId: courseId,
+          academicYear: academicYear,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: ASSIGN_TEACHERS_SUCCESS,
+          payload: response.data.data.data,
+        });
+      })
+      .catch((err) => {
+        var errorData;
+        if (err.response != null) {
+          errorData = err.response.data.message;
+          dispatch(authErrorHandler(errorData, err.response.status));
+        } else {
+          errorData = err.message;
+          dispatch(errorMessage(errorData));
+        }
+        dispatch({ type: ASSIGN_TEACHERS_FAILED, payload: errorData });
+      });
+  };
+};
+
+export const changeHomeRoom = (teacherId, classId) => {
+  return (dispatch, getState) => {
+    dispatch({ type: CHANGE_HOME_ROOM_PENDING });
+    const { token } = getState().auth;
+    axios
+      .patch(
+        URLst + `api/v1/teacher/${teacherId}`,
+        {
+          homeroomId: classId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: CHANGE_HOME_ROOM_SUCCESS,
+          payload: response.data.data.data,
+        });
+      })
+      .catch((err) => {
+        var errorData;
+        if (err.response != null) {
+          errorData = err.response.data.message;
+          dispatch(authErrorHandler(errorData, err.response.status));
+        } else {
+          errorData = err.message;
+          dispatch(errorMessage(errorData));
+        }
+        dispatch({ type: CHANGE_HOME_ROOM_FAILED, payload: errorData });
       });
   };
 };
