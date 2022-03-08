@@ -15,6 +15,9 @@ import {
   ASSIGN_STUDENT_PENDING,
   ASSIGN_STUDENT_SUCCESS,
   ASSIGN_STUDENT_FAILED,
+  CHANGE_HOME_ROOM_PENDING,
+  CHANGE_HOME_ROOM_SUCCESS,
+  CHANGE_HOME_ROOM_FAILED,
 } from "./AssignClassActionType";
 
 const initialStateClass = {
@@ -37,6 +40,13 @@ const createClassState = {
 const assignStudentState = {
   isPending: false,
   studentId: "",
+  error: "",
+  success: "",
+};
+
+const homeRoomState = {
+  isPending: false,
+  homeRoom: null,
   error: "",
   success: "",
 };
@@ -147,6 +157,28 @@ export const assignStudentReducer = (
         error: "",
       });
     case ASSIGN_STUDENT_FAILED:
+      return Object.assign({}, state, {
+        error: action.payload,
+        isPending: false,
+        success: "",
+      });
+    default:
+      return state;
+  }
+};
+
+export const changeHomeRoomReducer = (state = homeRoomState, action = {}) => {
+  switch (action.type) {
+    case CHANGE_HOME_ROOM_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case CHANGE_HOME_ROOM_SUCCESS:
+      return Object.assign({}, state, {
+        homeRoom: action.payload,
+        isPending: false,
+        success: "Home room changed successfully",
+        error: "",
+      });
+    case CHANGE_HOME_ROOM_FAILED:
       return Object.assign({}, state, {
         error: action.payload,
         isPending: false,
