@@ -13,13 +13,6 @@ const columns = [
   },
 ];
 
-for (let i = 0; i < 46; i++) {
-  data.push({
-    key: i,
-    name: `Edward King ${i}`,
-    id: 32,
-  });
-}
 
 function AttendanceTable({ students, absenteesDataToParent,attendanceError , attendanceLoading }) {
   const [loading, setLoading] = useState(false);

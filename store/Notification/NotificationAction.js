@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as actionTypes from "./NotificationActionType";
 import URLst from "../../utils/constants";
-import { errorMessage } from "../index";
+import { errorMessage, loadingFalse, loadingTrue } from "../index";
 
 export const notificationStart = () => {
   return {
@@ -65,6 +65,7 @@ export const addNotificationFail = (error) => {
 export const getNotificationForMe = () => {
   return (dispatch, getState) => {
     dispatch(notificationStart());
+    dispatch(loadingTrue());
     const { token } = getState().auth;
     axios
       .get(URLst + `api/v1/notifications/forMe`, {
@@ -74,6 +75,8 @@ export const getNotificationForMe = () => {
       })
       .then((res) => {
         dispatch(notificationSuccess(res.data));
+    dispatch(loadingFalse());
+
       })
       .catch((err) => {
         var errorData;
@@ -84,6 +87,8 @@ export const getNotificationForMe = () => {
           dispatch(errorMessage(errorData));
         }
         dispatch(notificationFail(errorData));
+    dispatch(loadingFalse());
+
       });
   };
 };
@@ -91,6 +96,8 @@ export const getNotificationForMe = () => {
 export const getMyNotification = () => {
   return (dispatch, getState) => {
     dispatch(myNotificationStart());
+    // dispatch(loadingTrue());
+
     const { token } = getState().auth;
     axios
       .get(URLst + `api/v1/notifications/my`, {
@@ -100,6 +107,9 @@ export const getMyNotification = () => {
       })
       .then((res) => {
         dispatch(myNotificationSuccess(res.data));
+        console.log(res.data);
+    dispatch(loadingFalse());
+
       })
       .catch((err) => {
         var errorData;
@@ -110,6 +120,8 @@ export const getMyNotification = () => {
           dispatch(errorMessage(errorData));
         }
         dispatch(myNotificationFail(errorData));
+    dispatch(loadingFalse());
+
       });
   };
 };

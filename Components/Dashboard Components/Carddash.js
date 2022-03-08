@@ -51,20 +51,20 @@ function BarChart(dashboard) {
   var datesTillToday = Math.abs(dateToday - academicDayOne);
   const diffDays = Math.ceil(datesTillToday / (1000 * 60 * 60 * 24));
   var todayCount = dashboard.dashboard.today
-    ? `Today,${dashboard.dashboard.today.count}`
+    ? `1D,${dashboard.dashboard.today.count}`
     : "0";
   var lastSevenDaysCount = dashboard.dashboard.lastSevenDays
-    ? `Last Seven Days,${Number.parseFloat(
+    ? `7D,${Number.parseFloat(
         dashboard.dashboard.lastSevenDays.count / 7
       ).toFixed(2).toString()}`
     : "0";
   var lastMonthCount = dashboard.dashboard.lastMonth
-    ? `Last Month,${Number.parseFloat(
+    ? `30D,${Number.parseFloat(
         dashboard.dashboard.lastMonth.count / 20
       ).toFixed(2).toString()}`
     : "0";
   var lastYearCount = dashboard.dashboard.lastYear
-    ? `Last Year,${Number.parseFloat(
+    ? `1Yr,${Number.parseFloat(
         dashboard.dashboard.lastYear.count / diffDays
       ).toFixed(2).toString()}`
     : "0";
@@ -84,8 +84,9 @@ function BarChart(dashboard) {
       Absentees: splitValues[1],
     });
   });
-
+console.log(chartData);
   return (
+    
     <Chart
       height={300}
       padding="auto"

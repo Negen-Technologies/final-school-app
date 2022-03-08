@@ -12,6 +12,7 @@ import {
   useTheme,
   registerTheme,
   getTheme,
+  
 } from "bizcharts";
 import { connect } from "react-redux";
 import { primary_color } from "../../utils/constants";
@@ -51,7 +52,7 @@ registerShape("interval", "sliceShape", {
   },
 });
 
-function SliderChart(getAllStudents) {
+function SliderChart({getAllStudents, userStats}) {
   const [theme, setTheme] = useTheme("my-theme");
   var male = 0;
   var female = 0;
@@ -65,20 +66,29 @@ function SliderChart(getAllStudents) {
       value: 0,
     },
   ];
-  getAllStudents.getAllStudents.students.forEach((element) => {
+  if(userStats) {
+    data.forEach((element) => {
+      if (element.type === "Female") {
+        element.value = userStats.female;
+      } else {
+        element.value = userStats.male;
+      }
+    });
+  }
+  getAllStudents.students.forEach((element) => {
     if (element.sex === "Male") {
       male++;
     } else {
       female++;
     }
   });
-  data.forEach((element) => {
-    if (element.type === "Female") {
-      element.value = female;
-    } else {
-      element.value = male;
-    }
-  });
+  // data.forEach((element) => {
+  //   if (element.type === "Female") {
+  //     element.value = female;
+  //   } else {
+  //     element.value = male;
+  //   }
+  // });
   return (
     <Chart data={data} height={190} theme={theme} width={190} autoFit>
       <Coordinate type="theta" radius={1.0} innerRadius={0.9} />

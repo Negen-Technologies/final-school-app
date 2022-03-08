@@ -11,7 +11,7 @@ export * from "./UserManagement/admin/allAdminAction";
 export * from "./UserManagement/teachers/allTeachersAction";
 export * from "./UserManagement/users/allUsersAction";
 export * from "./SingleStudentAttendance/singleStudentAttendanceAction";
-export * from "./CreateTeacher/createTeacherAction";
+export * from "./CreateTeacher/CreateTeacherAction";
 export * from "./ParentOverview/parentOverviewAction";
 
 export * from "./singleStudentInfo/singleStudentInfoAction";

@@ -20,6 +20,7 @@ import { FilterOutlined } from "@ant-design/icons";
 import { primary_color } from "../utils/constants";
 import { getClassList } from "../store/ClassList/ClassListAction";
 import { classRankAction } from "../store/ClassRank/classRankAction";
+import { userStatsAction } from "../store/UserStats/userStatsAction";
 
 function HomePage({
   getAttendanceStat,
@@ -34,6 +35,8 @@ function HomePage({
   classList,
   classRank,
   classRankAction,
+  userStatsAction,
+  userStats
 }) {
   const [selectedClass, setSelectedClass] = useState("");
   const [classWithCourse, setClassWithCourse] = useState([]);
@@ -48,7 +51,9 @@ function HomePage({
     getAttendanceStat();
     getAllStudents();
     getClassList();
-    loadingFalse();
+    userStatsAction();
+    // loadingFalse();
+
   }, []);
 
   useEffect(() => {
@@ -66,106 +71,105 @@ function HomePage({
     }
   }, [classList]);
 
-  useEffect(() => {
-    if (classRank.studentRank.length > 0) {
-      dataTop.push(
+  classRank.length > 0
+    ? dataTop.push(
         {
           title: `${
-            classRank.studentRank[0].rank +
+            classRank[0].rank +
             " " +
-            classRank.studentRank[0].firstName +
-            classRank.studentRank[0].lastName +
+            classRank[0].firstName +
+            classRank[0].lastName +
             " " +
             "(" +
-            classRank.studentRank[0].average +
+            classRank[0].average +
             "%)"
           }`,
         },
-        classRank.studentRank.length > 1
+        classRank.length > 1
           ? {
               title: `${
-                classRank.studentRank[1].rank +
+                classRank[1].rank +
                 "  " +
-                classRank.studentRank[1].firstName +
+                classRank[1].firstName +
                 " " +
-                classRank.studentRank[1].lastName +
+                classRank[1].lastName +
                 " " +
                 "(" +
-                classRank.studentRank[1].average +
+                classRank[1].average +
                 "%)"
               }`,
             }
           : {},
-        classRank.studentRank.length > 2
+        classRank.length > 2
           ? {
               title: `${
-                classRank.studentRank[2].rank +
+                classRank[2].rank +
                 "  " +
-                classRank.studentRank[2].firstName +
-                classRank.studentRank[2].lastName +
+                classRank[2].firstName +
+                classRank[2].lastName +
                 " " +
                 "(" +
-                classRank.studentRank[2].average +
+                classRank[2].average +
                 "%)"
               }`,
             }
           : {}
-      );
+      )
+    : {};
 
-      //DATA BOTTOM
-      dataBottom.push(
+    classRank.length > 0
+    ? dataBottom.push(
         {
           title: `${
-            classRank.studentRank[classRank.studentRank.length - 1].rank +
+            classRank[classRank.length - 1].rank +
             "  " +
-            classRank.studentRank[classRank.studentRank.length - 1].firstName +
+            classRank[classRank.length - 1].firstName +
             " " +
-            classRank.studentRank[classRank.studentRank.length - 1].lastName +
+            classRank[classRank.length - 1].lastName +
             " " +
             "(" +
-            classRank.studentRank[classRank.studentRank.length - 1].average +
+            classRank[classRank.length - 1].average +
             "%)"
           }`,
         },
-        classRank.studentRank.length > 1
+        classRank.length > 1
           ? {
               title: `${
-                classRank.studentRank[classRank.studentRank.length - 2].rank +
+                classRank[classRank.length - 2].rank +
                 "  " +
-                classRank.studentRank[classRank.studentRank.length - 2]
+                classRank[classRank.length - 2]
                   .firstName +
                 " " +
-                classRank.studentRank[classRank.studentRank.length - 2]
+                classRank[classRank.length - 2]
                   .lastName +
                 " " +
                 "(" +
-                classRank.studentRank[classRank.studentRank.length - 2]
+                classRank[classRank.length - 2]
                   .average +
                 "%)"
               }`,
             }
           : {},
-        classRank.studentRank.length > 2
+        classRank.length > 2
           ? {
               title: `${
-                classRank.studentRank[classRank.studentRank.length - 3].rank +
+                classRank[classRank.length - 3].rank +
                 "  " +
-                classRank.studentRank[classRank.studentRank.length - 3]
+                classRank[classRank.length - 3]
                   .firstName +
                 " " +
-                classRank.studentRank[classRank.studentRank.length - 3]
+                classRank[classRank.length - 3]
                   .lastName +
                 " " +
                 "(" +
-                classRank.studentRank[classRank.studentRank.length - 3]
+                classRank[classRank.length - 3]
                   .average +
                 "%)"
               }`,
             }
           : {}
-      );
-    }
-  }, [classRank]);
+      )
+    : {};
 
   return (
     <div>
@@ -196,7 +200,7 @@ function HomePage({
                     borderRadius: "10px",
                   }}
                 >
-                  <SliderChart />
+                  <SliderChart userStats={userStats} />
                 </div>
               </Col>
               <Col xs={12} lg={12} xl={12}>
@@ -365,7 +369,8 @@ const mapStateToProps = (state) => {
     myNotification: state.myNotification,
     notification: state.notification,
     classList: state.classList.classes,
-    classRank: state.classRank,
+    classRank: state.classRank.studentRank,
+    userStats: state.userStats.stats
   };
 };
 
@@ -379,6 +384,7 @@ const mapDispatchToProps = (dispatch) => {
     getNotificationForMe: (value) => dispatch(getNotificationForMe(value)),
     getClassList: () => dispatch(getClassList()),
     classRankAction: (classId) => dispatch(classRankAction(classId)),
+    userStatsAction: () => dispatch(userStatsAction()),
   };
 };
 
