@@ -7,11 +7,11 @@ import { primary_color } from "../utils/constants";
 export function testLogin({ userData, authLogin }) {
   if (userData.token) {
     if (userData.data.role == "admin") {
-      Router.push("/HomePage");
+      Router.replace("/HomePage");
     } else if (userData.data.role == "teacher") {
-      Router.push("/HomePage");
+      Router.replace("/teacherHomePage");
     } else if (userData.data.role == "parent") {
-      Router.push("/parent-overview-page");
+      Router.replace("/parent-overview-page");
     }
   }
   const [phoneNumber, setPhoneNumber] = useState("");

@@ -45,19 +45,13 @@ export const createAttendance = (studentsId, date, classId) => {
       )
       .then((res) => {
         const message = res.data.message;
-
-        dispatch(createAttendanceSuccess(res.data.data.days));
-        // dispatch({
-        //   type: actionTypes.CREATE_ATTENDANCE_SUCCESS,
-        //   payload: {
-        //     payload: res.data.data.data,
-        //     count: res.data.data.data.count,
-        //     classId: classId,
-        //   },
-        // });
+console.log(res.data)
+        dispatch(createAttendanceSuccess(res.data));
+        
       })
       .catch((err) => {
         var errorData;
+        console.log(errorData)
         if (err.response != null) {
           errorData = err.response.data.message;
         } else {

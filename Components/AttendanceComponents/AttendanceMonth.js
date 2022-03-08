@@ -1,5 +1,6 @@
 import { Calendar } from "antd";
 import moment from "moment";
+import getConfig from "next/config";
 
 moment.updateLocale("en", {
   weekdaysMin: ["S", "M", "T", "W", "T", "F", "S"],
@@ -7,11 +8,14 @@ moment.updateLocale("en", {
 
 export default function AttendanceMonth({ day, absentDays, width }) {
   const date = new Date(day);
-
-  const maxmonth=parseInt(moment().format("DD-MM-YYYY").split('-')[1])
-  const maxdate=parseInt(moment().format("DD-MM-YYYY").split('-')[0])
-
+  const { publicRuntimeConfig } = getConfig();
+  const maxmonth = parseInt(moment().format("DD-MM-YYYY").split("-")[1]);
+  const maxdate = parseInt(moment().format("DD-MM-YYYY").split("-")[0]);
+  const maxyear = parseInt(moment().format("DD-MM-YYYY").split("-")[2]);
+  
   const absentOn = absentDays;
+
+  const noClassDays = publicRuntimeConfig.noClassDates;
 
   function dateCellRender(value) {
 
@@ -22,8 +26,11 @@ export default function AttendanceMonth({ day, absentDays, width }) {
             ? {
                 height: "40px",
                 width: width ? "60px" : "35px",
-              }:
-              value.format('dddd').toString()==="Saturday"|| value.format('dddd').toString()==="Sunday" ?{
+              }
+            : value.format("dddd").toString() === "Saturday" ||
+              value.format("dddd").toString() === "Sunday" ||
+              noClassDays.includes(value.format("DD-MM-YYYY"))
+            ? {
                 backgroundColor: "#EBEBE4",
                 width: width ? "60px" : "35px",
                 height: "40px",
@@ -34,26 +41,37 @@ export default function AttendanceMonth({ day, absentDays, width }) {
                 width: width ? "60px" : "35px",
                 height: "40px",
               }
-              :maxmonth<value.month()+1||maxmonth===value.month()+1&&maxdate<=value.date()?
-              {
+            : value.year() < maxyear
+            ? {
+                backgroundColor: "#9ec583",
+                width: width ? "60px" : "35px",
+                height: "40px",
+              }
+            : maxmonth < value.month() + 1 ||
+              (maxmonth === value.month() + 1 && maxdate <= value.date())
+            ? {
                 backgroundColor: "#bbb",
                 width: width ? "60px" : "35px",
                 height: "40px",
-              }:
-             {
+              }
+            : {
                 backgroundColor: "#9ec583",
                 width: width ? "60px" : "35px",
                 height: "40px",
               }
         }
       >
-        <h1 style={{ color:maxmonth===value.month()+1&&maxdate===value.date()?"green": "white", fontSize: "15px", paddingTop: "6px" }}>
-          {value.month() != date.getUTCMonth() ? <div>
-
-
-
-
-          </div> : value.date()}
+        <h1
+          style={{
+            color:
+              maxmonth === value.month() + 1 && maxdate === value.date()
+                ? "green"
+                : "white",
+            fontSize: "15px",
+            paddingTop: "6px",
+          }}
+        >
+          {value.month() != date.getUTCMonth() ? <div></div> : value.date()}
         </h1>
       </div>
     );
@@ -92,8 +110,8 @@ export default function AttendanceMonth({ day, absentDays, width }) {
           var month = date.getUTCMonth(); //months from 1-12
           return current && current.month() != month;
         }}
-        onSelect={(date) => {
-        }}
+        onSelect={(date) => {}}
+        
         dateFullCellRender={dateCellRender}
         headerRender={() => (
           <div

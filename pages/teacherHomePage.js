@@ -65,13 +65,7 @@ function teacherHomePage({
       : null;
   }, [teacherGetMe]);
 
-  for (let i = 10; i < 36; i++) {
-    const value = i.toString(36) + i;
-    options.push({
-      label: `neymar: ${value}`,
-      value,
-    });
-  }
+ 
 
   classRank.studentRank.length > 0
     ? dataTop.push(

@@ -20,7 +20,7 @@ const createAttendanceStart = (state) => {
 const createAttendanceSuccess = (state, action) => {
   return {
     ...state,
-    filledAttendance: action.message.rows,
+    filledAttendance: action,
     count: action.message.count,
     error: null,
     loading: false,
