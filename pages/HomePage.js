@@ -265,7 +265,7 @@ function HomePage({
             </Row>
 
             <Row>
-              <Col xs={18} lg={12} xl={12}>
+              <Col xs={18} sm={18} lg={12} xl={12}>
                 <h1
                   style={{
                     textAlign: "center",
@@ -287,7 +287,7 @@ function HomePage({
                   col={primary_color}
                 />
               </Col>
-              <Col xs={18} lg={12} xl={12}>
+              <Col xs={18} sm={18} lg={12} xl={12}>
                 <h1
                   style={{
                     textAlign: "center",

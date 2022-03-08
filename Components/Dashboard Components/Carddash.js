@@ -79,7 +79,6 @@ function BarChart(dashboard) {
   attendanceValues.forEach((element) => {
     var splitValues = element.split(",");
     chartData.push({
-      Name: "Attendance",
       When: splitValues[0],
       Absentees: splitValues[1],
     });
