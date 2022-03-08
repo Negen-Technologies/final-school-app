@@ -41,7 +41,6 @@ function HomePage({
   const [selectedClass, setSelectedClass] = useState("");
   const [classWithCourse, setClassWithCourse] = useState([]);
   var classCourse = [];
-
   const dataTop = [];
   const dataBottom = [];
 
@@ -55,6 +54,7 @@ function HomePage({
     // loadingFalse();
 
   }, []);
+  
 
   useEffect(() => {
     var listClass = [];
