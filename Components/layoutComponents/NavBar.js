@@ -6,10 +6,15 @@ import {
   Col,
   Drawer,
   Row,
-  Tooltip,
   Popconfirm,
+  Popover,
 } from "antd";
-import { MenuOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  MenuOutlined,
+  LogoutOutlined,
+  UserOutlined,
+  DownOutlined,
+} from "@ant-design/icons";
 import useWindowSize from "../../utils/windowsSize";
 import { connect } from "react-redux";
 import {
@@ -111,17 +116,17 @@ function NavBar({
               }}
             ></div>
             <span className="avatar-item">
-              <Badge count={1}>
+              
                 <Avatar
-                  onClick={() => {
-                    Router.push("/profile");
-                  }}
                   shape="circle"
                   size="large"
-                  src="/sampleWoman.jpg"
+                  src={
+                    userData.data.url != null
+                      ? userData.data.url
+                      : "/sampleWoman.jpg"
+                  }
                   icon={<UserOutlined />}
                 />
-              </Badge>
             </span>
             <h1
               style={{
@@ -132,22 +137,46 @@ function NavBar({
             >
               Hi, {userData.data.name}
             </h1>
-            <Popconfirm
-              title="Are you sure you want to log out?"
-              onConfirm={() => {
-                loadingTrue();
-                router.replace("/Login").then(() => {
-                  logout();
-                  loadingFalse();
-                });
-              }}
-              okText="Logout"
-              cancelText="Cancel"
+            <Popover
+              placement="bottomRight"
+              content={
+                <div>
+                  <Row
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      Router.push("/profile");
+                    }}
+                  >
+                    <UserOutlined
+                      style={{ marginRight: "10px", marginTop: "4px" }}
+                    />
+                    <p>Profile</p>
+                  </Row>
+                  <Popconfirm
+                    title="Are you sure you want to log out?"
+                    onConfirm={() => {
+                      loadingTrue();
+                      router.replace("/Login").then(() => {
+                        logout();
+                        loadingFalse();
+                      });
+                    }}
+                    okText="Logout"
+                    cancelText="Cancel"
+                  >
+                    <Row style={{ cursor: "pointer" }}>
+                      <LogoutOutlined
+                        style={{ marginRight: "10px", marginTop: "4px" }}
+                      />
+                      <p>Logout</p>
+                    </Row>
+                  </Popconfirm>
+                </div>
+              }
+              trigger="hover"
             >
-              <Tooltip title="Logout">
-                <Button icon={<LogoutOutlined />}></Button>
-              </Tooltip>
-            </Popconfirm>
+              <DownOutlined style={{ marginLeft: "8px" }} />
+            </Popover>
           </Row>
         </Col>
       </Row>

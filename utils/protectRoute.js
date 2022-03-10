@@ -1,19 +1,31 @@
 import { useRouter } from "next/router";
 import Layout from "../layout";
-import { adminroutes, parentroutes, teacherroutes } from "../layout/menuLinks";
+import {
+  adminroutes,
+  parentroutes,
+  teacherroutes,
+  adminmenu,
+  parentmenu,
+  teachermenu,
+} from "../layout/menuLinks";
 import ErrorHandlingPage from "../pages/error-handling-page";
-const checkIfValueExistsInArrayOfDictionaries = (
-  value,
-  arrayOfDictionaries
-) => {
+const checkIfValueExistsInArray = (value, arrayOfDictionaries) => {
   return arrayOfDictionaries.includes(value);
 };
+
+//check If Value Exists In Array Of Dictionaries
+function checker(value, ArrayOfDictionaries) {
+  ArrayOfDictionaries.forEach((element) => {
+    console.log(element.link, value);
+    return element.link === value ? true : null;
+  });
+  return false;
+}
 
 const withAuth = (WrappedComponent) => {
   return (props) => {
     if (typeof window !== "undefined") {
       const Router = useRouter();
-      console.log(Router.pathname);
       const accessToken = localStorage.getItem("token");
       const role = localStorage.getItem("role");
 
@@ -23,30 +35,36 @@ const withAuth = (WrappedComponent) => {
       }
 
       if (role === "parent") {
-        if (
-          !checkIfValueExistsInArrayOfDictionaries(
-            Router.pathname,
-            parentroutes
-          )
-        ) {
+        if (!checkIfValueExistsInArray(Router.pathname, parentroutes)) {
           return <ErrorHandlingPage route="/parent-overview-page" />;
+        }
+        if (parentmenu.some((e) => e.link == Router.pathname)) {
+          var index = parentmenu.findIndex((element) => {
+            return element.link === Router.pathname;
+          });
+          localStorage.setItem("selectedKey", index.toString());
         }
       }
       if (role === "admin") {
-        if (
-          !checkIfValueExistsInArrayOfDictionaries(Router.pathname, adminroutes)
-        ) {
+        if (!checkIfValueExistsInArray(Router.pathname, adminroutes)) {
           return <ErrorHandlingPage route="/HomePage" />;
+        }
+        if (adminmenu.some((e) => e.link == Router.pathname)) {
+          var i = adminmenu.findIndex((element) => {
+            return element.link === Router.pathname;
+          });
+          localStorage.setItem("selectedKey", i.toString());
         }
       }
       if (role === "teacher") {
-        if (
-          !checkIfValueExistsInArrayOfDictionaries(
-            Router.pathname,
-            teacherroutes
-          )
-        ) {
+        if (!checkIfValueExistsInArray(Router.pathname, teacherroutes)) {
           return <ErrorHandlingPage route="/teacherHomePage" />;
+        }
+        if (teachermenu.some((e) => e.link == Router.pathname)) {
+          var index = teachermenu.findIndex((element) => {
+            return element.link === Router.pathname;
+          });
+          localStorage.setItem("selectedKey", index.toString());
         }
       }
       if (

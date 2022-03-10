@@ -12,7 +12,6 @@ export function index(props) {
       props.loadingFalse();
       Router.push("/Login");
     } else {
-      localStorage.setItem("selectedKey", '0');
       Router.push("/HomePage");
     }
   });
