@@ -36,7 +36,7 @@ function HomePage({
   classRank,
   classRankAction,
   userStatsAction,
-  userStats
+  userStats,
 }) {
   const [selectedClass, setSelectedClass] = useState("");
   const [classWithCourse, setClassWithCourse] = useState([]);
@@ -52,9 +52,7 @@ function HomePage({
     getClassList();
     userStatsAction();
     // loadingFalse();
-
   }, []);
-  
 
   useEffect(() => {
     var listClass = [];
@@ -81,7 +79,7 @@ function HomePage({
             classRank[0].lastName +
             " " +
             "(" +
-            classRank[0].average +
+            (classRank[0].average ? classRank[0].average : " _") +
             "%)"
           }`,
         },
@@ -95,7 +93,7 @@ function HomePage({
                 classRank[1].lastName +
                 " " +
                 "(" +
-                classRank[1].average +
+                (classRank[1].average ? classRank[1].average : " _") +
                 "%)"
               }`,
             }
@@ -109,7 +107,7 @@ function HomePage({
                 classRank[2].lastName +
                 " " +
                 "(" +
-                classRank[2].average +
+                (classRank[2].average ? classRank[2].average : " _") +
                 "%)"
               }`,
             }
@@ -117,7 +115,7 @@ function HomePage({
       )
     : {};
 
-    classRank.length > 0
+  classRank.length > 0
     ? dataBottom.push(
         {
           title: `${
@@ -128,7 +126,9 @@ function HomePage({
             classRank[classRank.length - 1].lastName +
             " " +
             "(" +
-            classRank[classRank.length - 1].average +
+            (classRank[classRank.length - 1].average
+              ? classRank[classRank.length - 1].average
+              : " _") +
             "%)"
           }`,
         },
@@ -137,15 +137,14 @@ function HomePage({
               title: `${
                 classRank[classRank.length - 2].rank +
                 "  " +
-                classRank[classRank.length - 2]
-                  .firstName +
+                classRank[classRank.length - 2].firstName +
                 " " +
-                classRank[classRank.length - 2]
-                  .lastName +
+                classRank[classRank.length - 2].lastName +
                 " " +
                 "(" +
-                classRank[classRank.length - 2]
-                  .average +
+                (classRank[classRank.length - 2].average
+                  ? classRank[classRank.length - 2].average
+                  : " _") +
                 "%)"
               }`,
             }
@@ -155,15 +154,14 @@ function HomePage({
               title: `${
                 classRank[classRank.length - 3].rank +
                 "  " +
-                classRank[classRank.length - 3]
-                  .firstName +
+                classRank[classRank.length - 3].firstName +
                 " " +
-                classRank[classRank.length - 3]
-                  .lastName +
+                classRank[classRank.length - 3].lastName +
                 " " +
                 "(" +
-                classRank[classRank.length - 3]
-                  .average +
+                (classRank[classRank.length - 3].average
+                  ? classRank[classRank.length - 3].average
+                  : " _") +
                 "%)"
               }`,
             }
@@ -172,7 +170,11 @@ function HomePage({
     : {};
 
   return (
-    <div>
+    <div
+      style={{
+        height: "85vh",
+      }}
+    >
       <Col span={24}>
         <Row>
           <Col xs={24} lg={12} xl={12}>
@@ -265,7 +267,7 @@ function HomePage({
             </Row>
 
             <Row>
-              <Col xs={18} sm={18} lg={12} xl={12}>
+              <Col xs={18} sm={12} lg={12} xl={12}>
                 <h1
                   style={{
                     textAlign: "center",
@@ -287,7 +289,7 @@ function HomePage({
                   col={primary_color}
                 />
               </Col>
-              <Col xs={18} sm={18} lg={12} xl={12}>
+              <Col xs={18} sm={12} lg={12} xl={12}>
                 <h1
                   style={{
                     textAlign: "center",
@@ -370,7 +372,7 @@ const mapStateToProps = (state) => {
     notification: state.notification,
     classList: state.classList.classes,
     classRank: state.classRank.studentRank,
-    userStats: state.userStats.stats
+    userStats: state.userStats.stats,
   };
 };
 

@@ -154,9 +154,10 @@ function StudentsFilterCriteria({
           <Col span={24}>
             <Row>
               <Col
-                xs={24}
-                sm={8}
-                xl={4}
+                xs={6}
+                sm={6}
+                lg={6}
+                xl={6}
                 style={{ marginRight: "5px" }}
                 className="gutter-row"
               >
@@ -173,9 +174,10 @@ function StudentsFilterCriteria({
                 </Select>
               </Col>
               <Col
-                xs={24}
-                sm={8}
-                xl={4}
+                xs={6}
+                sm={6}
+                lg={6}
+                xl={6}
                 style={{ marginRight: "5px" }}
                 className="gutter-row"
               >
@@ -191,9 +193,10 @@ function StudentsFilterCriteria({
                 </Select>
               </Col>
               <Col
-                xs={24}
-                sm={8}
-                xl={4}
+                xs={6}
+                sm={6}
+                lg={6}
+                xl={6}
                 style={{ marginRight: "5px" }}
                 className="gutter-row"
               >
@@ -229,9 +232,10 @@ function StudentsFilterCriteria({
             </Row>
             <Row>
               <Col
-                xs={24}
-                sm={8}
-                xl={12}
+                xs={6}
+                sm={6}
+                lg={6}
+                xl={6}
                 style={{ marginRight: "5px", paddingTop: "10px" }}
               >
                 <Button
@@ -328,7 +332,9 @@ function StudentsFilterCriteria({
         ) : (
           <Row>
             <Col
-              xs={24}
+              xs={6}
+              sm={6}
+              lg={6}
               xl={6}
               style={{ marginRight: "5px" }}
               className="gutter-row"
@@ -346,7 +352,9 @@ function StudentsFilterCriteria({
               </Select>
             </Col>
             <Col
-              xs={24}
+              xs={6}
+              sm={6}
+              lg={6}
               xl={6}
               style={{ marginRight: "5px" }}
               className="gutter-row"
@@ -363,7 +371,10 @@ function StudentsFilterCriteria({
               </Select>
             </Col>
 
-            <Col xs={24} xl={6} style={{ marginRight: "5px" }}>
+            <Col xs={6}
+                sm={6}
+                lg={6}
+                xl={6} style={{ marginRight: "5px" }}>
               <Button
                 type="primary"
                 style={{
