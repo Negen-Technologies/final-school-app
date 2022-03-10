@@ -134,6 +134,7 @@ export const adminroutes = [
   "/gradeChange",
   "/gradeChangeLogs",
   "/SingleStudent",
+  "/profile",
 ];
 export const parentroutes = [
   "/parent-overview-page",
@@ -151,4 +152,5 @@ export const teacherroutes = [
   "/notifications",
   "/gradeChange",
   "/adminAttendancePage",
+  "/profile",
 ];

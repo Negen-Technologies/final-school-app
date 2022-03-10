@@ -1,37 +1,30 @@
 import React, { useState, useEffect } from "react";
 import {
-  Layout,
-  Menu,
   Avatar,
   Input,
   Form,
   Space,
-  Row,
   Button,
   Modal,
-  Col,
   Upload,
-  Select
+  Select,
 } from "antd";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
-import { EditOutlined } from "@ant-design/icons";
+import { EditOutlined, LoadingOutlined } from "@ant-design/icons";
 import { changeProfileAction } from "../../store/ChangeProfile/changeProfileAction";
-const { SubMenu } = Menu;
-const { Header, Content, Footer, Sider } = Layout;
+import storage from "../../utils/firebaseUpload";
 
-const { Option } = Select;
-
-
-
-
-function ProfileLayout({ changeProfile, userData, courses}) {
+function ProfileLayout({ changeProfileData, userData, courses,changeProfile }) {
   const [fileList, setFileList] = useState([]);
+  const [uploading, setUploading] = useState(false);
+  const [imageFile, setImageFile] = useState('');
+  const [imageUrl, setImageUrl] = useState("");
   const [qualiCourseList, setQualiCourseList] = useState([]);
   const [myClassList, setMyClassList] = useState([]);
-  const [imageFile, setImageFile] = useState(null);
   const [form] = Form.useForm();
   const router = useRouter();
+console.log(changeProfileData)
 
   useEffect(() => {
     if (userData.token) {
@@ -48,8 +41,8 @@ function ProfileLayout({ changeProfile, userData, courses}) {
         for (let i = 0; i < userData.data.myClasses.length.length; i++) {
           const updateMyClass = [
             ...myClassList,
-            `${userData.data.myClasses[i].courseInformation.name} Grade${userData.data.myClasses[i].courseInformation.grade}`
-          ]
+            `${userData.data.myClasses[i].courseInformation.name} Grade${userData.data.myClasses[i].courseInformation.grade}`,
+          ];
         }
         setMyClassList(updateMyClass);
       }
@@ -68,40 +61,92 @@ function ProfileLayout({ changeProfile, userData, courses}) {
         myClasses: myClassList,
         qualifiesCourses: qualiCourseList,
       });
-
     }
   });
+
+  const onUploadSuccess=(image)=>{
+      setFileList([]);
+      image.status = "done";
+      image.url = imageUrl;
+      image.thumbUrl = imageUrl;
+      image.percent=100;
+      const newFileList = [image];
+      setFileList(newFileList);
+  }
+  const onUploadError=(image)=>{
+      setFileList([]);
+      image.status = "error";
+      image.url = '';
+      image.thumbUrl = '';
+      image.percent=0;
+      const newFileList = [image];
+      setFileList(newFileList);
+  }
+  const uploadImg = async (image) => {
+    if (image == null) return;
+    setImageUrl("Getting Download Link...");
+    // Sending File to Firebase Storage
+
+          storage
+      .ref(`/images/${image.name}`)
+      .put(image)
+      .then(() => {
+        storage
+          .ref("images")
+          .child(image.name)
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url)
+            setImageUrl(url);
+            onUploadSuccess(image);
+            setUploading(false);
+          }).catch((err) => {
+            console.log('err')
+
+            setImageUrl('');
+        onUploadError(image);
+        setUploading(false);
+      });
+
+      })
+ 
+
+  };
 
   const props = {
     onRemove: (file) => {
       setFileList([]);
     },
-    beforeUpload: (file) => {
+    onChange: (info) => {
+      setUploading(true);
       setFileList([]);
-      const newFileList = [file];
+      uploadImg(info.file);
 
-      setFileList(newFileList);
-      setImageFile(URL.createObjectURL(file));
+    },
+    beforeUpload: async (file) => {
+      setImageFile(URL.createObjectURL(file)) 
     },
     fileList,
   };
 
+
   function success() {
     Modal.success({
-      title: changeProfile.message ,
+      title: changeProfileData.message,
     });
   }
-  if(changeProfile.message){
-    success()
+  if (changeProfileData.message) {
+    success();
   }
-const onSubmit = (checkedValues) => {
-
+  const onSubmit = (checkedValues) => {
+    checkedValues['url'] = imageUrl;
+    console.log(checkedValues);
     changeProfile(checkedValues);
-}
+  };
 
   return (
     <div>
-      <div style={{ textAlign: "center"}}>
+      <div style={{ textAlign: "center" }}>
         <Form
           size="large"
           form={form}
@@ -114,41 +159,38 @@ const onSubmit = (checkedValues) => {
             lg: { span: 12, offset: 6 },
             xl: { span: 12, offset: 6 },
           }}
-
         >
           <div style={{ marginBottom: 40, marginTop: "5%" }}>
             <Upload
               {...props}
-              showUploadList={false}
+              showUploadList={{showRemoveIcon:false,showPreviewIcon:false,showDownloadIcon:false}}
               accept=".jpg, .jpeg, .png"
             >
               <Space align="end">
                 <Avatar
                   offset={5}
                   size={{ xs: 80, sm: 80, md: 100, lg: 140, xl: 140, xxl: 140 }}
-                  src={imageFile}
+                  src={uploading?"":imageFile}
                 >
-                  Name
+                  {uploading?<LoadingOutlined style={{color:"blue"}}/>:"Profile"}
                 </Avatar>
                 <EditOutlined />
               </Space>
             </Upload>
           </div>
           <Form.Item
-                  name="fName"
-                  
-                  rules={[{ required: true, message: "Missing first name" }]}
-                >
-                  <Input placeholder="First Name" />
-                </Form.Item>
-                <Form.Item
-                  name="lName"
-                  
-                  rules={[{ required: true, message: "Missing last name" }]}
-                >
-                  <Input placeholder="Last Name" />
-                </Form.Item>
-       
+            name="fName"
+            rules={[{ required: true, message: "Missing first name" }]}
+          >
+            <Input placeholder="First Name" />
+          </Form.Item>
+          <Form.Item
+            name="lName"
+            rules={[{ required: true, message: "Missing last name" }]}
+          >
+            <Input placeholder="Last Name" />
+          </Form.Item>
+
           <Form.Item
             name="email"
             rules={[
@@ -166,23 +208,21 @@ const onSubmit = (checkedValues) => {
           </Form.Item>
           <Form.Item
             name="Phone"
-            rules={[
-              { required: true, message: "Missing Phone Number" },
-              
-            ]}
+            rules={[{ required: true, message: "Missing Phone Number" }]}
           >
-            <Input disabled={true} placeholder="Phone Number" addonBefore="+251" />
+            <Input
+              disabled={true}
+              placeholder="Phone Number"
+              addonBefore="+251"
+            />
           </Form.Item>
           {userData.data.role == "teacher" ? (
             <div>
-              <Form.Item
-              name="myClasses"
-              >
+              <Form.Item name="myClasses">
                 <div>
                   <p>My Classes</p>
                   <Select
                     mode="multiple"
-                    
                     style={{ width: "100%" }}
                     placeholder="Please select"
                     defaultValue={["a10", "c12"]}
@@ -192,9 +232,7 @@ const onSubmit = (checkedValues) => {
                 </div>
               </Form.Item>
 
-              <Form.Item
-              name="qualifiesCourses"
-              >
+              <Form.Item name="qualifiesCourses">
                 <div>
                   <p>Qualified Courses</p>
 
@@ -204,7 +242,6 @@ const onSubmit = (checkedValues) => {
                     style={{ width: "100%" }}
                     placeholder="Please select"
                     defaultValue={["Physics", "Chemistry"]}
-                   
                   >
                     {qualiCourseList}
                   </Select>
@@ -230,8 +267,8 @@ const onSubmit = (checkedValues) => {
               htmlType="submit"
               className="login-form-button"
               style={{ marginLeft: 30 }}
-              loading={userData.loading}
-              
+              loading={changeProfileData.isPending}
+              disabled={uploading}
             >
               Submit
             </Button>
@@ -246,14 +283,14 @@ const onSubmit = (checkedValues) => {
 const mapStateToProps = (state) => {
   return {
     userData: state.auth,
-    changeProfile: state.changeProfile
+    changeProfileData: state.changeProfile,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    changeProfile: (checkedValues) => dispatch(changeProfileAction(checkedValues))
-    
+    changeProfile: (checkedValues) =>
+      dispatch(changeProfileAction(checkedValues)),
   };
 };
 

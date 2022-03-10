@@ -37,6 +37,7 @@ export const changeProfileAction = (values) => {
         name: values.fName + " " + values.lName,
         email: values.email,
         phoneNumber: values.Phone,
+        url: values.url,
       },
 
       headers: {
@@ -45,7 +46,7 @@ export const changeProfileAction = (values) => {
     })
       .then((res) => {
         dispatch(authSuccess(token, res.data.data));
-
+        console.log(res.data.data);
         dispatch(changeProfileSuccess());
       })
       .catch((err) => {

@@ -4,7 +4,7 @@ import withAuth from "../utils/protectRoute";
 import { connect } from "react-redux";
 import { changeProfileAction } from "../store/index";
 
-function profile({ userData, changeProfile, onFinish }) {
+function profile({ userData, changeProfile, }) {
   return (
     <div>
       <ProfileLayout
@@ -12,7 +12,6 @@ function profile({ userData, changeProfile, onFinish }) {
         userData={userData}
         onFinish={(checkedValues) => {
           checkedValues.Phone = "251" + checkedValues.Phone;
-          changeProfile(checkedValues);
         }}
       />
     </div>
