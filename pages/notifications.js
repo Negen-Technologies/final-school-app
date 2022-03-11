@@ -26,7 +26,7 @@ function Notifications({
     getNotificationForMe();
     getMyNotification();
   }, []);
-  const en = ["all", "grade", "class", "student", "user"];
+  const en = ["all", "grade", "student", "user"];
   const [notFor, setNotFor] = useState("");
   const [text, setText] = useState("");
   const [title, setTitle] = useState("");
@@ -34,6 +34,8 @@ function Notifications({
   const [userId, setUserId] = useState("");
   const [studentId, setStudentId] = useState("");
   const [classId, setClassId] = useState("");
+
+  addNotificationR.success ? window.location.reload(false) : null;
 
   const onFinish = () => {
     if (notFor === "user") {
@@ -137,22 +139,26 @@ function Notifications({
                       onChange={(val) => setGrade(val.target.value)}
                       placeholder="Please enter the grade"
                       type={"number"}
+                      min={0}
+                      max={12}
                     ></Input>
                   </Col>
-                ) : notFor === en[2] ? (
-                  <Col xs={24} lg={12} xl={11}>
-                    <h3 style={{ marginLeft: "5px" }}>Class</h3>
-                    <Input
-                      onChange={(val) => setClassId(val.target.value)}
-                      placeholder="Please select the class"
-                    ></Input>
-                  </Col>
-                ) : notFor === en[3] ? (
+                ) 
+                // : notFor === en[2] ? (
+                //   <Col xs={24} lg={12} xl={11}>
+                //     <h3 style={{ marginLeft: "5px" }}>Class</h3>
+                //     <Input
+                //       onChange={(val) => setClassId(val.target.value)}
+                //       placeholder="Please select the class"
+                //     ></Input>
+                //   </Col>
+                // )
+                 : notFor === en[2] ? (
                   <Col xs={24} lg={12} xl={11}>
                     <h3 style={{ marginLeft: "5px" }}>Student</h3>
                     <Input
                       onChange={(val) => setStudentId(val.target.value)}
-                      placeholder="Please enter students Id"
+                      placeholder="Please enter student Id"
                     ></Input>
                   </Col>
                 ) : (
@@ -160,7 +166,7 @@ function Notifications({
                     <h3 style={{ marginLeft: "5px" }}>User</h3>
                     <Input
                       onChange={(val) => setUserId(val.target.value)}
-                      placeholder="Please enter user Id"
+                      placeholder="Please enter Id"
                     ></Input>
                   </Col>
                 )}

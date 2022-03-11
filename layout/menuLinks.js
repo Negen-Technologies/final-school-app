@@ -83,7 +83,7 @@ export const adminmenu = [
     icon: <IdcardOutlined style={{ fontSize: "26px" }} />,
   },
   {
-    name: "Grade Change",
+    name: "Assessment",
     link: "/gradeChange",
     icon: <EditOutlined style={{ fontSize: "26px" }} />,
   },
@@ -111,7 +111,7 @@ export const teachermenu = [
     icon: <NotificationOutlined style={{ fontSize: "26px" }} />,
   },
   {
-    name: "Grade Change",
+    name: "Assessment",
     link: "/gradeChange",
     icon: <EditOutlined style={{ fontSize: "26px" }} />,
   },

@@ -11,6 +11,7 @@ import {
 } from "bizcharts";
 import { connect } from "react-redux";
 import primary_color from "../../utils/constants";
+import { DoubleLeftOutlined } from "@ant-design/icons";
 
 registerTheme("my-theme", {
   defaultColor: primary_color,
@@ -25,8 +26,6 @@ registerTheme("my-theme", {
     },
   },
 });
-
-
 
 function BarChart(dashboard) {
   const [theme, setTheme] = useTheme("my-theme");
@@ -54,19 +53,19 @@ function BarChart(dashboard) {
     ? `1D,${dashboard.dashboard.today.count}`
     : "0";
   var lastSevenDaysCount = dashboard.dashboard.lastSevenDays
-    ? `7D,${Number.parseFloat(
-        dashboard.dashboard.lastSevenDays.count / 7
-      ).toFixed(2).toString()}`
+    ? `7D,${Number.parseFloat(dashboard.dashboard.lastSevenDays.count / 7)
+        .toFixed(2)
+        .toString()}`
     : "0";
   var lastMonthCount = dashboard.dashboard.lastMonth
-    ? `30D,${Number.parseFloat(
-        dashboard.dashboard.lastMonth.count / 20
-      ).toFixed(2).toString()}`
+    ? `30D,${Number.parseFloat(dashboard.dashboard.lastMonth.count / 20)
+        .toFixed(2)
+        .toString()}`
     : "0";
   var lastYearCount = dashboard.dashboard.lastYear
-    ? `1Yr,${Number.parseFloat(
-        dashboard.dashboard.lastYear.count / diffDays
-      ).toFixed(2).toString()}`
+    ? `1Yr,${Number.parseFloat(dashboard.dashboard.lastYear.count / diffDays)
+        .toFixed(2)
+        .toString()}`
     : "0";
 
   attendanceValues.push(
@@ -79,13 +78,23 @@ function BarChart(dashboard) {
   attendanceValues.forEach((element) => {
     var splitValues = element.split(",");
     chartData.push({
-      When: splitValues[0],
-      Absentees: splitValues[1],
+      when: splitValues[0],
+      absentees: parseFloat(splitValues[1]),
     });
   });
-console.log(chartData);
+  console.log(chartData);
+
+  const data = [
+    { year: "1951 年", sales: 38 },
+    { year: "1952 年", sales: 52 },
+    { year: "1956 年", sales: 61 },
+    { year: "1957 年", sales: 45 },
+    { year: "1958 年", sales: 48 },
+    { year: "1959 年", sales: 38 },
+    { year: "1960 年", sales: 38 },
+    { year: "1962 年", sales: 38 },
+  ];
   return (
-    
     <Chart
       height={300}
       padding="auto"
@@ -104,7 +113,7 @@ console.log(chartData);
           },
         ]}
         // color="name"
-        position="When*Absentees"
+        position="when*absentees"
       />
       <Tooltip shared />
       <Legend
