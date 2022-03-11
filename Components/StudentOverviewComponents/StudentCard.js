@@ -1,25 +1,26 @@
-
 import { Button, Col, Row } from "antd";
 import Avatar from "antd/lib/avatar/avatar";
 import React from "react";
-import StudentParentCard from "../StudentBioComponents/StudentParentCard"
+import StudentParentCard from "../StudentBioComponents/StudentParentCard";
 
 export default function StudentCard({ singleStudentInfo }) {
-  var info=singleStudentInfo.info
+  var info = singleStudentInfo.info;
   return (
     <div>
-      {singleStudentInfo.loading || singleStudentInfo.error ||info==null ? (
+      {singleStudentInfo.loading || singleStudentInfo.error || info == null ? (
         <div></div>
       ) : (
-        <div style={{
-          backgroundColor: '#ffffff',
-          marginTop: '10px'
-        }}>
+        <div
+          style={{
+            backgroundColor: "#ffffff",
+            marginTop: "10px",
+          }}
+        >
           <Row>
-            <Col>
+            <Col md={24} sm={24} xs={24} lg={24} xl={10}>
               <div
                 style={{
-                  width: "500px",
+                  // width: "500px",
                   paddingTop: "0",
                   //border: "1px solid black",
                   backgroundColor: "transparent",
@@ -53,7 +54,8 @@ export default function StudentCard({ singleStudentInfo }) {
                       </Row>
                       <Row>
                         <p style={{ marginBottom: "0px", fontWeight: 500 }}>
-                          Grade : {info.class != null ? info.class.grade : "Unassigned"}
+                          Grade :{" "}
+                          {info.class != null ? info.class.grade : "Unassigned"}
                         </p>
                         <p
                           style={{
@@ -62,28 +64,33 @@ export default function StudentCard({ singleStudentInfo }) {
                             marginLeft: "10px",
                           }}
                         >
-                          Section : {info.class != null ? info.class.section : "Unassigned"}
+                          Section :{" "}
+                          {info.class != null
+                            ? info.class.section
+                            : "Unassigned"}
                         </p>
                       </Row>
-                     
                     </div>
                   </Col>
                 </Row>
               </div>
             </Col>
-            <div
-              style={{
-                height: "100px",
-                width: "2px",
-                borderRadius: "50px",
-                backgroundColor: "grey",
-                marginLeft: "10px",
-                marginRight: "10px",
-              }}
-            ></div>
-            <Col flex={1}>
-              <div style={{ width: "100%", height: "100%" }}>
-                <StudentParentCard singleStudentInfo = {singleStudentInfo} />
+            <Col md={0} sm={0} xs={0} lg={0} xl={2} >
+              <div
+                style={{
+                  height: "100px",
+                  width: "2px",
+                  borderRadius: "50px",
+                  backgroundColor: "grey",
+                  marginLeft: "10px",
+                  marginRight: "10px",
+                }}
+              ></div>
+            </Col>
+
+            <Col flex={1} md={24} sm={24} xs={24} lg={24} xl={10}>
+              <div style={{ height: "100%" }}>
+                <StudentParentCard singleStudentInfo={singleStudentInfo} />
               </div>
             </Col>
           </Row>

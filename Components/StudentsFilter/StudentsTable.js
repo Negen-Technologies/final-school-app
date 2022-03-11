@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import { Col, Input, Row, Table, Button } from "antd";
+import { Col, Input, Row, Table, Button, Modal } from "antd";
 import { connect } from "react-redux";
 import { setStudentsId } from "../../store/StudentFilter/StudentFilterAction";
 import { getSingleStudentAttendance } from "../../store/SingleStudentAttendance/singleStudentAttendanceAction"
 import {getSingleStudentInfo} from "../../store/singleStudentInfo/singleStudentInfoAction"
+import {updateSingleStudentInfo} from "../../store/singleStudentInfo/singleStudentInfoAction"
+import EditChildForm from "../CreateChild/EditChildForm"
 
 const dataSource = [];
 var studentsList = [];
 
-function StudentTable({ students, mini, getid, studentAttendanceAction, studentInfoAction, setStudentId, detail = false }) {
+function StudentTable({ students, mini, getid, studentAttendanceAction, studentInfoAction, setStudentId, updateSingleStudentInfo, detail = false }) {
+  const [visible, setVisible] = useState(false);
+  const [studId, setStudId] = useState('');
+  
   const columns = [
     {
       title: "Name",
@@ -25,6 +30,26 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
     {
       title: "Section",
       dataIndex: "section",
+    },
+    {
+      title: "",
+      dataIndex: "opration",
+      render: (_, record) => (
+        <Button
+          type="default"
+          style={{
+            width: 120,
+            marginBottom: "2px",
+          }}
+          onClick={() => {
+            var id = record.id;
+            setStudId(id);
+            showModal()
+          }}
+        >
+          Edit
+        </Button>
+      ),
     },
     {
       title: "",
@@ -78,8 +103,8 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
           }}
           onClick={() => {
             var id = record.id;
-
             setStudentId(id);
+
           }}
         >
           View Card
@@ -87,6 +112,18 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
       ),
     },
   ];
+
+  const showModal = () => {
+    setVisible(true);
+  };
+  const handleOk = () => {
+    setVisible(false);
+
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
 
   const [searchField, setsearchField] = useState("");
 
@@ -131,6 +168,31 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
           scroll={{ x: true }}
           pagination={{ pageSize: 6 }}
         />
+        <Modal
+        title="Edit Student Profile"
+        visible={visible}
+        onCancel={handleCancel}
+        // width={"65vw"}
+        // disabled={reason != ""}
+        bodyStyle={{ width: "100%" }}
+        footer={[
+          <Button
+            type="primary"
+            key="ok"
+            style={{
+              width: 200,
+              marginLeft: "10px",
+            }}
+            onClick={handleOk}
+            // loading={loading}
+            //   error={error}
+          >
+            Ok
+          </Button>,
+        ]}
+      >
+        <EditChildForm studentId= {studId} />
+      </Modal>
       </div>
     );
   }
@@ -147,7 +209,7 @@ const mapDispatchToProps = (dispatch) => {
     setStudentId: (studentId) => dispatch(setStudentsId(studentId)),
     studentInfoAction: (id) => dispatch(getSingleStudentInfo(id)),
     studentAttendanceAction: (id) => dispatch(getSingleStudentAttendance(id)),
-    
+    updateSingleStudentInfo: (data) => dispatch(updateSingleStudentInfo(data)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(StudentTable);

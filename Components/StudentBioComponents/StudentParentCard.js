@@ -11,24 +11,31 @@ function StudentParentCard({ singleStudentInfo }) {
         <Col>
           <div
             style={{
-              width: "500px",
+              // width: "500px",
               paddingTop: "0",
-              //border: "1px solid black",
+              // border: "1px solid black",
               backgroundColor: "transparent",
               height: "100px",
             }}
           >
             <Row align="middle" style={{ height: "100%" }}>
-              <Col style={{ padding: "10px" }}>
+              <Col
+                style={{ padding: "10px" }}
+                md={6}
+                sm={6}
+                xs={6}
+                lg={6}
+                xl={6}
+              >
                 <Avatar
                   style={{ width: "75px", height: "75px" }}
                   src="/sampleWoman.jpg"
                 ></Avatar>
               </Col>
-              <Col flex={1}>
+              <Col flex={1} md={12} sm={12} xs={12} lg={12} xl={12}>
                 <div
                   style={{
-                    width: "100%",
+                    // width: "100%",
                     height: "75px",
                   }}
                 >
@@ -48,7 +55,7 @@ function StudentParentCard({ singleStudentInfo }) {
                     {" "}
                     <p
                       style={{
-                        marginBottom: "20px",
+                        marginBottom: "5px",
                         fontWeight: 500,
                         fontSize: "14px",
                       }}
@@ -57,13 +64,13 @@ function StudentParentCard({ singleStudentInfo }) {
                     </p>
                     <p
                       style={{
-                        marginBottom: "20px",
+                        marginBottom: "5px",
                         fontWeight: 500,
                         fontSize: "14px",
-                        marginLeft: "10px",
                       }}
                     >
-                      Email : {parentInfo.email}
+                      <span style={{paddingRight:"3px"}}>Email:</span>
+                      {parentInfo.email}
                     </p>
                   </Row>
                 </div>

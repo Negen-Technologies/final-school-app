@@ -9,6 +9,7 @@ const initialState = {
 const infoStart = (state, action) => {
   return {
     ...state,
+    info: null,
     error: null,
     loading: true,
   };

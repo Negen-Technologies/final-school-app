@@ -17,6 +17,10 @@ export default function AttendanceMonth({ day, absentDays, width }) {
 
   const noClassDays = publicRuntimeConfig.noClassDates;
 
+
+
+
+
   function dateCellRender(value) {
 
     return (

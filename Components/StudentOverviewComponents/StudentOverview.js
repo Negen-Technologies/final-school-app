@@ -4,7 +4,7 @@ import moment from "moment";
 import DaysLateCard from "../AttendanceComponents/DaysLateCard";
 import AttendanceMonth from "../AttendanceComponents/AttendanceMonth";
 import NotificationsPagination from "../NotificationComponents/NotificationsPagination";
-
+import { index } from "../../pages";
 
 const testNotifications = [
   {
@@ -19,17 +19,28 @@ const testNotifications = [
   },
 ];
 
-export default function StudentOverview({studentAttendance}) {
+export default function StudentOverview({ studentAttendance }) {
+  var absentDays = [];
 
-var absentDays=[]
+  var today = moment().format("DD-MM-YYYY").split("-");
+  studentAttendance.attendance.forEach((element) => {
+    if (element.month == today[1]) {
+      absentDays.push(element.day);
+    }
+  });
 
-var today=moment().format("DD-MM-YYYY").split('-')
-studentAttendance.attendance.forEach(element => {
-  if (element.month==today[1]){
-    absentDays.push(element.day)
+  function getPresentDays() {
+    var counter = 0;
+    for (let ind = 1; ind < parseInt(today[0]) - 1; ind++) {
+      if (
+        moment(`${ind}-03-2022`, "DD-MM-YYYY").format("dddd").toString() !==
+        ("Saturday" || "Sunday")
+      ) {
+        counter++;
+      }
+    }
+    return counter - absentDays.length;
   }
-});
-
 
   return (
     <div>
@@ -59,10 +70,7 @@ studentAttendance.attendance.forEach(element => {
                   col="#eb6841"
                 ></DaysLateCard>
                 <DaysLateCard
-                  day={
-                    parseInt(moment().format("DD-MM-YYYY").split("-")[0]) -
-                    absentDays.length
-                  }
+                  day={getPresentDays()}
                   label="Days Present"
                   col="#9ec583"
                 ></DaysLateCard>
@@ -70,14 +78,36 @@ studentAttendance.attendance.forEach(element => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
+            <Col
+              span={12}
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={12}
+              xxl={12}
+              style={{
+                overflow: "auto",
+              }}
+            >
               <AttendanceMonth
                 day={moment().format("YYYY-MM-DD").toString()}
                 absentDays={absentDays}
                 width="500px"
               ></AttendanceMonth>
             </Col>
-            <Col span={12} xs={24} sm={24} md={12} lg={12} xl={12}>
+            <Col
+              span={12}
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={12}
+              xxl={12}
+              style={{
+                overflow: "auto",
+              }}
+            >
               <NotificationsPagination
                 notifications={testNotifications.map((notification) => {
                   return {

@@ -2,7 +2,7 @@ import React, { useState,useEffect} from "react";
 import { Button, Col, DatePicker, Divider, Row, Select, Tabs } from "antd";
 
 import StudentCard from "../Components/StudentOverviewComponents/StudentCard";
-import StudentBio from "../Components/StudentOverviewComponents/StudentBio";
+import StudentAssesment from "../Components/StudentAssesment/StudentAssesment";
 import NotificationsPagination from "../Components/NotificationComponents/NotificationsPagination";
 import StudentOverview from "../Components/StudentOverviewComponents/StudentOverview";
 import StudentAttendance from "../Components/StudentOverviewComponents/StudentAttendance";
@@ -17,6 +17,7 @@ import {
   getSingleStudentInfo,
   updateSingleStudentInfo,
   updateParentInfo,
+  getStudentAssesment,
 } from "../store/index";
 import "../store/SingleStudentAttendance/singleStudentAttendanceAction"
 import "../store/singleStudentInfo/singleStudentInfoAction"
@@ -31,11 +32,12 @@ const SingleStudent = ({
   studentInfoAction,
   updateSingleStudentInfo,
   updateParentInfo,
-  
+  studentassesmentdata,
+  studentAssesmentAction,
 }) => {
   const [tab, setTab] = useState("1");
-  const router = useRouter()
-  const { studentid } = router.query
+  const router = useRouter();
+  const { studentid } = router.query;
   useEffect(() => {
     if (
       (studentid !== undefined || null) &&
@@ -44,10 +46,17 @@ const SingleStudent = ({
     ) {
       studentAttendanceAction(studentid);
     }
+    if (
+      (studentid !== undefined || null) &&
+      tab == 5 &&
+      Object.keys(studentassesmentdata.studentdata).length === 0
+    ) {
+      studentAssesmentAction(studentid);
+    }
   }, [tab, studentid]);
 
   useEffect(() => {
-    if ((studentid !==undefined||null) && singleStudentInfo.info == null) {
+    if ((studentid !== undefined || null) && singleStudentInfo.info == null) {
       studentInfoAction(studentid);
     }
   }, [studentid]);
@@ -94,10 +103,9 @@ const SingleStudent = ({
         paddingRight: "10px",
       }}
     >
-      
       <StudentCard singleStudentInfo={singleStudentInfo}></StudentCard>
       <Tabs
-        style={{ marginTop: "5px" }}
+        style={{ marginTop: "15px" }}
         type="card"
         defaultActiveKey="1"
         onChange={callback}
@@ -131,8 +139,7 @@ const SingleStudent = ({
                 type="primary"
                 style={{ marginTop: "20px" }}
                 icon={<EditOutlined></EditOutlined>}
-                onClick={() => router.push('/notifications')}
-
+                onClick={() => router.push("/notifications")}
               >
                 Create Notification
               </Button>
@@ -141,17 +148,17 @@ const SingleStudent = ({
         </TabPane>
         <TabPane tab="Attendance" key="3">
           <StudentAttendance
-            fromSingleStudent= {true}
+            fromSingleStudent={true}
             studentAttendance={studentAttendance}
           ></StudentAttendance>
         </TabPane>
         <TabPane tab="Report-Card" key="4">
-          <SingleReportCard student={singleStudentInfo.info}/>
+          <SingleReportCard student={singleStudentInfo.info} />
         </TabPane>
-        {/* <TabPane tab="Records" key="5">
-          Record
+        <TabPane tab="Assesments" key="5">
+          <StudentAssesment studentassesmentdata={studentassesmentdata} />
         </TabPane>
-        <TabPane tab="Transcript" key="6">
+        {/*<TabPane tab="Transcript" key="6">
           Transcript
         </TabPane> */}
       </Tabs>
@@ -164,8 +171,8 @@ const mapStateToProps = (state) => {
   return {
     studentAttendance: state.singleStudentAttendance,
     singleStudentInfo: state.singleStudentInfo,
+    studentassesmentdata: state.studentassesment,
     // studentId: state.requestStudentsByFilter.selectedId,
-
   };
 };
 
@@ -174,7 +181,8 @@ const mapDispatchToProps = (dispatch) => {
     studentAttendanceAction: (id) => dispatch(getSingleStudentAttendance(id)),
     studentInfoAction: (id) => dispatch(getSingleStudentInfo(id)),
     updateSingleStudentInfo:(data)=>dispatch(updateSingleStudentInfo(data)),
-    updateParentInfo:(data)=>dispatch(updateParentInfo(data))
+    updateParentInfo:(data)=>dispatch(updateParentInfo(data)),
+    studentAssesmentAction: (id) => dispatch(getStudentAssesment(id)),
   };
 };
 
