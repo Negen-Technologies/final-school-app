@@ -14,7 +14,7 @@ function ReportCards({ students, selectedId }) {
       }}
     >
       <Row>
-        <Col span={9}>
+        <Col span={24} md={9}>
           <h1
             style={{
               textAlign: "center",
@@ -36,8 +36,8 @@ function ReportCards({ students, selectedId }) {
           </h1>
           <StudentsTable detail={true}></StudentsTable>
         </Col>
-        <Col span={1}></Col>
-        <Col span={14}>
+        <Col span={0} md={1}></Col>
+        <Col span={24} md={14}>
           <div style={{ height: "89vh", overflow: "scroll" }}>
             <SingleReportCard
               student={students.find((student) => student.uuid === selectedId)}
