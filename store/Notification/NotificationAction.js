@@ -74,9 +74,9 @@ export const getNotificationForMe = () => {
         },
       })
       .then((res) => {
+        console.log('for me notfication: ', res.data)
         dispatch(notificationSuccess(res.data));
-    dispatch(loadingFalse());
-
+        dispatch(loadingFalse());
       })
       .catch((err) => {
         var errorData;
@@ -87,8 +87,7 @@ export const getNotificationForMe = () => {
           dispatch(errorMessage(errorData));
         }
         dispatch(notificationFail(errorData));
-    dispatch(loadingFalse());
-
+        dispatch(loadingFalse());
       });
   };
 };
@@ -108,8 +107,7 @@ export const getMyNotification = () => {
       .then((res) => {
         dispatch(myNotificationSuccess(res.data));
         console.log(res.data);
-    dispatch(loadingFalse());
-
+        dispatch(loadingFalse());
       })
       .catch((err) => {
         var errorData;
@@ -120,8 +118,7 @@ export const getMyNotification = () => {
           dispatch(errorMessage(errorData));
         }
         dispatch(myNotificationFail(errorData));
-    dispatch(loadingFalse());
-
+        dispatch(loadingFalse());
       });
   };
 };
@@ -138,6 +135,7 @@ export const addNotification = (data) => {
       })
       .then((res) => {
         dispatch(addNotificationSuccess("Notification added successfully"));
+        console.log(res.data);
       })
       .catch((err) => {
         var errorData;

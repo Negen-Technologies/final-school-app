@@ -297,7 +297,7 @@ function teacherHomePage({
             lg={12}
             xl={12}
           >
-            {/* {notification.notifications.length > 0 ? (
+            {notification.notifications.length > 0 ? (
               <NotificationsPagination
                 notifications={notification.notifications.map(
                   (notification) => {
@@ -332,7 +332,7 @@ function teacherHomePage({
               ></NotificationsPagination>
             ) : (
               ""
-            )} */}
+            )}
           </Col>
         </Row>
       </div>

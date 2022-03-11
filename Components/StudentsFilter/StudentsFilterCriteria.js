@@ -101,6 +101,10 @@ function StudentsFilterCriteria({
         setCourseList(crsList);
         setCourse(crsList[0].name);
         setCourseId(crsList[0].key);
+      } else {
+        setCourseList([])
+        setCourse()
+        setCourseId()
       }
     }
   };
@@ -141,7 +145,7 @@ function StudentsFilterCriteria({
 
   return (
     <div>
-      <Col span={24}>
+      <Col >
         {/* <div
           style={{
             color: "red",
@@ -154,11 +158,11 @@ function StudentsFilterCriteria({
           <Col span={24}>
             <Row>
               <Col
-                xs={6}
+                xs={24}
                 sm={6}
                 lg={6}
                 xl={6}
-                style={{ marginRight: "5px" }}
+                // style={{ marginRight: "5px" }}
                 className="gutter-row"
               >
                 <Select
@@ -174,11 +178,11 @@ function StudentsFilterCriteria({
                 </Select>
               </Col>
               <Col
-                xs={6}
+                xs={24}
                 sm={6}
                 lg={6}
                 xl={6}
-                style={{ marginRight: "5px" }}
+                // style={{ marginRight: "5px" }}
                 className="gutter-row"
               >
                 <Select
@@ -193,11 +197,11 @@ function StudentsFilterCriteria({
                 </Select>
               </Col>
               <Col
-                xs={6}
+                xs={24}
                 sm={6}
                 lg={6}
                 xl={6}
-                style={{ marginRight: "5px" }}
+                // style={{ marginRight: "5px" }}
                 className="gutter-row"
               >
                 <Select
@@ -213,7 +217,12 @@ function StudentsFilterCriteria({
                   ))}
                 </Select>
               </Col>
-              <Col xs={24} sm={8} xl={4} style={{ marginRight: "5px" }}>
+              <Col xs={24}
+                sm={6}
+                lg={6}
+                xl={6} 
+                // style={{ marginRight: "5px" }}
+                >
                 <Button
                   type="primary"
                   style={{
@@ -224,7 +233,7 @@ function StudentsFilterCriteria({
                   htmlType="submit"
                   loading={!isForGradeChange ? isPending : loading}
                   error={error}
-                  disabled={!section}
+                  disabled={!course}
                 >
                   Filter
                 </Button>
@@ -232,11 +241,11 @@ function StudentsFilterCriteria({
             </Row>
             <Row>
               <Col
-                xs={6}
+                xs={24}
                 sm={6}
                 lg={6}
                 xl={6}
-                style={{ marginRight: "5px", paddingTop: "10px" }}
+                style={{ paddingTop: "10px" }}
               >
                 <Button
                   type="primary"
