@@ -58,22 +58,25 @@ export const getSingleStudentInfo = (id) => {
   };
 };
 
-export const updateSingleStudentInfo = (value) => {
+export const updateSingleStudentInfo = (id, value) => {
   var token = localStorage.getItem("token");
   const info = store.getState().singleStudentInfo.info;
-
+  console.log(value);
   return (dispatch) => {
     dispatch(infoPending());
     dispatch(loadingTrue());
     axios({
       method: "patch",
-      url: URLst + `api/v1/students/${value.id}`,
+      url: URLst + `api/v1/students/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
       data: {
         firstName: value.fName,
         lastName: value.lName,
+        sex: value.sex.value,
+        grade: value.grade.value,
+        age: value.age,
       },
     })
       .then((res) => {
