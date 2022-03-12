@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { classRankAction } from "../../store/ClassRank/classRankAction";
 import { primary_color } from "../../utils/constants";
 import { createReportCard } from "../../store/ReportCard/reportCardAction";
+import Link from "next/link";
 
 function TranscriptClass({
   singleClass,
@@ -134,84 +135,87 @@ function TranscriptClass({
       <h1>Select Class</h1>
       <Filter add={false} />
       <Row>
-        <div
-          style={{
-            width: "65%",
-            padding: "10px",
-            backgroundColor: "white",
-            marginTop: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          <Descriptions
-            bordered
-            title="Generate Report Card"
-            size="small"
-            extra={
-              <Button
-                onClick={handleGenerate}
-                disabled={
-                  incomplete !== 0 || !singleClass.class || !data.length > 0
-                }
-                type="primary"
-                loading={createReportCardState.loading}
-              >
-                Generate
-              </Button>
-            }
+        <Col span={24} md={16}>
+          <div
+            style={{
+              padding: "10px",
+              backgroundColor: "white",
+              marginTop: "10px",
+              marginBottom: "10px",
+            }}
           >
-            <Descriptions.Item label="Grade">{grade}</Descriptions.Item>
-            <Descriptions.Item label="Section">{section}</Descriptions.Item>
-            <Descriptions.Item label="Academic Year">2014</Descriptions.Item>
-            <Descriptions.Item label="Semester">First</Descriptions.Item>
-            <Descriptions.Item label="Total Students">
-              {data.length}
-            </Descriptions.Item>
-            <Descriptions.Item label="Students with incomplete results">
-              {incomplete}
-            </Descriptions.Item>
-            <div
-              style={{
-                color: "red",
-                textAlign: "center",
-              }}
+            <Descriptions
+              bordered
+              title="Generate Report Card"
+              size="small"
+              extra={
+                <Button
+                  onClick={handleGenerate}
+                  disabled={
+                    incomplete !== 0 || !singleClass.class || !data.length > 0
+                  }
+                  type="primary"
+                  loading={createReportCardState.loading}
+                >
+                  Generate
+                </Button>
+              }
             >
-              {createReportCardState.error === "Validation error"
-                ? "Report card has already been created"
-                : createReportCardState.error}
-            </div>
-          </Descriptions>
-        </div>
-
-        <div
-          style={{
-            padding: "10px",
-            border: `5px solid ${primary_color}`,
-            width: "30%",
-            marginTop: "10px",
-            marginBottom: "10px",
-            marginLeft: "10px",
-            // height: "152px",
-          }}
-        >
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas,
-            doloremque nobis modi quaerat distinctio nemo a rem mollitia? Illo
-            eum accusantium delectus! Iste saepe, accusamus perferendis amet
-            repudiandae architecto magni.
-          </p>
-        </div>
+              <Descriptions.Item label="Grade">{grade}</Descriptions.Item>
+              <Descriptions.Item label="Section">{section}</Descriptions.Item>
+              <Descriptions.Item label="Academic Year">2014</Descriptions.Item>
+              <Descriptions.Item label="Semester">First</Descriptions.Item>
+              <Descriptions.Item label="Total Students">
+                {data.length}
+              </Descriptions.Item>
+              <Descriptions.Item label="Students with incomplete results">
+                {incomplete}
+              </Descriptions.Item>
+              <div
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                }}
+              >
+                {createReportCardState.error === "Validation error"
+                  ? "Report card has already been created"
+                  : createReportCardState.error}
+              </div>
+            </Descriptions>
+          </div>
+        </Col>
+        <Col span={24} md={8}>
+          <div
+            style={{
+              padding: "10px",
+              border: `5px solid ${primary_color}`,
+              marginTop: "10px",
+              marginBottom: "10px",
+              marginLeft: "10px",
+              // height: "152px",
+            }}
+          >
+            <p>
+              * Please make sure all students have completed all the courses in
+              the class, before generating a report card.<br></br>* Please make
+              sure not to generate a report card for a class that has a report
+              card already.
+            </p>
+          </div>
+        </Col>
       </Row>
       {createReportCardState.success ? (
         <Result
           status="success"
           title="You Have successfully Generated Report Card"
           style={{ margin: "10px auto" }}
-          extra={[
-            <Button type="primary" key="console">
-              Go Back to Home
-            </Button>,
-          ]}
+          extra={
+            <Link href="/report-cards">
+              <a>
+                <Button type="primary">View Report Cards</Button>
+              </a>
+            </Link>
+          }
         />
       ) : (
         <Table

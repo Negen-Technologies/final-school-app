@@ -42,6 +42,8 @@ function SingleReportCard({
       style={{
         border: "1px solid grey",
         backgroundColor: "#F2F2F2",
+        width: "650px",
+        overflow: "scroll",
       }}
     >
       <Row

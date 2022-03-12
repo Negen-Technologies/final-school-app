@@ -209,6 +209,7 @@ function AssignClassPage({
           backgroundColor: "white",
           marginTop: "10px",
           marginBottom: "10px",
+          display: "none",
         }}
       >
         <Descriptions
@@ -260,7 +261,7 @@ function AssignClassPage({
         </Descriptions>
       </div>
       <Row style={{ marginTop: "10px" }}>
-        <Col sm={12} span={24}>
+        <Col md={12} span={24}>
           <div
             style={{
               backgroundColor: "white",
@@ -282,7 +283,7 @@ function AssignClassPage({
             </Button>
           </div>
         </Col>
-        <Col sm={12} span={24}>
+        <Col md={12} span={24}>
           <div
             style={{
               backgroundColor: "white",
