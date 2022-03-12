@@ -15,6 +15,8 @@ export const authSuccess = (token, data) => {
   localStorage.setItem("email", data.email);
   localStorage.setItem("phoneNumber", data.phoneNumber);
   localStorage.setItem("role", data.role);
+  localStorage.setItem("url", data.url);
+
 
 
   return {

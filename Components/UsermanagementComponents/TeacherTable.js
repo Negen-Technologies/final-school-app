@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Table, Input, Form } from "antd";
+import React, { useState, useEffect } from "react";
+import { Table, Input, Form, Modal, Button,message } from "antd";
 import { connect } from "react-redux";
+import AssignTeacherToCourseForm from "../CreateTeacher/AssignTeacherToCourseForm";
 import {
   getAllTeacherSuccess,
   AllTeacherEdit,
   AllTeacherDelete,
+  updateTeacher,
 } from "../../store";
 
 const EditableCell = ({
@@ -51,17 +53,29 @@ const TeacherTable = (props) => {
   const [form] = Form.useForm();
   const [editingKey, setEditingKey] = useState("");
   const [current, setCurrent] = useState(1);
+  const [visible, setVisible] = useState(false);
+  const [teacherCourseList, setteacherCourseList] = useState([]);
+  const [editingId, setEditingId] = useState("");
+  const [teacherId, setTeacherId] = useState("");
+
 
   var teacherData = [];
   var numEachPage = 10;
   const isEditing = (record) => record.key === editingKey;
   teacherData.splice(0, teacherData.length);
 
+  useEffect(() => {
+    if (teacherCourseList.length !== 0) {
+      setVisible(true);
+    }
+  }, [teacherCourseList]);
+
   props.teachers.forEach((teacher) => {
     teacherData.push({
       key: teacher.uuid,
       teacherName: teacher.userInformation.name,
       subject: teacher.qualifiedCourses,
+      userId: teacher.userId,
     });
   });
 
@@ -90,15 +104,39 @@ const TeacherTable = (props) => {
       editable: true,
       render: (_, record) => {
         var allsubjects = record.subject.map((subjects) => {
-          return subjects.courseInformation.name;
+          return `${subjects.courseInformation.name}(Gr-${subjects.courseInformation.grade})`;
         });
 
-        return allsubjects.join();
+        return allsubjects.join(", ");
+      },
+    },
+    {
+      title: "",
+      dataIndex: "",
+      render: (_, record) => {
+        var capable = record.subject.map((subjects) => {
+          return {
+            name: subjects.courseInformation.name,
+            grade: subjects.courseInformation.grade,
+            courseId: subjects.courseId,
+          };
+        });
+        return (
+          <Button
+            type="link"
+            onClick={() => {
+              setteacherCourseList(capable);
+              setEditingId(record.userId);
+              setTeacherId(record.key);
+            }}
+          >
+            Edit
+          </Button>
+        );
       },
     },
   ];
 
-  
   const mergedColumns = columns.map((col) => {
     if (!col.editable) {
       return col;
@@ -116,30 +154,50 @@ const TeacherTable = (props) => {
     };
   });
   return (
-    <Form form={form} component={false}>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
+    <>
+      <Modal
+        visible={visible}
+        closable
+        onCancel={() => {
+          setVisible(false);
         }}
-        bordered
-        dataSource={teacherData}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          defaultCurrent: 1,
-          total: props.count,
-          onChange: handleChange,
-          defaultPageSize: numEachPage,
-          current: current,
-          responsive: true,
-          showSizeChanger: true,
-          hideOnSinglePage: true,
-          pageSizeOptions: ["10", "20", "50", "100"],
-        }}
-      />
-    </Form>
+        footer={null}
+      >
+        <AssignTeacherToCourseForm
+          onSubmit={(val) => {
+            console.log(val);
+            props.updateTeacherAction(editingId, val, teacherId);
+            // setVisible(false);
+          }}
+          isLoading={props.createTeacherPending}
+          teacherCourseList={teacherCourseList}
+        />
+      </Modal>
+      <Form form={form} component={false}>
+        <Table
+          components={{
+            body: {
+              cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={teacherData}
+          columns={mergedColumns}
+          rowClassName="editable-row"
+          pagination={{
+            defaultCurrent: 1,
+            total: props.count,
+            onChange: handleChange,
+            defaultPageSize: numEachPage,
+            current: current,
+            responsive: true,
+            showSizeChanger: true,
+            hideOnSinglePage: true,
+            pageSizeOptions: ["10", "20", "50", "100"],
+          }}
+        />
+      </Form>
+    </>
   );
 };
 const mapStateToProps = (state) => {
@@ -147,6 +205,8 @@ const mapStateToProps = (state) => {
     teachers: state.teacher.teachers,
     teachersPending: state.teacher.loading,
     teachersError: state.teacher.error,
+    createTeacherPending: state.createTeacher.isPending,
+    createTeacherError: state.createTeacher.error,
   };
 };
 
@@ -156,6 +216,8 @@ const mapDispatchToProps = (dispatch) => {
     AllTeacherEdit: (id, users, edited) =>
       dispatch(AllTeacherEdit(id, users, edited)),
     AllTeacherDelete: (id, users) => dispatch(AllTeacherDelete(id, users)),
+    updateTeacherAction: (id, Courses, teacherid) =>
+      dispatch(updateTeacher(id, Courses, teacherid)),
   };
 };
 

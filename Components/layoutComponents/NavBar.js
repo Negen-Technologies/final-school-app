@@ -34,6 +34,8 @@ function NavBar({
   loadingTrue,
 }) {
   const [visible, setVisible] = useState(false);
+  const [Avatarimage, setAvatarimage] = useState("");
+
   const { width } = useWindowSize();
   var router = useRouter();
 
@@ -47,6 +49,7 @@ function NavBar({
       email: localStorage.getItem("email"),
       phoneNumber: localStorage.getItem("phoneNumber"),
       role: localStorage.getItem("role"),
+      url: localStorage.getItem("url"),
     };
     authSuc(token, data);
   }
@@ -56,7 +59,13 @@ function NavBar({
       resetData();
     }
   }, []);
-
+    useEffect(() => {
+      if (userData.token) {
+        if (userData.data.url) {
+          setAvatarimage(userData.data.url);
+        }
+      }
+    }, [userData.data.url]);
   return (
     <nav
       style={{
@@ -116,17 +125,22 @@ function NavBar({
               }}
             ></div>
             <span className="avatar-item">
-              
+              {userData.data.url ? (
                 <Avatar
                   shape="circle"
                   size="large"
                   src={
-                    userData.data.url != null
-                      ? userData.data.url
-                      : "/sampleWoman.jpg"
+                    "https://sitechecker.pro/wp-content/uploads/2017/12/URL-meaning.png"
                   }
+                />
+              ) : (
+                <Avatar
+                  shape="circle"
+                  size="large"
+                  src={"/sampleWoman.jpg"}
                   icon={<UserOutlined />}
                 />
+              )}
             </span>
             <h1
               style={{

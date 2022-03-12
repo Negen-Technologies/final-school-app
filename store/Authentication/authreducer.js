@@ -20,6 +20,8 @@ const authSuccess = (state, action) => {
   localStorage.setItem("name",action.data.name)
   localStorage.setItem("email",action.data.email)
   localStorage.setItem("phoneNumber",action.data.phoneNumber)
+  localStorage.setItem("role",action.data.role);
+  localStorage.setItem("url",action.data.url);
   return {
     ...state,
     token: action.token,

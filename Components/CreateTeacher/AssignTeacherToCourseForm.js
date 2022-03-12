@@ -4,7 +4,7 @@ import { getClassList } from "../../store";
 import { Checkbox, Button, Select, Card, Tag, Divider, Row, Col } from "antd";
 
 const { Option } = Select;
-function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoading }) {
+function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoading,teacherCourseList }) {
   const [courseInfo, setcourseInfo] = useState([]);
   const [selectedGrade, setselectedGrade] = useState(0);
   const [selectedCourses, setselectedCourses] = useState([]);
@@ -43,6 +43,7 @@ function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoadi
   }
 
   function addCourses(item) {
+    console.log(item);
     var newarr = [...selectedCourses];
 
     if (!newarr.some((e) => e.courseId == item.courseId)) {
@@ -80,10 +81,16 @@ function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoadi
     return qualifiedCoursesArr;
   }
     
+  useEffect(() => {
+    if (teacherCourseList !== (null || undefined)) {
+      setselectedCourses(teacherCourseList);
+    }
+  }, [teacherCourseList]);
   
 
   useEffect(() => {
     getClassLists();
+
   }, []);
 
   useEffect(() => {
@@ -91,6 +98,7 @@ function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoadi
   }, [selectedGrade]);
 
   useEffect(() => {
+    console.log(selectedCourses);
     generateTags();
   }, [selectedCourses]);
 
@@ -126,7 +134,7 @@ function CreateTeacher({ classList, getClassLists, classLoading,onSubmit,isLoadi
                     type="checkbox"
                     name={element.name + "-" + element.grade}
                     value={element}
-                    checked={selectedCourses.includes(element) ? true : false}
+                    checked={selectedCourses.some((s)=>element.courseId===s.courseId) ? true : false}
                     style={{ marginBottom: -20, marginRight: 15 }}
                     onChange={(event) => {
                       event.target.checked
