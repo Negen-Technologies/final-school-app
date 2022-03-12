@@ -36,3 +36,34 @@ export const createTeacher = (userData) => {
       });
   };
 };
+
+export const updateTeacher = (uuid,userData,teacherid) => {
+  return (dispatch, getState) => {
+    const { token } = getState().auth;
+    // const { uuid } = getState().createUser.createdUser.user;
+
+    dispatch({ type: CREATE_TEACHER_PENDING });
+    axios
+      .patch(
+        URLst + `api/v1/teachers/${teacherid}`,
+        {
+          userId: uuid,
+          qualifiedCourses: userData,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        dispatch({
+          type: CREATE_TEACHER_SUCCESS,
+          payload: response.data.data.data,
+        });
+      })
+      .catch((error) => {
+        dispatch({ type: CREATE_TEACHER_FAILED, payload: error.response });
+      });
+  };
+};

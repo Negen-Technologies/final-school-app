@@ -95,7 +95,9 @@ function ParentNotificationPage({
         <NotificationsPagination
           notifications={filteredNotification.map((notification) => {
             return {
-              name: notification.notificationInformation.ownerInformation.name,
+              name: notification.notificationInformation.ownerInformation
+                ? notification.notificationInformation.ownerInformation.name
+                : "",
               src: "",
               content: notification.notificationInformation.text,
             };

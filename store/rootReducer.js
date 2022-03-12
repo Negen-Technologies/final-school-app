@@ -57,7 +57,7 @@ import {
   createReportCardReducer,
   getReportCardReducer,
 } from "./ReportCard/reportCardReducer";
-
+import studentassesmentreducer from "./StudentAssesment/StudentAssesmentReducer";
 import { AttendanceReducer } from "./Attendance/AttendanceReducer";
 import { userStatsReducer } from "./UserStats/userStatsReducer";
 const rootReducer = combineReducers({
@@ -108,6 +108,7 @@ const rootReducer = combineReducers({
   attendanceData: AttendanceReducer,
   changeHomeRoomReducer: changeHomeRoomReducer,
   userStats: userStatsReducer,
+  studentassesment: studentassesmentreducer,
 });
 
 export default rootReducer;

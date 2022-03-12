@@ -99,12 +99,22 @@ export function testLogin({ userData, authLogin }) {
               <Input
                 onChange={(val) => setPhoneNumber(val.target.value)}
                 placeholder="Phone Number"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    onFinish();
+                  }
+                }}
               />
               <p style={{ margin: "5px 0 0 0", color: "gray" }}>Password</p>
               <Input
                 onChange={(val) => setPassword(val.target.value)}
                 placeholder="Password"
                 type="password"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    onFinish();
+                  }
+                }}
               />
               <Row style={{ marginTop: "15px" }}>
                 <Button
@@ -121,6 +131,9 @@ export function testLogin({ userData, authLogin }) {
                   Log in
                 </Button>
               </Row>
+              <p style={{ marginTop: "15px", fontSize: "13px" }}>
+                Forgot your password? Contact your school administrator.
+              </p>
             </Col>
           </Row>
         </div>

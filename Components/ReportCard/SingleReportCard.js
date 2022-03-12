@@ -42,6 +42,8 @@ function SingleReportCard({
       style={{
         border: "1px solid grey",
         backgroundColor: "#F2F2F2",
+        width: "650px",
+        overflow: "scroll",
       }}
     >
       <Row
@@ -80,7 +82,7 @@ function SingleReportCard({
           </Row>
         </div>
         <div>
-          <Row style={{}}>
+          <Row style={{overflow:"auto"}}>
             <Col span={11}>
               <div
                 style={{
@@ -148,10 +150,10 @@ function SingleReportCard({
               >
                 <h1 style={{ color: "#006577" }}>Grade System</h1>
                 <p>
-                  100 - 90: <strong>Very Grate Distinction</strong>
+                  100 - 90: <strong>Very Great Distinction</strong>
                 </p>
                 <p>
-                  89 - 80: <strong>Grate Distinction</strong>
+                  89 - 80: <strong>Great Distinction</strong>
                 </p>
                 <p>
                   79 - 70: <strong>Distinction</strong>

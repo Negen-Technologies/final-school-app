@@ -13,7 +13,7 @@ export * from "./UserManagement/users/allUsersAction";
 export * from "./SingleStudentAttendance/singleStudentAttendanceAction";
 export * from "./CreateTeacher/CreateTeacherAction";
 export * from "./ParentOverview/parentOverviewAction";
-
+export * from "../store/StudentAssesment/StudentAssesmentAction";
 export * from "./singleStudentInfo/singleStudentInfoAction";
 
 export * from "./AssignClass/AssignClassAction";

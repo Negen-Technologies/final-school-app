@@ -46,9 +46,9 @@ function TeachersTable({ classes, mini, grade = 0, section }) {
     );
   } else {
     teachersList.splice(0, teachersList.length);
-    cl.coursesList.forEach((course) => {
+    cl.coursesList.forEach((course, i) => {
       teachersList.push({
-        key: course.teacherId,
+        key: i,
         name: course.teacherInformation.userInformation.name,
         id: course.teacherId,
         course: course.courseInformation.name,
