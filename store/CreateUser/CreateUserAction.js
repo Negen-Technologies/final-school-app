@@ -33,6 +33,7 @@ export const createUser = (userData) => {
       )
       .then((response) => {
         var newData = [response.data.data.user, ...allusers];
+        console.log('created: ', response.data.data)
         dispatch(alluserSuccess({ rows: newData, count: count + 1 }));
         dispatch({
           type: CREATE_USER_SUCCESS,
@@ -44,6 +45,7 @@ export const createUser = (userData) => {
 
         if (error.response != null) {
           errorData = error.response.data.message;
+          console.log('created: ', errorData)
 
           dispatch(authErrorHandler(errorData, error.response.status));
         } else {

@@ -13,6 +13,7 @@ import {
 import { EditOutlined,ArrowRightOutlined} from "@ant-design/icons";
 import { connect } from "react-redux";
 import storage from "../../utils/firebaseUpload";
+import { createUser } from "../../store/CreateUser/CreateUserAction";
 
 const validatePhoneNo = (_, value) => {
   var phoneno = /^\d{9}$/;
@@ -24,7 +25,7 @@ const validatePhoneNo = (_, value) => {
   }
 };
 
-function CreateUserForm({ createUser, onFinish, onCancel, onRoleChange }) {
+function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRoleChange, isFromEditChild }) {
   const [form] = Form.useForm();
   const [role, setRole] = useState("");
   const [fileList, setFileList] = useState([]);
@@ -32,7 +33,7 @@ function CreateUserForm({ createUser, onFinish, onCancel, onRoleChange }) {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    onRoleChange(role);
+    onRoleChange ? onRoleChange(role) : null;
   }, [role]);
 
   const handleOnChange = (event) => {
@@ -40,11 +41,16 @@ function CreateUserForm({ createUser, onFinish, onCancel, onRoleChange }) {
   };
 
   const buttonFunc = () => {
-    if (role === "parent" || role === "teacher") {
-      return "Proceed";
+    if (isFromEditChild) {
+        return "Submit";
     } else {
-      return "Submit";
+      if (role === "parent" || role === "teacher") {
+        return "Proceed";
+        } else {
+          return "Submit";
+        }
     }
+    
   };
 
   const uploadImg = async (image) => {
@@ -93,6 +99,7 @@ function CreateUserForm({ createUser, onFinish, onCancel, onRoleChange }) {
             alignItems: "center",
             marginBottom: "5%",
             marginTop: "5%",
+            marginLeft: '10px'
           }}
         >
           <Upload {...props} showUploadList={false} accept=".jpg, .jpeg, .png">
@@ -111,17 +118,18 @@ function CreateUserForm({ createUser, onFinish, onCancel, onRoleChange }) {
         <Form
           size="large"
           form={form}
-          labelCol={{ span: 4 }}
+          // labelCol={{ span: 4 }}
           onFinish={(values) => {
             values.url = imageUrl;
-            onFinish(values);
+            
+            isFromEditChild ? createUserAction(values) : onFinish(values);
           }}
           wrapperCol={{
-            xs: { span: 16, offset: 1 },
-            sm: { span: 16, offset: 3 },
-            md: { span: 16, offset: 4 },
-            lg: { span: 16, offset: 6 },
-            xl: { span: 16, offset: 6 },
+            xs: { span: 20, offset: 1 },
+            sm: { span: 20, offset: 3 },
+            md: { span: 20, offset: 4 },
+            lg: { span: 20, offset: 2 },
+            xl: { span: 20, offset: 2 },
           }}
         >
           <Form.Item>
@@ -180,9 +188,9 @@ function CreateUserForm({ createUser, onFinish, onCancel, onRoleChange }) {
               style={{ width: "100%" }}
               onChange={handleOnChange}
             >
-              <Select.Option value="admin">Admin</Select.Option>
-              <Select.Option value="teacher">Teacher</Select.Option>
-              <Select.Option value="parent">Parent</Select.Option>
+              {!isFromEditChild ? <Select.Option value="admin">Admin</Select.Option> : null}
+              {!isFromEditChild ? <Select.Option value="teacher">Teacher</Select.Option> : null}
+              {<Select.Option value="parent">Parent</Select.Option>}
             </Select>
           </Form.Item>
           {createUser.error.data ? (
@@ -232,7 +240,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    createUserAction: (data) => dispatch(createUser(data)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateUserForm);

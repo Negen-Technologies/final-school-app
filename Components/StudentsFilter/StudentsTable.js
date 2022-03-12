@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Input, Row, Table, Button, Modal } from "antd";
 import { connect } from "react-redux";
 import { setStudentsId } from "../../store/StudentFilter/StudentFilterAction";
-import { getSingleStudentAttendance } from "../../store/SingleStudentAttendance/singleStudentAttendanceAction"
-import {getSingleStudentInfo} from "../../store/singleStudentInfo/singleStudentInfoAction"
-import {updateSingleStudentInfo} from "../../store/singleStudentInfo/singleStudentInfoAction"
-import EditChildForm from "../CreateChild/EditChildForm"
+import { getSingleStudentAttendance } from "../../store/SingleStudentAttendance/singleStudentAttendanceAction";
+import { getSingleStudentInfo } from "../../store/singleStudentInfo/singleStudentInfoAction";
+import { updateSingleStudentInfo } from "../../store/singleStudentInfo/singleStudentInfoAction";
+import EditChildForm from "../CreateChild/EditChildForm";
 
 const dataSource = [];
 var studentsList = [];
 
-function StudentTable({ students, mini, getid, studentAttendanceAction, studentInfoAction, setStudentId, updateSingleStudentInfo, detail = false }) {
+function StudentTable({
+  students,
+  mini,
+  getid,
+  singleStudentInfo,
+  studentAttendanceAction,
+  studentInfoAction,
+  setStudentId,
+  updateSingleStudentInfo,
+  detail = false,
+}) {
   const [visible, setVisible] = useState(false);
-  const [studId, setStudId] = useState('');
-  
+  const [studId, setStudId] = useState("");
+
+  // useEffect(() => {
+  //   singleStudentInfo ? setVisible(false) : null;
+  // }, [singleStudentInfo]);
+
   const columns = [
     {
       title: "Name",
@@ -44,7 +58,7 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
           onClick={() => {
             var id = record.id;
             setStudId(id);
-            showModal()
+            showModal();
           }}
         >
           Edit
@@ -104,7 +118,6 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
           onClick={() => {
             var id = record.id;
             setStudentId(id);
-
           }}
         >
           View Card
@@ -118,7 +131,6 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
   };
   const handleOk = () => {
     setVisible(false);
-
   };
 
   const handleCancel = () => {
@@ -169,30 +181,31 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
           pagination={{ pageSize: 6 }}
         />
         <Modal
-        title="Edit Student Profile"
-        visible={visible}
-        onCancel={handleCancel}
-        // width={"65vw"}
-        // disabled={reason != ""}
-        bodyStyle={{ width: "100%" }}
-        footer={[
-          <Button
-            type="primary"
-            key="ok"
-            style={{
-              width: 200,
-              marginLeft: "10px",
-            }}
-            onClick={handleOk}
-            // loading={loading}
-            //   error={error}
-          >
-            Ok
-          </Button>,
-        ]}
-      >
-        <EditChildForm studentId= {studId} />
-      </Modal>
+          title="Edit Student Profile"
+          visible={visible}
+          onCancel={handleCancel}
+          // width={"65vw"}
+          // disabled={reason != ""}
+          bodyStyle={{ width: "100%" }}
+          footer={[
+            <div></div>,
+            // <Button
+            //   type="primary"
+            //   key="ok"
+            //   style={{
+            //     width: 200,
+            //     marginLeft: "10px",
+            //   }}
+            //   onClick={handleOk}
+            //   // loading={loading}
+            //   //   error={error}
+            // >
+            //   Ok
+            // </Button>,
+          ]}
+        >
+          <EditChildForm studentId={studId} />
+        </Modal>
       </div>
     );
   }
@@ -201,6 +214,9 @@ function StudentTable({ students, mini, getid, studentAttendanceAction, studentI
 const mapStateToProps = (state) => {
   return {
     students: state.requestStudents.students,
+    singleStudentInfo: state.singleStudentInfo.info,
+    error: state.singleStudentInfo.error,
+    loading: state.singleStudentInfo.loading,
   };
 };
 

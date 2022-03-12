@@ -58,10 +58,21 @@ export const getSingleStudentInfo = (id) => {
   };
 };
 
-export const updateSingleStudentInfo = (id, value) => {
+export const updateSingleStudentInfo = (id, parentId, value) => {
   var token = localStorage.getItem("token");
   const info = store.getState().singleStudentInfo.info;
-  console.log(value);
+  console.log(value, id);
+  var patchData = value
+    ? {
+        firstName: value.firstName,
+        lastName: value.lastName,
+        age: value.age,
+        sex: value.sex,
+        parentId: parentId,
+      }
+    : {
+        parentId: parentId,
+      };
   return (dispatch) => {
     dispatch(infoPending());
     dispatch(loadingTrue());
@@ -71,19 +82,16 @@ export const updateSingleStudentInfo = (id, value) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      data: {
-        firstName: value.fName,
-        lastName: value.lName,
-        sex: value.sex.value,
-        grade: value.grade.value,
-        age: value.age,
-      },
+      data: patchData,
     })
       .then((res) => {
         var resdata = res.data.data.data;
         resdata["class"] = info.class;
         resdata["parent"] = info.parent;
         resdata["previousClasses"] = info.previousClasses;
+
+        console.log("RESdata: ", resdata);
+
         dispatch(infoSuccess(resdata));
         dispatch(loadingFalse());
       })
@@ -94,6 +102,8 @@ export const updateSingleStudentInfo = (id, value) => {
         } else {
           errorData = err.message;
         }
+        console.log(errorData);
+
         dispatch(infoFail(errorData));
         dispatch(errorMessage(errorData));
         dispatch(loadingFalse());
