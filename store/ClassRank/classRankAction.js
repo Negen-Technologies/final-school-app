@@ -45,7 +45,6 @@ export const classRankAction = (classId) => {
         var errorData;
         if (err.response != null) {
           errorData = err.response.data.message;
-          console.log(errorData);
         } else {
           errorData = err.message;
         }

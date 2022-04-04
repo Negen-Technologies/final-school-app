@@ -74,7 +74,6 @@ export const getNotificationForMe = () => {
         },
       })
       .then((res) => {
-        console.log('for me notfication: ', res.data)
         dispatch(notificationSuccess(res.data));
         dispatch(loadingFalse());
       })
@@ -106,7 +105,7 @@ export const getMyNotification = () => {
       })
       .then((res) => {
         dispatch(myNotificationSuccess(res.data));
-        console.log(res.data);
+
         dispatch(loadingFalse());
       })
       .catch((err) => {
@@ -135,7 +134,6 @@ export const addNotification = (data) => {
       })
       .then((res) => {
         dispatch(addNotificationSuccess("Notification added successfully"));
-        console.log(res.data);
       })
       .catch((err) => {
         var errorData;

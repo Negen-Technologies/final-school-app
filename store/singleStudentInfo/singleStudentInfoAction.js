@@ -61,7 +61,7 @@ export const getSingleStudentInfo = (id) => {
 export const updateSingleStudentInfo = (id, parentId, value) => {
   var token = localStorage.getItem("token");
   const info = store.getState().singleStudentInfo.info;
-  console.log(value, id);
+
   var patchData = value
     ? {
         firstName: value.firstName,
@@ -90,8 +90,6 @@ export const updateSingleStudentInfo = (id, parentId, value) => {
         resdata["parent"] = info.parent;
         resdata["previousClasses"] = info.previousClasses;
 
-        console.log("RESdata: ", resdata);
-
         dispatch(infoSuccess(resdata));
         dispatch(loadingFalse());
       })
@@ -102,7 +100,6 @@ export const updateSingleStudentInfo = (id, parentId, value) => {
         } else {
           errorData = err.message;
         }
-        console.log(errorData);
 
         dispatch(infoFail(errorData));
         dispatch(errorMessage(errorData));

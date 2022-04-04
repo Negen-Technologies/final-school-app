@@ -59,10 +59,10 @@ export const getAllTeacherSuccess = (limit, page) => {
 
 export const AllTeacherEdit = (id, users, edited) => {
   const newData = [...users];
-  const index = newData.findIndex((ii) => id === ii.uuid);
+  const index = newData.findIndex((ii) => id === ii.userId);
 
   const thedata = newData[index];
-  newData.splice(index, 1, { ...thedata, ...edited });
+  thedata.userInformation.name = edited.teacherName;
 
   return (dispatch, getState) => {
     const { token } = getState().auth;
@@ -81,7 +81,13 @@ export const AllTeacherEdit = (id, users, edited) => {
       },
     })
       .then((res) => {
-        dispatch(teacherSuccess(newData));
+        dispatch(
+          teacherSuccess({
+            count: getState().teacher.count,
+            rows: newData,
+          })
+        );
+
         dispatch(loadingFalse());
       })
       .catch((err) => {

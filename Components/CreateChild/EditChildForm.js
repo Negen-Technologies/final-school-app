@@ -44,7 +44,7 @@ function EditChildForm({
       var gender = genderOption.filter(
         (gender) => gender.value === singleStudentInfo.sex
       );
-      console.log(gender);
+
       defGender = gender;
       form.setFieldsValue({
         firstName: singleStudentInfo.firstName,
@@ -54,9 +54,9 @@ function EditChildForm({
       });
     }
   }, [singleStudentInfo]);
-console.log('created user: ', createUser)
+
   useEffect(() => {
-    createUser.createdUser.hasOwnProperty('password')
+    createUser.createdUser.hasOwnProperty("password")
       ? updateSingleStudentInfo(studentId, createUser.createdUser.user.uuid)
       : null;
   }, [createUser]);
@@ -64,7 +64,6 @@ console.log('created user: ', createUser)
   useEffect(() => {
     setFormChange(false);
   }, [singleStudentInfo]);
-  console.log("single student info: ", singleStudentInfo);
 
   return (
     <div>

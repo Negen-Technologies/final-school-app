@@ -45,13 +45,12 @@ export const createAttendance = (studentsId, date, classId) => {
       )
       .then((res) => {
         const message = res.data.message;
-console.log(res.data)
+
         dispatch(createAttendanceSuccess(res.data));
-        
       })
       .catch((err) => {
         var errorData;
-        console.log(errorData)
+
         if (err.response != null) {
           errorData = err.response.data.message;
         } else {

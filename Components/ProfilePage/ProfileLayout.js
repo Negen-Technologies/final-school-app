@@ -15,16 +15,20 @@ import { EditOutlined, LoadingOutlined } from "@ant-design/icons";
 import { changeProfileAction } from "../../store/ChangeProfile/changeProfileAction";
 import storage from "../../utils/firebaseUpload";
 
-function ProfileLayout({ changeProfileData, userData, courses,changeProfile }) {
+function ProfileLayout({
+  changeProfileData,
+  userData,
+  courses,
+  changeProfile,
+}) {
   const [fileList, setFileList] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [imageFile, setImageFile] = useState('');
+  const [imageFile, setImageFile] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [qualiCourseList, setQualiCourseList] = useState([]);
   const [myClassList, setMyClassList] = useState([]);
   const [form] = Form.useForm();
   const router = useRouter();
-console.log(changeProfileData)
 
   useEffect(() => {
     if (userData.token) {
@@ -64,30 +68,30 @@ console.log(changeProfileData)
     }
   });
 
-  const onUploadSuccess=(image)=>{
-      setFileList([]);
-      image.status = "done";
-      image.url = imageUrl;
-      image.thumbUrl = imageUrl;
-      image.percent=100;
-      const newFileList = [image];
-      setFileList(newFileList);
-  }
-  const onUploadError=(image)=>{
-      setFileList([]);
-      image.status = "error";
-      image.url = '';
-      image.thumbUrl = '';
-      image.percent=0;
-      const newFileList = [image];
-      setFileList(newFileList);
-  }
+  const onUploadSuccess = (image) => {
+    setFileList([]);
+    image.status = "done";
+    image.url = imageUrl;
+    image.thumbUrl = imageUrl;
+    image.percent = 100;
+    const newFileList = [image];
+    setFileList(newFileList);
+  };
+  const onUploadError = (image) => {
+    setFileList([]);
+    image.status = "error";
+    image.url = "";
+    image.thumbUrl = "";
+    image.percent = 0;
+    const newFileList = [image];
+    setFileList(newFileList);
+  };
   const uploadImg = async (image) => {
     if (image == null) return;
     setImageUrl("Getting Download Link...");
     // Sending File to Firebase Storage
 
-          storage
+    storage
       .ref(`/images/${image.name}`)
       .put(image)
       .then(() => {
@@ -96,21 +100,16 @@ console.log(changeProfileData)
           .child(image.name)
           .getDownloadURL()
           .then((url) => {
-            console.log(url)
             setImageUrl(url);
             onUploadSuccess(image);
             setUploading(false);
-          }).catch((err) => {
-            console.log('err')
-
-            setImageUrl('');
-        onUploadError(image);
-        setUploading(false);
+          })
+          .catch((err) => {
+            setImageUrl("");
+            onUploadError(image);
+            setUploading(false);
+          });
       });
-
-      })
- 
-
   };
 
   const props = {
@@ -121,14 +120,12 @@ console.log(changeProfileData)
       setUploading(true);
       setFileList([]);
       uploadImg(info.file);
-
     },
     beforeUpload: async (file) => {
-      setImageFile(URL.createObjectURL(file)) 
+      setImageFile(URL.createObjectURL(file));
     },
     fileList,
   };
-
 
   function success() {
     Modal.success({
@@ -139,8 +136,8 @@ console.log(changeProfileData)
     success();
   }
   const onSubmit = (checkedValues) => {
-    checkedValues['url'] = imageUrl;
-    console.log(checkedValues);
+    checkedValues["url"] = imageUrl;
+
     changeProfile(checkedValues);
   };
 
@@ -163,16 +160,24 @@ console.log(changeProfileData)
           <div style={{ marginBottom: 40, marginTop: "5%" }}>
             <Upload
               {...props}
-              showUploadList={{showRemoveIcon:false,showPreviewIcon:false,showDownloadIcon:false}}
+              showUploadList={{
+                showRemoveIcon: false,
+                showPreviewIcon: false,
+                showDownloadIcon: false,
+              }}
               accept=".jpg, .jpeg, .png"
             >
               <Space align="end">
                 <Avatar
                   offset={5}
                   size={{ xs: 80, sm: 80, md: 100, lg: 140, xl: 140, xxl: 140 }}
-                  src={uploading?"":imageFile}
+                  src={uploading ? "" : imageFile}
                 >
-                  {uploading?<LoadingOutlined style={{color:"blue"}}/>:"Profile"}
+                  {uploading ? (
+                    <LoadingOutlined style={{ color: "blue" }} />
+                  ) : (
+                    "Profile"
+                  )}
                 </Avatar>
                 <EditOutlined />
               </Space>

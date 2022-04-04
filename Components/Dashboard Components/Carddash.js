@@ -82,7 +82,6 @@ function BarChart(dashboard) {
       absentees: parseFloat(splitValues[1]),
     });
   });
-  console.log(chartData);
 
   const data = [
     { year: "1951 年", sales: 38 },

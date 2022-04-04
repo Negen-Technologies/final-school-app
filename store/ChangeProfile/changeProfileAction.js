@@ -46,7 +46,7 @@ export const changeProfileAction = (values) => {
     })
       .then((res) => {
         dispatch(authSuccess(token, res.data.data));
-        console.log(res.data.data);
+
         dispatch(changeProfileSuccess());
       })
       .catch((err) => {

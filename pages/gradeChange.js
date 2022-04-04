@@ -167,15 +167,14 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
   listOfAssessValue.forEach((value) => {
     colu.splice(i, 0, {
       title: `${value.assessName}`,
-      dataIndex: value.assessName === "Total" ? 100 :`${value.val}`,
+      dataIndex: value.assessName === "Total" ? 100 : `${value.val}`,
       width: "20%",
       editable: value.assessName === "Total" ? false : true,
     });
     i++;
   });
-  console.log("COLU: ", colu);
-  console.log("list of assessment value: ", listOfAssessValue);
-  // console.log("list of assessment: ", listOfAssessment);
+
+  //
 
   listOfAssessment.forEach((value) => {
     value.results.forEach((result) => {
@@ -194,7 +193,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
       // });
     });
   });
-  console.log("COLone: ", col1);
 
   var result = Object.values(
     col1.reduce((a, c) => {
@@ -267,7 +265,6 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
     numAssessment = 0;
   });
 
-  console.log('column assessment data: ', columnAssessmentData)
   const onChange = (e) => {
     setReason(e.target.value);
   };
@@ -300,7 +297,7 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
       const val = newData.find((item) => key === item.key);
       delete val.name;
       delete val.key;
-      console.log("ROW: ", row);
+
       if (index > -1) {
         const item = newData[index];
 

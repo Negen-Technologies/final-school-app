@@ -5,6 +5,9 @@ import {
   CREATE_TEACHER_SUCCESS,
 } from "./CreateTeacherActionType";
 import URLst from "../../utils/constants";
+import { teacherSuccess, teacherPending } from "../index";
+import loadingFalse from "../store";
+import errorMessage from "../store";
 
 export const createTeacher = (userData) => {
   return (dispatch, getState) => {
@@ -37,10 +40,11 @@ export const createTeacher = (userData) => {
   };
 };
 
-export const updateTeacher = (uuid,userData,teacherid) => {
+export const updateTeacher = (uuid, userData, teacherid) => {
   return (dispatch, getState) => {
     const { token } = getState().auth;
-    // const { uuid } = getState().createUser.createdUser.user;
+
+    dispatch(teacherPending());
 
     dispatch({ type: CREATE_TEACHER_PENDING });
     axios
@@ -57,13 +61,21 @@ export const updateTeacher = (uuid,userData,teacherid) => {
         }
       )
       .then((response) => {
-        dispatch({
-          type: CREATE_TEACHER_SUCCESS,
-          payload: response.data.data.data,
-        });
+        var newarr = getState().teacher.teachers;
+        var index = newarr.findIndex((ele) => ele.uuid === teacherid);
+        newarr[index] = response.data.data.data;
+
+        dispatch(
+          teacherSuccess({
+            count: getState().teacher.count,
+            rows: newarr,
+          })
+        );
       })
       .catch((error) => {
         dispatch({ type: CREATE_TEACHER_FAILED, payload: error.response });
+        dispatch(loadingFalse());
+        dispatch(errorMessage(error.response.data.message));
       });
   };
 };

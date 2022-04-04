@@ -16,7 +16,6 @@ const checkIfValueExistsInArray = (value, arrayOfDictionaries) => {
 //check If Value Exists In Array Of Dictionaries
 function checker(value, ArrayOfDictionaries) {
   ArrayOfDictionaries.forEach((element) => {
-    console.log(element.link, value);
     return element.link === value ? true : null;
   });
   return false;

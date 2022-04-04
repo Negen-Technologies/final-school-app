@@ -55,7 +55,6 @@ function ParentOverviewPage({
     }
   }
 
-  console.log(notification.notifications);
   return (
     <div
       style={{

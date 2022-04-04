@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Table, Input, Form, Modal, Button,message } from "antd";
+import {
+  Table,
+  Input,
+  Form,
+  Modal,
+  Button,
+  Typography,
+  Popconfirm,
+} from "antd";
 import { connect } from "react-redux";
 import AssignTeacherToCourseForm from "../CreateTeacher/AssignTeacherToCourseForm";
 import {
@@ -58,10 +66,26 @@ const TeacherTable = (props) => {
   const [editingId, setEditingId] = useState("");
   const [teacherId, setTeacherId] = useState("");
 
-
   var teacherData = [];
   var numEachPage = 10;
   const isEditing = (record) => record.key === editingKey;
+
+  const edit = (record) => {
+    form.setFieldsValue({
+      ...record,
+    });
+    setEditingKey(record.key);
+  };
+
+  const cancel = () => {
+    setEditingKey("");
+  };
+
+  const save = async (key) => {
+    const row = await form.validateFields();
+    setEditingKey("");
+    props.AllTeacherEdit(key, props.teachers, row);
+  };
   teacherData.splice(0, teacherData.length);
 
   useEffect(() => {
@@ -114,6 +138,39 @@ const TeacherTable = (props) => {
       title: "",
       dataIndex: "",
       render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Popconfirm
+              title="Sure to Save?"
+              onConfirm={() => save(record.userId)}
+            >
+              <a
+                style={{
+                  marginRight: 8,
+                }}
+              >
+                Save
+              </a>
+            </Popconfirm>
+            <Button type="link" onClick={cancel}>
+              Cancel
+            </Button>
+          </span>
+        ) : (
+          <Typography.Link
+            disabled={editingKey !== ""}
+            onClick={() => edit(record)}
+          >
+            Edit
+          </Typography.Link>
+        );
+      },
+    },
+    {
+      title: "",
+      dataIndex: "",
+      render: (_, record) => {
         var capable = record.subject.map((subjects) => {
           return {
             name: subjects.courseInformation.name,
@@ -130,7 +187,7 @@ const TeacherTable = (props) => {
               setTeacherId(record.key);
             }}
           >
-            Edit
+            Edit Courses
           </Button>
         );
       },
@@ -165,11 +222,10 @@ const TeacherTable = (props) => {
       >
         <AssignTeacherToCourseForm
           onSubmit={(val) => {
-            console.log(val);
             props.updateTeacherAction(editingId, val, teacherId);
             // setVisible(false);
           }}
-          isLoading={props.createTeacherPending}
+          isLoading={props.teachersPending}
           teacherCourseList={teacherCourseList}
         />
       </Modal>
