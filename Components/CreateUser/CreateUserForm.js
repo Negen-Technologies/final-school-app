@@ -25,16 +25,19 @@ const validatePhoneNo = (_, value) => {
   }
 };
 
-function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRoleChange, isFromEditChild }) {
+function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRoleChange, isFromEditChild, isForChangeParent }) {
   const [form] = Form.useForm();
   const [role, setRole] = useState("");
   const [fileList, setFileList] = useState([]);
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
+
   useEffect(() => {
     onRoleChange ? onRoleChange(role) : null;
-  }, [role]);
+  }, [role]); 
+
+  
 
   const handleOnChange = (event) => {
     setRole(event.value);
@@ -52,6 +55,20 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
     }
     
   };
+
+  var roleData = [];
+
+  console.log(isForChangeParent);
+    if (isForChangeParent) {
+      roleData.push({ key: "Parent", value: "Parent", label: "Parent" })
+    } else {
+      roleData.push(
+        { key: "Admin", value: "Admin", label: "Admin" },
+      { key: "Teacher", value: "Teacher", label: "Teacher" },
+      { key: "Parent", value: "Parent", label: "Parent" },
+      )
+    }
+  
 
   const uploadImg = async (image) => {
     if (image == null) return;
@@ -179,7 +196,8 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
           </Form.Item>
 
           <Form.Item
-            name="role"
+            name="role" 
+            initialValue={isForChangeParent ? roleData[0] : null}
             rules={[{ required: true, message: "Missing Type of The User" }]}
           >
             <Select
@@ -187,10 +205,11 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
               placeholder="Select User Type"
               style={{ width: "100%" }}
               onChange={handleOnChange}
+              options={roleData}
             >
-              {!isFromEditChild ? <Select.Option value="admin">Admin</Select.Option> : null}
+              {/* {!isFromEditChild ? <Select.Option value="admin">Admin</Select.Option> : null}
               {!isFromEditChild ? <Select.Option value="teacher">Teacher</Select.Option> : null}
-              {<Select.Option value="parent">Parent</Select.Option>}
+              {<Select.Option value="parent">Parent</Select.Option>} */}
             </Select>
           </Form.Item>
           {createUser.error.data ? (
