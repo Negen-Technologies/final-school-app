@@ -86,7 +86,9 @@ function EditChildForm({
 
   useEffect(() => {
     setFormChange(false);
-  }, [singleStudentInfo]);
+  }, []);
+
+  console.log('form change', formChange)
 
   const DescriptionItem = ({ title, content }) => (
     <div
@@ -218,8 +220,9 @@ function EditChildForm({
                 ) : (
                   <Button
                     onClick={() => {
-                      setVisible(false);
+                      // setVisible(false);
                       setStepPage(0);
+                      setFormChange(false)
                     }}
                     type="primary"
                     key="console"

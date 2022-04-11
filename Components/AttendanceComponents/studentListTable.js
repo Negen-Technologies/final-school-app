@@ -80,6 +80,8 @@ function StudentListTable({
     },
   ];
 
+  console.log('-- ', absenteeData ? absenteeData.studentsId.length: '')
+
   const [searchField, setsearchField] = useState("");
 
   studentsList.splice(0, studentsList.length);
@@ -98,6 +100,7 @@ function StudentListTable({
   });
 
   const absenteesDataToParent = (data) => {
+    console.log('absentees', data)
     setAbsenteeData(data)
   }
 
@@ -134,8 +137,8 @@ function StudentListTable({
                 showModal()
               }}
               htmlType="submit"
-              loading={isPending}
-              error={error}
+              // loading={isPending}
+              // error={error}
               // disabled={!section}
             >
               Fill Attendance
@@ -157,20 +160,23 @@ function StudentListTable({
               width={'80vw'}
               bodyStyle={{ width: "100%"}}
               footer={[
-                <Button
-                  type="primary"
-                  key="ok"
-                  style={{
-                    width: 200,
-                    marginLeft: "10px",
-                  }}
-                  onClick = {handleOk}
-                    loading={attendanceLoading}
-                    error={attendanceError}
-                >
-                  Ok
-                </Button>
-              ]}>
+                <div></div>
+                // <Button
+                //   type="primary"
+                //   key="ok"
+                //   style={{
+                //     width: 200,
+                //     marginLeft: "10px",
+                //   }}
+                //   disabled= {absenteeData ? absenteeData.studentsId.length === 0 : null}
+                //   onClick = {handleOk}
+                //     loading={attendanceLoading}
+                //     error={attendanceError}
+                // >
+                //   Ok
+                // </Button>
+              ]}
+              >
              <AttendanceTable absenteesDataToParent = {absenteesDataToParent} />
           </Modal>
       </div>
@@ -185,7 +191,7 @@ const mapStateToProps = (state) => {
     error: state.requestStudents.error,
     adminAttendanceReducer: state.adminAttendanceReducer,
     attendanceError: state.createAttendance.error,
-    attendanceLoading: state.createAttendance.isPending,
+    attendanceLoading: state.createAttendance.loading,
   };
 };
 

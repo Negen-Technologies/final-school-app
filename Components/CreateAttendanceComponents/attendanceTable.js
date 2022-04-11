@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button } from "antd";
+import { Table, Button, Row, Col } from "antd";
 import { connect } from "react-redux";
+import { createAttendance } from "../../store/CreateAttendance/createAttendanceAction";
 
 const columns = [
   {
@@ -14,9 +15,10 @@ const columns = [
 ];
 
 
-function AttendanceTable({ students, absenteesDataToParent,attendanceError , attendanceLoading }) {
+function AttendanceTable({ students, absenteesDataToParent,attendanceError , attendanceLoading, createAttendance }) {
   const [loading, setLoading] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [filled, setFilled] = useState(false)
 
   useEffect(() => {
     setLoading(true);
@@ -25,6 +27,11 @@ function AttendanceTable({ students, absenteesDataToParent,attendanceError , att
       setLoading(false);
     }, 1000);
   }, []);
+
+  useEffect(() => {
+    selectedRowKeys.length === 0 ? setFilled(false) : null
+  }, [selectedRowKeys])
+
   const onSelectChange = (selectedRow) => {
     setSelectedRowKeys(selectedRow);
   };
@@ -62,9 +69,13 @@ function AttendanceTable({ students, absenteesDataToParent,attendanceError , att
         columns={columns}
         dataSource={studentsList}
       />
-      <Button
+      <Row>
+        <Col>
+        <Button
         type="primary"
-        onClick={() => {absenteesDataToParent({
+        onClick={() => {
+          setFilled(true)
+          absenteesDataToParent({
           date: date,
           classId: classId,
           studentsId: selectedRowKeys ? selectedRowKeys : [],
@@ -72,9 +83,44 @@ function AttendanceTable({ students, absenteesDataToParent,attendanceError , att
         disabled={!hasSelected}
         loading={attendanceLoading}
         error={attendanceError}
-      >
+       >
         Fill Attendance
-      </Button>
+       </Button>
+        </Col>
+        <Col>
+        {filled ? <p style={{
+          paddingTop: '5px',
+          paddingLeft: '16px'
+        }}> Attendance checked! Click "Ok" to register the student as absentee.</p> : <p></p>}
+        </Col>
+      </Row>
+      <Row>
+      <Col span={24} style={{
+        display: 'flex',
+        justifyContent: 'end',
+        paddingRight: '16px'
+      }}>
+        <Button
+        type="primary"
+        onClick={() => {
+          createAttendance(selectedRowKeys, date, classId)
+          setFilled(false)
+          setSelectedRowKeys([])
+        }}
+                  key="ok"
+                  style={{
+                    width: 200,
+                    marginLeft: "10px",
+                  }}
+                  disabled= {!filled}
+                  loading={attendanceLoading}
+                  error={attendanceError}
+       >
+        Submit
+       </Button>
+        </Col>
+      </Row>
+      
     </div>
   );
 }
@@ -84,7 +130,7 @@ const mapStateToProps = (state) => {
     isPending: state.requestStudents.isPending,
     error: state.requestStudents.error,
     attendanceError: state.createAttendance.error,
-    attendanceLoading: state.createAttendance.isPending,
+    attendanceLoading: state.createAttendance.loading,
   };
 };
 

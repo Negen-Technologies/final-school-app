@@ -344,7 +344,9 @@ function gradeChange({ assessment, changeAssessment, loading, error }) {
     setVisible(false);
   };
   return (
-    <div>
+    <div style={{
+      height: "100vh"
+    }}>
       <div
         style={{
           padding: 32,
