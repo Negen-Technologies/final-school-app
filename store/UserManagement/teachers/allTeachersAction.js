@@ -107,7 +107,7 @@ export const AllTeacherEdit = (id, users, edited) => {
 };
 
 export const AllTeacherDelete = (id, users) => {
-  var filtereddata = users.filter((item) => item.uuid !== id);
+  var filtereddata = users.filter((item) => item.userId !== id);
 
   return (dispatch, getState) => {
     const { token } = getState().auth;
@@ -123,7 +123,13 @@ export const AllTeacherDelete = (id, users) => {
       },
     })
       .then((res) => {
-        dispatch(teacherSuccess(filtereddata));
+        console.log(filtereddata);
+        dispatch(
+          teacherSuccess({
+            count: getState().teacher.count - 1,
+            rows: filtereddata,
+          })
+        );
         dispatch(loadingFalse());
       })
       .catch((err) => {

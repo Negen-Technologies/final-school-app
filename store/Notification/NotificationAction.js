@@ -62,6 +62,28 @@ export const addNotificationFail = (error) => {
     error: error,
   };
 };
+
+export const studentNotificationStart = () => {
+  return {
+    type: actionTypes.STUDENT_NOTIFICATION_START,
+  };
+};
+
+export const studentNotificationSuccess = (message) => {
+  return {
+    type: actionTypes.STUDENT_NOTIFICATION_SUCCESS,
+    message: message,
+  };
+}; 
+
+export const studentNotificationFail = (error) => {
+  return {
+    type: actionTypes.STUDENT_NOTIFICATION_FAILED,
+    error: error,
+    
+  };
+};
+
 export const getNotificationForMe = () => {
   return (dispatch, getState) => {
     dispatch(notificationStart());
@@ -145,6 +167,35 @@ export const addNotification = (data) => {
         }
 
         dispatch(addNotificationFail(errorData));
+      });
+  };
+};
+
+export const studentNotification = (id) => {
+  return (dispatch, getState) => {
+    dispatch(studentNotificationStart());
+    dispatch(loadingTrue());
+    const { token } = getState().auth;
+    axios
+      .get(URLst + `api/v1/notifications/parent/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch(studentNotificationSuccess(res.data));
+        dispatch(loadingFalse());
+      })
+      .catch((err) => {
+        var errorData;
+        if (err.response != null) {
+          errorData = err.response.data.message;
+        } else {
+          errorData = err.message;
+          dispatch(errorMessage(errorData));
+        }
+        dispatch(studentNotificationFail(errorData));
+        dispatch(loadingFalse());
       });
   };
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, DatePicker, Row } from "antd";
+import { Col, DatePicker, Row, Spin } from "antd";
 import moment from "moment";
 import DaysLateCard from "../AttendanceComponents/DaysLateCard";
 import AttendanceMonth from "../AttendanceComponents/AttendanceMonth";
@@ -19,7 +19,7 @@ const testNotifications = [
   },
 ];
 
-export default function StudentOverview({ studentAttendance }) {
+export default function StudentOverview({ studentAttendance, studentNotification }) {
   var absentDays = [];
 
   var today = moment().format("DD-MM-YYYY").split("-");
@@ -108,15 +108,37 @@ export default function StudentOverview({ studentAttendance }) {
                 overflow: "auto",
               }}
             >
-              <NotificationsPagination
-                notifications={testNotifications.map((notification) => {
-                  return {
-                    name: notification.name,
-                    src: "",
-                    content: notification.content,
-                  };
-                })}
-              ></NotificationsPagination>
+              {studentNotification.notifications.length > 0 ? (
+                <NotificationsPagination
+                  notifications={
+                    studentNotification.notifications.length < 3
+                      ? studentNotification.notifications.map(
+                          (notification) => {
+                            return {
+                              name: notification.notificationInformation
+                                .ownerInformation.name,
+                              src: "",
+                              content:
+                                notification.notificationInformation.text,
+                            };
+                          }
+                        )
+                      : studentNotification.notifications.slice(0,2).map(
+                          (notification) => {
+                            return {
+                              name: notification.notificationInformation
+                                .ownerInformation.name,
+                              src: "",
+                              content:
+                                notification.notificationInformation.text,
+                            };
+                          }
+                        )
+                  }
+                ></NotificationsPagination>
+              ) : (
+                <div></div>
+              )}
             </Col>
           </Row>
         </div>

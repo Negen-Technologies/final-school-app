@@ -1,16 +1,16 @@
-import React, { useState,useEffect} from "react";
-import { Button, Col, DatePicker, Divider, Row, Select, Tabs } from "antd";
+import React, { useState, useEffect } from "react";
+import { Button, Col, DatePicker, Divider, Row, Select, Tabs,Spin } from "antd";
 
 import StudentCard from "../Components/StudentOverviewComponents/StudentCard";
 import StudentAssesment from "../Components/StudentAssesment/StudentAssesment";
 import NotificationsPagination from "../Components/NotificationComponents/NotificationsPagination";
 import StudentOverview from "../Components/StudentOverviewComponents/StudentOverview";
 import StudentAttendance from "../Components/StudentOverviewComponents/StudentAttendance";
-import  SingleReportCard  from"../Components/ReportCard/SingleReportCard";
+import SingleReportCard from "../Components/ReportCard/SingleReportCard";
 import { EditOutlined } from "@ant-design/icons";
 import withAuth from "../utils/protectRoute";
 import { connect } from "react-redux";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 import {
   getSingleStudentAttendance,
@@ -18,11 +18,12 @@ import {
   updateSingleStudentInfo,
   updateParentInfo,
   getStudentAssesment,
+  studentNotification,
 } from "../store/index";
-import "../store/SingleStudentAttendance/singleStudentAttendanceAction"
-import "../store/singleStudentInfo/singleStudentInfoAction"
+import "../store/SingleStudentAttendance/singleStudentAttendanceAction";
+import "../store/singleStudentInfo/singleStudentInfoAction";
 
-import {StudentContext} from "../utils/studentsContext"
+import { StudentContext } from "../utils/studentsContext";
 const { TabPane } = Tabs;
 
 const SingleStudent = ({
@@ -32,6 +33,8 @@ const SingleStudent = ({
   studentInfoAction,
   updateSingleStudentInfo,
   updateParentInfo,
+  studentNotification,
+  studentNotificationAction,
   studentassesmentdata,
   studentAssesmentAction,
 }) => {
@@ -46,6 +49,7 @@ const SingleStudent = ({
     ) {
       studentAttendanceAction(studentid);
     }
+
     if (
       (studentid !== undefined || null) &&
       tab == 5 &&
@@ -61,10 +65,22 @@ const SingleStudent = ({
     }
   }, [studentid]);
 
+  useEffect(() => {
+    if (
+      (studentid !== undefined || null) &&
+      singleStudentInfo.info != null &&
+      studentNotification.notifications.length == 0
+    ) {
+      console.log(singleStudentInfo.info);
+      studentNotificationAction(singleStudentInfo.info.parentId);
+    }
+  }, [singleStudentInfo.info]);
+  console.log("%%%", studentNotification);
+
   function callback(key) {
     setTab(key);
   }
-  const notifications = [
+  const notifi = [
     {
       name: "Administrator, Eleni",
       src: "/images/sampleWoman.jpg",
@@ -96,6 +112,7 @@ const SingleStudent = ({
         "Ex consectetur consequat voluptate consectetur cillum magnaconsectetur elit laborum pariatur labore voluptate. Sint    mollit deserunt ea enim voluptate commodo mollit elit mollit.",
     },
   ];
+  // const notifications=[]
   return (
     <div
       style={{
@@ -113,14 +130,26 @@ const SingleStudent = ({
         <TabPane tab="Overview" key="1">
           <StudentOverview
             studentAttendance={studentAttendance}
+            studentNotification={studentNotification}
           ></StudentOverview>
         </TabPane>
         <TabPane tab="Notification" key="2">
           <Row justify="space-between">
             <Col xs={24} lg={12} xl={16}>
+              {studentNotification.notifications.length > 0 ?
               <NotificationsPagination
-                notifications={notifications}
+                notifications={studentNotification.notifications.map(
+                  (notification) => {
+                    return {
+                      name: notification.notificationInformation
+                        .ownerInformation.name,
+                      src: "",
+                      content: notification.notificationInformation.text,
+                    };
+                  }
+                )}
               ></NotificationsPagination>
+              :<div></div>}
             </Col>
             <Col xs={24} lg={7} xl={7}>
               <Divider orientation="Center">Filter by</Divider>
@@ -166,12 +195,12 @@ const SingleStudent = ({
   );
 };
 
-
 const mapStateToProps = (state) => {
   return {
     studentAttendance: state.singleStudentAttendance,
     singleStudentInfo: state.singleStudentInfo,
     studentassesmentdata: state.studentassesment,
+    studentNotification: state.studentNotificationReducer,
     // studentId: state.requestStudentsByFilter.selectedId,
   };
 };
@@ -180,15 +209,15 @@ const mapDispatchToProps = (dispatch) => {
   return {
     studentAttendanceAction: (id) => dispatch(getSingleStudentAttendance(id)),
     studentInfoAction: (id) => dispatch(getSingleStudentInfo(id)),
-    updateSingleStudentInfo:(data)=>dispatch(updateSingleStudentInfo(data)),
-    updateParentInfo:(data)=>dispatch(updateParentInfo(data)),
+    updateSingleStudentInfo: (data) => dispatch(updateSingleStudentInfo(data)),
+    updateParentInfo: (data) => dispatch(updateParentInfo(data)),
     studentAssesmentAction: (id) => dispatch(getStudentAssesment(id)),
+    studentNotificationAction: (parentId) =>
+      dispatch(studentNotification(parentId)),
   };
 };
-
-
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)( withAuth(SingleStudent));
+)(withAuth(SingleStudent));

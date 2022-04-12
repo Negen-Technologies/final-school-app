@@ -22,6 +22,14 @@ const add = {
   success: null,
 };
 
+const studentNotifications = {
+  notifications: [],
+  count: 0,
+  error: null,
+  loading: false,
+  message: null,
+};
+
 const notificationStart = (state) => {
   return {
     ...state,
@@ -68,6 +76,32 @@ const myNotificationSuccess = (state, action) => {
 };
 
 const myNotificationFail = (state, action) => {
+  return {
+    ...state,
+    error: action.error,
+    loading: false,
+  };
+};
+
+const studentNotificationStart = (state) => {
+  return {
+    ...state,
+    error: null,
+    loading: true,
+  };
+};
+
+const studentNotificationSuccess = (state, action) => {
+  return {
+    ...state,
+    notifications: action.message.data,
+    count: action.message.results,
+    error: null,
+    loading: false,
+  };
+};
+
+const studentNotificationFail = (state, action) => {
   return {
     ...state,
     error: action.error,
@@ -136,6 +170,22 @@ export const addNotificationReducer = (state = add, action) => {
       return addNotificationSuccess(state, action);
     case actionTypes.ADD_NOTIFICATION_FAILED:
       return addNotificationFail(state, action);
+    default:
+      return state;
+  }
+};
+
+export const studentNotificationReducer = (
+  state = studentNotifications,
+  action
+) => {
+  switch (action.type) {
+    case actionTypes.STUDENT_NOTIFICATION_START:
+      return studentNotificationStart(state);
+    case actionTypes.STUDENT_NOTIFICATION_SUCCESS:
+      return studentNotificationSuccess(state, action);
+    case actionTypes.STUDENT_NOTIFICATION_FAILED:
+      return studentNotificationFail(state, action);
     default:
       return state;
   }
