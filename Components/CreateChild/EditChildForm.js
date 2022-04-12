@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Input, Form, Row, Button, Col, Select, List, Avatar } from "antd";
+import { Input, Form, Row, Button, Col,Steps, Select, Result, Divider, List, Avatar } from "antd";
 import { connect } from "react-redux";
 import {
   getSingleStudentInfo,
   updateSingleStudentInfo,
 } from "../../store/singleStudentInfo/singleStudentInfoAction";
 import CreateUserForm from "../CreateUser/CreateUserForm";
+import { PrinterOutlined } from "@ant-design/icons";
+import create from "@ant-design/icons/lib/components/IconFont";
+
 function EditChildForm({
   getSingleStudentInfo,
   updateSingleStudentInfo,
@@ -17,24 +20,44 @@ function EditChildForm({
   createUserPending,
   createUserError,
 }) {
+  const { Step } = Steps;
   const [form] = Form.useForm();
   var OptionsList = [];
   const [defaultGender, setDefaultGender] = useState({});
   const [formChange, setFormChange] = useState(false);
+  const [stepPage, setStepPage] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [isprinting, setisprinting] = useState(false);
+  const [role, setrole] = useState("");
+
+
 
   var defGender = {};
-  for (let index = 1; index < 13; index++) {
-    OptionsList.push(
-      <Select.Option key={index} value={index}>
-        {index}
-      </Select.Option>
-    );
-  }
+  // for (let index = 1; index < 13; index++) {
+  //   OptionsList.push(
+  //     <Select.Option key={index} value={index}>
+  //       {index}
+  //     </Select.Option>
+  //   );
+  // }
 
   const genderOption = [
-    { key: "Male", value: "Male", label: "Male" },
-    { key: "Female", value: "Female", label: "Female" },
+    { key: "Male101", value: "Male", label: "Male" },
+    { key: "Female101", value: "Female", label: "Female" },
   ];
+
+  useEffect(() => {
+    if (createUser.createdUser["user"] !== undefined) {
+        setStepPage(1);
+    }
+  }, [createUser]);
+
+  useEffect(() => {
+    if (isprinting) {
+      window.print();
+      setisprinting(false);
+    }
+  }, [isprinting]);
 
   useEffect(() => {
     getSingleStudentInfo(studentId);
@@ -63,13 +86,151 @@ function EditChildForm({
 
   useEffect(() => {
     setFormChange(false);
-  }, [singleStudentInfo]);
+  }, []);
+
+  console.log('form change', formChange)
+
+  const DescriptionItem = ({ title, content }) => (
+    <div
+      style={{
+        marginBottom: "7px",
+        color: "rgba(0, 0, 0, 0.65)",
+        fontSize: "14px",
+        lineHeight: 1.5715,
+      }}
+    >
+      <p
+        style={{
+          display: "inline-block",
+          marginRight: "8px",
+          color: "rgba(0, 0, 0, 0.85)",
+        }}
+      >
+        {title}:
+      </p>
+      {content}
+    </div>
+  );
 
   return (
     <div>
       {formChange ? (
         <div>
-          <CreateUserForm isFromEditChild={true} />
+            <Steps
+              current={stepPage}
+            >
+              <Step title="Create User" />
+              <Step title="Generated Password" />
+            </Steps>
+          {stepPage == 0 ? 
+          <CreateUserForm 
+          isFromEditChild={true} 
+          isForChangeParent={true}
+          onRoleChange={(r) => {
+            setrole(r);
+          }}
+           /> : 
+          <>
+                {isprinting ? (
+                  <></>
+                ) : (
+                  <Result
+                    status="success"
+                    title="Successfully Created a User"
+                  />
+                )}
+
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: 200,
+                    width: "100%",
+                  }}
+                >
+                  <Button
+                    style={
+                      isprinting ? { display: "none" } : { marginBottom: 20 }
+                    }
+                    onClick={() => {
+                      setisprinting(true);
+                    }}
+                    icon={<PrinterOutlined />}
+                    type="primary"
+                  >
+                    Print
+                  </Button>
+
+                  <h1 style={{ paddingBottom: 4 }}>
+                    {`Your password is: ${createUser.createdUser.password}`}
+                  </h1>
+                  <p>{"Keep this password since you will need it to login"}</p>
+                </div>
+                <Divider orientation="left">User Information</Divider>
+                <Row>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="Full Name"
+                      content={createUser.createdUser.user.name}
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="Email"
+                      content={createUser.createdUser.user.email}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="Phone Number"
+                      content={
+                        "+251" +
+                        createUser.createdUser.user.phoneNumber
+                      }
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <DescriptionItem
+                      title="User Type"
+                      content={createUser.createdUser.user.role}
+                    />
+                  </Col>
+                </Row>
+                {role === "parent" ? (
+                  <>
+                    <Divider orientation="left">Children Information</Divider>
+                    {Children.map((child, i) => {
+                      return (
+                        <>
+                          <ChildComponent key={i} user={child} />
+                          <Divider />
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <></>
+                )}
+                {isprinting ? (
+                  <></>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      // setVisible(false);
+                      setStepPage(0);
+                      setFormChange(false)
+                    }}
+                    type="primary"
+                    key="console"
+                  >
+                    Finish
+                  </Button>
+                )}
+              </>}
         </div>
       ) : (
         <div style={{ marginTop: "5%" }}>
@@ -165,8 +326,8 @@ function EditChildForm({
       )}
     </div>
   );
+  
 }
-
 const mapStateToProps = (state) => {
   return {
     singleStudentInfo: state.singleStudentInfo.info,

@@ -172,7 +172,7 @@ function HomePage({
   return (
     <div
       style={{
-        height: "85vh",
+        // height: "85vh",
       }}
     >
       <Col span={24}>

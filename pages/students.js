@@ -22,6 +22,7 @@ function StudentFilterPage() {
     <div
       style={{
         width: "80vw",
+        height:"100vh",
         margin: "auto auto",
         marginTop: 12,
       }}

@@ -163,8 +163,8 @@ const UserManagementTable = (props) => {
               style={{ marginBottom: 5 }}
               xs={24}
               sm={24}
-              md={24}
-              lg={8}
+              md={12}
+              lg={12}
               xl={8}
             >
               <Select
@@ -180,31 +180,16 @@ const UserManagementTable = (props) => {
                 <Select.Option value="Parents">Parent</Select.Option>
               </Select>
             </Col>
+         
+             
+           
             <Col
               style={{ marginBottom: 5 }}
               className="gutter-row"
               xs={24}
               sm={24}
               md={12}
-              lg={8}
-              xl={8}
-            >
-              <Input
-                style={{ width: 300 }}
-                size="large"
-                placeholder="Search Here"
-                onChange={(e) => {
-                  setsearchvalue(e.target.value);
-                }}
-              />
-            </Col>
-            <Col
-              style={{ marginBottom: 5 }}
-              className="gutter-row"
-              xs={24}
-              sm={24}
-              md={12}
-              lg={8}
+              lg={12}
               xl={8}
             >
               <Button

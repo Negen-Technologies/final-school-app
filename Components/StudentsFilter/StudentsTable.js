@@ -149,10 +149,12 @@ function StudentTable({
       section: student.class.section,
     });
   });
-
   const filteredStudents = studentsList.filter((stu) => {
     return stu.name.toLowerCase().includes(searchField.toLowerCase());
   });
+
+console.log(filteredStudents)
+
   if (students.length == 0) {
     return (
       <div style={{}}>
