@@ -11,6 +11,7 @@ function CustomCheckBoxer() {
         marginBottom: "12px",
         cursor: "pointer",
         fontSize: "14px",
+        color: "black",
         // WebkitUserSelect: "none",
         // MozUserSelect: "none",
         // msUserSelect: "none",
