@@ -44,7 +44,7 @@ export function testLogin({ userData, authLogin }) {
         }}
         justify="center"
       >
-        <h1 style={{ color: "white", fontWeight: "bolder" }}>School Name</h1>
+        <h1 style={{ color: "white", fontWeight: "bolder" }}>Netib Systems</h1>
       </Row>
       <Row style={{ width: "100vw", height: "90vh" }}>
         <div style={{ margin: "auto auto" }}>

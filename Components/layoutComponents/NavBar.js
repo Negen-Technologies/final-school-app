@@ -110,7 +110,7 @@ function NavBar({
                 fontSize: 18,
               }}
             >
-              School Name
+              Netib Systems
             </h3>
           </a>
         </Col>
