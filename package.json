@@ -1,6 +1,7 @@
 {
   "name": "the-school-app",
-  "homepage": "https://the-school-app-web-hosting.web.app",
+  "homepage": "https://netib-systems.web.app",
+  
   "version": "0.1.0",
   "private": true,
   "scripts": {
