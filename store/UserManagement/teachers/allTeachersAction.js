@@ -2,6 +2,7 @@ import axios from "axios";
 import URLst from "../../../utils/constants";
 import * as actionTypes from "./allTeachersActionTypes";
 import { loadingTrue, loadingFalse, errorMessage } from "../../../store";
+import { deleteUserSuccess } from "../users/allUsersAction";
 
 export const teacherPending = () => {
   return {
@@ -124,6 +125,7 @@ export const AllTeacherDelete = (id, users) => {
     })
       .then((res) => {
         dispatch(teacherSuccess(filtereddata));
+        dispatch(deleteUserSuccess({ id: id }));
         dispatch(loadingFalse());
       })
       .catch((err) => {

@@ -2,6 +2,7 @@ import axios from "axios";
 import URLst from "../../../utils/constants";
 import * as actionTypes from "./allParentsActionTypes";
 import { loadingTrue, loadingFalse, errorMessage } from "../../../store";
+import { deleteUserSuccess } from "../users/allUsersAction";
 
 export const parentPending = () => {
   return {
@@ -9,15 +10,14 @@ export const parentPending = () => {
     isPending: true,
   };
 };
-  export const parentSuccess = (rows,count) => {
-    return {
-      type: actionTypes.PARENT_SUCCESS,
-      isPending: false,
-      data: rows,
-      count: count,
-    };
+export const parentSuccess = (rows, count) => {
+  return {
+    type: actionTypes.PARENT_SUCCESS,
+    isPending: false,
+    data: rows,
+    count: count,
   };
-
+};
 
 export const parentFail = (error) => {
   return {
@@ -28,7 +28,6 @@ export const parentFail = (error) => {
 };
 
 export const getAllParentSuccess = (limit, page) => {
-
   return (dispatch, getState) => {
     const { token } = getState().auth;
 
@@ -45,12 +44,10 @@ export const getAllParentSuccess = (limit, page) => {
         dispatch(
           parentSuccess(res.data.data.data.rows, res.data.data.data.count)
         );
-       
-       dispatch(loadingFalse());
-    
+
+        dispatch(loadingFalse());
       })
-      
-        
+
       .catch((err) => {
         var errorData;
         if (err.response != null) {
@@ -107,7 +104,6 @@ export const AllParentEdit = (id, users, edited) => {
 };
 
 export const AllParentDelete = (id, users) => {
- 
   var filtereddata = users.filter((item) => item.uuid !== id);
 
   return (dispatch, getState) => {
@@ -125,6 +121,7 @@ export const AllParentDelete = (id, users) => {
     })
       .then((res) => {
         dispatch(parentSuccess(filtereddata, filtereddata.length));
+        dispatch(deleteUserSuccess({ id: id }));
         dispatch(loadingFalse());
       })
       .catch((err) => {

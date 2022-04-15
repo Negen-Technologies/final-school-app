@@ -10,7 +10,7 @@ import {
   Upload,
   Select,
 } from "antd";
-import { EditOutlined,ArrowRightOutlined} from "@ant-design/icons";
+import { EditOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import storage from "../../utils/firebaseUpload";
 import { createUser } from "../../store/CreateUser/CreateUserAction";
@@ -25,19 +25,24 @@ const validatePhoneNo = (_, value) => {
   }
 };
 
-function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRoleChange, isFromEditChild, isForChangeParent }) {
+function CreateUserForm({
+  createUser,
+  createUserAction,
+  onFinish,
+  onCancel,
+  onRoleChange,
+  isFromEditChild,
+  isForChangeParent,
+}) {
   const [form] = Form.useForm();
   const [role, setRole] = useState("");
   const [fileList, setFileList] = useState([]);
   const [imageFile, setImageFile] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
-
   useEffect(() => {
     onRoleChange ? onRoleChange(role) : null;
-  }, [role]); 
-
-  
+  }, [role]);
 
   const handleOnChange = (event) => {
     setRole(event.value);
@@ -45,30 +50,28 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
 
   const buttonFunc = () => {
     if (isFromEditChild) {
-        return "Submit";
+      return "Submit";
     } else {
       if (role === "parent" || role === "teacher") {
         return "Proceed";
-        } else {
-          return "Submit";
-        }
+      } else {
+        return "Submit";
+      }
     }
-    
   };
 
   var roleData = [];
 
   console.log(isForChangeParent);
-    if (isForChangeParent) {
-      roleData.push({ key: "Parent", value: "Parent", label: "Parent" })
-    } else {
-      roleData.push(
-        { key: "Admin", value: "Admin", label: "Admin" },
-      { key: "Teacher", value: "Teacher", label: "Teacher" },
-      { key: "Parent", value: "Parent", label: "Parent" },
-      )
-    }
-  
+  if (isForChangeParent) {
+    roleData.push({ key: "Parent", value: "Parent", label: "Parent" });
+  } else {
+    roleData.push(
+      { key: "Admin", value: "admin", label: "Admin" },
+      { key: "Teacher", value: "teacher", label: "Teacher" },
+      { key: "Parent", value: "parent", label: "Parent" }
+    );
+  }
 
   const uploadImg = async (image) => {
     if (image == null) return;
@@ -87,7 +90,6 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
           });
       });
   };
-
 
   const props = {
     onRemove: (file) => {
@@ -116,7 +118,7 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
             alignItems: "center",
             marginBottom: "5%",
             marginTop: "5%",
-            marginLeft: '10px'
+            marginLeft: "10px",
           }}
         >
           <Upload {...props} showUploadList={false} accept=".jpg, .jpeg, .png">
@@ -138,7 +140,7 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
           // labelCol={{ span: 4 }}
           onFinish={(values) => {
             values.url = imageUrl;
-            
+
             isFromEditChild ? createUserAction(values) : onFinish(values);
           }}
           wrapperCol={{
@@ -196,7 +198,7 @@ function CreateUserForm({ createUser, createUserAction, onFinish, onCancel, onRo
           </Form.Item>
 
           <Form.Item
-            name="role" 
+            name="role"
             initialValue={isForChangeParent ? roleData[0] : null}
             rules={[{ required: true, message: "Missing Type of The User" }]}
           >

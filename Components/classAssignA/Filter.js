@@ -231,7 +231,7 @@ function StudentsFilterCriteria({
             ) : null}
 
             <Modal
-              title="Title"
+              title="Add Class"
               visible={visible}
               onOk={(handleOk, addStudentForm.submit)}
               confirmLoading={confirmLoading}

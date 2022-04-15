@@ -2,6 +2,7 @@ import axios from "axios";
 import URLst from "../../../utils/constants";
 import * as actionTypes from "./allAdminActionTypes";
 import { loadingTrue, loadingFalse, errorMessage } from "../../../store";
+import { deleteUserSuccess } from "../users/allUsersAction";
 
 export const adminPending = () => {
   return {
@@ -120,6 +121,7 @@ export const AllAdminDelete = (id, users) => {
     })
       .then((res) => {
         dispatch(adminSuccess(filtereddata, filtereddata.length));
+        dispatch(deleteUserSuccess({ id: id }));
         dispatch(loadingFalse());
       })
       .catch((err) => {

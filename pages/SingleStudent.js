@@ -1,4 +1,4 @@
-import React, { useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Col, DatePicker, Divider, Row, Select, Tabs } from "antd";
 
 import StudentCard from "../Components/StudentOverviewComponents/StudentCard";
@@ -6,11 +6,11 @@ import StudentAssesment from "../Components/StudentAssesment/StudentAssesment";
 import NotificationsPagination from "../Components/NotificationComponents/NotificationsPagination";
 import StudentOverview from "../Components/StudentOverviewComponents/StudentOverview";
 import StudentAttendance from "../Components/StudentOverviewComponents/StudentAttendance";
-import  SingleReportCard  from"../Components/ReportCard/SingleReportCard";
+import SingleReportCard from "../Components/ReportCard/SingleReportCard";
 import { EditOutlined } from "@ant-design/icons";
 import withAuth from "../utils/protectRoute";
 import { connect } from "react-redux";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 import {
   getSingleStudentAttendance,
@@ -19,10 +19,10 @@ import {
   updateParentInfo,
   getStudentAssesment,
 } from "../store/index";
-import "../store/SingleStudentAttendance/singleStudentAttendanceAction"
-import "../store/singleStudentInfo/singleStudentInfoAction"
+import "../store/SingleStudentAttendance/singleStudentAttendanceAction";
+import "../store/singleStudentInfo/singleStudentInfoAction";
 
-import {StudentContext} from "../utils/studentsContext"
+import { StudentContext } from "../utils/studentsContext";
 const { TabPane } = Tabs;
 
 const SingleStudent = ({
@@ -101,6 +101,7 @@ const SingleStudent = ({
       style={{
         paddingLeft: "10px",
         paddingRight: "10px",
+        height: "100vh",
       }}
     >
       <StudentCard singleStudentInfo={singleStudentInfo}></StudentCard>
@@ -166,7 +167,6 @@ const SingleStudent = ({
   );
 };
 
-
 const mapStateToProps = (state) => {
   return {
     studentAttendance: state.singleStudentAttendance,
@@ -180,15 +180,13 @@ const mapDispatchToProps = (dispatch) => {
   return {
     studentAttendanceAction: (id) => dispatch(getSingleStudentAttendance(id)),
     studentInfoAction: (id) => dispatch(getSingleStudentInfo(id)),
-    updateSingleStudentInfo:(data)=>dispatch(updateSingleStudentInfo(data)),
-    updateParentInfo:(data)=>dispatch(updateParentInfo(data)),
+    updateSingleStudentInfo: (data) => dispatch(updateSingleStudentInfo(data)),
+    updateParentInfo: (data) => dispatch(updateParentInfo(data)),
     studentAssesmentAction: (id) => dispatch(getStudentAssesment(id)),
   };
 };
 
-
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)( withAuth(SingleStudent));
+)(withAuth(SingleStudent));

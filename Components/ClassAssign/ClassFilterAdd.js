@@ -50,7 +50,6 @@ function ClassFilterAdd({
     wrapperCol: { span: 20, offset: 1 },
   };
 
-
   return (
     <div>
       <Col span={24}>
@@ -119,7 +118,7 @@ function ClassFilterAdd({
               Add Class
             </Button>
             <Modal
-              title="Title"
+              title="Add a Class"
               visible={visible}
               onOk={(handleOk, addStudentForm.submit)}
               confirmLoading={confirmLoading}
