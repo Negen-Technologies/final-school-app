@@ -49,7 +49,10 @@ function TeachersTable({ classes, mini, grade = 0, section }) {
     cl.coursesList.forEach((course, i) => {
       teachersList.push({
         key: i,
-        name: course.teacherInformation.userInformation.name,
+        name: course.teacherInformation.userInformation
+          ? course.teacherInformation.userInformation.name
+          : "No User Information",
+
         id: course.teacherId,
         course: course.courseInformation.name,
       });

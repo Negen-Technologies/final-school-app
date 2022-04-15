@@ -4,6 +4,7 @@ import React from "react";
 
 export default function  NotificationCardWithContent({ notification }) {
   const not = notification;
+  console.log(not)
   return (
     <div>
       <Card
@@ -20,7 +21,7 @@ export default function  NotificationCardWithContent({ notification }) {
             height: "50px",
             marginRight: "10px",
           }}
-          src={not.src}
+          // src={not.src}
         ></Avatar>
         <div
           style={{

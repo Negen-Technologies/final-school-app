@@ -302,6 +302,7 @@ function AssignClassPage({
               onClick={showModalTeacher}
               style={{ marginTop: "10px" }}
               icon={<PlusCircleFilled />}
+              
             >
               Add a Teacher
             </Button>
@@ -408,6 +409,7 @@ function AssignClassPage({
         title="Add a Teacher"
         visible={visibleTeacher}
         onOk={handleOkTeacher}
+        
         footer={[
           <Button
             type="primary"
@@ -473,7 +475,7 @@ function AssignClassPage({
               allowClear
               disabled={!filter.grade || !filter.section}
               style={{ width: "100%", marginBottom: "5px" }}
-              placeholder="Please select a Course"
+              placeholder="Please select a Teacher"
               onChange={handleChangeC}
             >
               {qualifiedTeachers}

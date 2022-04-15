@@ -42,6 +42,7 @@ import {
   notificationReducer,
   myNotificationReducer,
   addNotificationReducer,
+  studentNotificationReducer
 } from "./Notification/NotificationReducer";
 
 import { gradeChangereducer } from "./GradeChange/gradeChangeReducer";
@@ -92,6 +93,7 @@ const rootReducer = combineReducers({
   notification: notificationReducer,
   myNotification: myNotificationReducer,
   addNotification: addNotificationReducer,
+  studentNotificationReducer: studentNotificationReducer,
   gradeChange: gradeChangereducer,
   getAssessment: getAssessmentReducer,
   dashboard: dashboardReducer,

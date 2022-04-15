@@ -4,6 +4,7 @@ import NotificationCardWithContent from "../NotificationComponents/NotificationC
 
 export default function notificationsList({
   notifications,
+  studentNotification,
   title = "Notifications",
 }) {
   const [page, setPage] = React.useState(1);

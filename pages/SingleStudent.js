@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Col, DatePicker, Divider, Row, Select, Tabs } from "antd";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Divider,
+  Row,
+  Select,
+  Tabs,
+  Spin,
+} from "antd";
 
 import StudentCard from "../Components/StudentOverviewComponents/StudentCard";
 import StudentAssesment from "../Components/StudentAssesment/StudentAssesment";
@@ -18,6 +27,7 @@ import {
   updateSingleStudentInfo,
   updateParentInfo,
   getStudentAssesment,
+  studentNotification,
 } from "../store/index";
 import "../store/SingleStudentAttendance/singleStudentAttendanceAction";
 import "../store/singleStudentInfo/singleStudentInfoAction";
@@ -32,6 +42,8 @@ const SingleStudent = ({
   studentInfoAction,
   updateSingleStudentInfo,
   updateParentInfo,
+  studentNotification,
+  studentNotificationAction,
   studentassesmentdata,
   studentAssesmentAction,
 }) => {
@@ -46,6 +58,7 @@ const SingleStudent = ({
     ) {
       studentAttendanceAction(studentid);
     }
+
     if (
       (studentid !== undefined || null) &&
       tab == 5 &&
@@ -61,10 +74,22 @@ const SingleStudent = ({
     }
   }, [studentid]);
 
+  useEffect(() => {
+    if (
+      (studentid !== undefined || null) &&
+      singleStudentInfo.info != null &&
+      studentNotification.notifications.length == 0
+    ) {
+      console.log(singleStudentInfo.info);
+      studentNotificationAction(singleStudentInfo.info.parentId);
+    }
+  }, [singleStudentInfo.info]);
+  console.log("%%%", studentNotification);
+
   function callback(key) {
     setTab(key);
   }
-  const notifications = [
+  const notifi = [
     {
       name: "Administrator, Eleni",
       src: "/images/sampleWoman.jpg",
@@ -96,6 +121,7 @@ const SingleStudent = ({
         "Ex consectetur consequat voluptate consectetur cillum magnaconsectetur elit laborum pariatur labore voluptate. Sint    mollit deserunt ea enim voluptate commodo mollit elit mollit.",
     },
   ];
+  // const notifications=[]
   return (
     <div
       style={{
@@ -114,14 +140,28 @@ const SingleStudent = ({
         <TabPane tab="Overview" key="1">
           <StudentOverview
             studentAttendance={studentAttendance}
+            studentNotification={studentNotification}
           ></StudentOverview>
         </TabPane>
         <TabPane tab="Notification" key="2">
           <Row justify="space-between">
             <Col xs={24} lg={12} xl={16}>
-              <NotificationsPagination
-                notifications={notifications}
-              ></NotificationsPagination>
+              {studentNotification.notifications.length > 0 ? (
+                <NotificationsPagination
+                  notifications={studentNotification.notifications.map(
+                    (notification) => {
+                      return {
+                        name: notification.notificationInformation
+                          .ownerInformation.name,
+                        src: "",
+                        content: notification.notificationInformation.text,
+                      };
+                    }
+                  )}
+                ></NotificationsPagination>
+              ) : (
+                <div></div>
+              )}
             </Col>
             <Col xs={24} lg={7} xl={7}>
               <Divider orientation="Center">Filter by</Divider>
@@ -172,6 +212,7 @@ const mapStateToProps = (state) => {
     studentAttendance: state.singleStudentAttendance,
     singleStudentInfo: state.singleStudentInfo,
     studentassesmentdata: state.studentassesment,
+    studentNotification: state.studentNotificationReducer,
     // studentId: state.requestStudentsByFilter.selectedId,
   };
 };
@@ -183,6 +224,8 @@ const mapDispatchToProps = (dispatch) => {
     updateSingleStudentInfo: (data) => dispatch(updateSingleStudentInfo(data)),
     updateParentInfo: (data) => dispatch(updateParentInfo(data)),
     studentAssesmentAction: (id) => dispatch(getStudentAssesment(id)),
+    studentNotificationAction: (parentId) =>
+      dispatch(studentNotification(parentId)),
   };
 };
 

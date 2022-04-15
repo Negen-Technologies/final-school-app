@@ -86,6 +86,11 @@ const TeacherTable = (props) => {
     setEditingKey("");
     props.AllTeacherEdit(key, props.teachers, row);
   };
+  const handleDelete = (key) => {
+    props.AllTeacherDelete(key, props.teachers);
+
+    
+  };
   teacherData.splice(0, teacherData.length);
 
   useEffect(() => {
@@ -192,6 +197,20 @@ const TeacherTable = (props) => {
         );
       },
     },
+    {
+      title: "",
+      dataIndex: "",
+      render: (_, record) => (
+        <Popconfirm
+          title="Sure to delete?"
+          onConfirm={() => {
+            handleDelete(record.userId);
+          }}
+        >
+          <a style={{ color: "red" }}>Delete</a>
+        </Popconfirm>
+      ),
+    },
   ];
 
   const mergedColumns = columns.map((col) => {
@@ -223,7 +242,6 @@ const TeacherTable = (props) => {
         <AssignTeacherToCourseForm
           onSubmit={(val) => {
             props.updateTeacherAction(editingId, val, teacherId);
-            // setVisible(false);
           }}
           isLoading={props.teachersPending}
           teacherCourseList={teacherCourseList}
