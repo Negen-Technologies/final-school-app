@@ -51,7 +51,7 @@ function TeachersTable({ classes, mini, grade = 0, section }) {
         key: i,
         name: course.teacherInformation.userInformation
           ? course.teacherInformation.userInformation.name
-          : "No User Information",
+          : "Deleted User",
 
         id: course.teacherId,
         course: course.courseInformation.name,
