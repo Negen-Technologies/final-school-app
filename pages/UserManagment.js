@@ -100,7 +100,7 @@ const UserManagementTable = (props) => {
   };
 
   const handleCancel = () => {
-    setVisible(false);
+    stepPage === 2 ? (setVisible(false), setStepPage(0)) : setVisible(false);
   };
 
   const DescriptionItem = ({ title, content }) => (
@@ -180,9 +180,7 @@ const UserManagementTable = (props) => {
                 <Select.Option value="Parents">Parent</Select.Option>
               </Select>
             </Col>
-         
-             
-           
+
             <Col
               style={{ marginBottom: 5 }}
               className="gutter-row"
