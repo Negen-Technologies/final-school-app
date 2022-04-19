@@ -2,9 +2,8 @@ import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
 const METADATA = {
-  APP_NAME: "Boilerplate",
-  APP_DESCRIPTION:
-    "A boilerplate for Reactjs app using nextjs, redux, redux-thunk, antd, less",
+  APP_NAME: "Netib Systems",
+  APP_DESCRIPTION: "A School Management System. Manage your school from here.",
   FB_APP_ID: "",
   IMG_SHARE: "",
   KEY_WORDS: "",
