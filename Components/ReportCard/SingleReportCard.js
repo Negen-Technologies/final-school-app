@@ -82,7 +82,7 @@ function SingleReportCard({
           </Row>
         </div>
         <div>
-          <Row style={{overflow:"auto"}}>
+          <Row style={{ overflow: "auto" }}>
             <Col span={11}>
               <div
                 style={{
@@ -105,7 +105,7 @@ function SingleReportCard({
                   <Col span={3}>4th</Col>
                 </Row>
               </div>
-              {reportCard.reportCard.coursesList.map((subject, index) => {
+              {reportCard.reportCard.semester1.courses.map((subject, index) => {
                 return (
                   <div
                     key={index}
@@ -133,9 +133,33 @@ function SingleReportCard({
                     >
                       <Col span={12}>{subject.courseName}</Col>
                       <Col span={3}>{subject.result}</Col>
-                      <Col span={3}>{subject.second}</Col>
-                      <Col span={3}>{subject.third}</Col>
-                      <Col span={3}>{subject.fourth}</Col>
+                      <Col span={3}>
+                        {reportCard.reportCard.semester2.courses.find(
+                          (course) => course.courseId === subject.courseId
+                        )
+                          ? reportCard.reportCard.semester2.courses.find(
+                              (course) => course.courseId === subject.courseId
+                            ).result
+                          : ""}
+                      </Col>
+                      <Col span={3}>
+                        {reportCard.reportCard.semester3.courses.find(
+                          (course) => course.courseId === subject.courseId
+                        )
+                          ? reportCard.reportCard.semester3.courses.find(
+                              (course) => course.courseId === subject.courseId
+                            ).result
+                          : ""}
+                      </Col>
+                      <Col span={3}>
+                        {reportCard.reportCard.semester4.courses.find(
+                          (course) => course.courseId === subject.courseId
+                        )
+                          ? reportCard.reportCard.semester4.courses.find(
+                              (course) => course.courseId === subject.courseId
+                            ).result
+                          : ""}
+                      </Col>
                     </Row>
                   </div>
                 );
@@ -292,14 +316,48 @@ function SingleReportCard({
                       <Col span={12}>{subject}</Col>
                       <Col span={3}>
                         {index === 0
-                          ? reportCard.reportCard.totalResult
+                          ? reportCard.reportCard.semester1.totalResult
                           : index === 1
-                          ? reportCard.reportCard.average
-                          : reportCard.reportCard.rank}
+                          ? reportCard.reportCard.semester1.average !== "NaN"
+                            ? reportCard.reportCard.semester1.average
+                            : ""
+                          : reportCard.reportCard.semester1.average !== "NaN"
+                          ? reportCard.reportCard.semester1.rank
+                          : ""}
                       </Col>
-                      <Col span={3}>{subject.second}</Col>
-                      <Col span={3}>{subject.third}</Col>
-                      <Col span={3}>{subject.fourth}</Col>
+                      <Col span={3}>
+                        {index === 0
+                          ? reportCard.reportCard.semester2.totalResult
+                          : index === 1
+                          ? reportCard.reportCard.semester2.average !== "NaN"
+                            ? reportCard.reportCard.semester2.average
+                            : ""
+                          : reportCard.reportCard.semester2.average !== "NaN"
+                          ? reportCard.reportCard.semester2.rank
+                          : ""}
+                      </Col>
+                      <Col span={3}>
+                        {index === 0
+                          ? reportCard.reportCard.semester3.totalResult
+                          : index === 1
+                          ? reportCard.reportCard.semester3.average !== "NaN"
+                            ? reportCard.reportCard.semester3.average
+                            : ""
+                          : reportCard.reportCard.semester3.average !== "NaN"
+                          ? reportCard.reportCard.semester3.rank
+                          : ""}
+                      </Col>
+                      <Col span={3}>
+                        {index === 0
+                          ? reportCard.reportCard.semester4.totalResult
+                          : index === 1
+                          ? reportCard.reportCard.semester4.average !== "NaN"
+                            ? reportCard.reportCard.semester4.average
+                            : ""
+                          : reportCard.reportCard.semester4.average !== "NaN"
+                          ? reportCard.reportCard.semester4.rank
+                          : ""}
+                      </Col>
                     </Row>
                   </div>
                 );
