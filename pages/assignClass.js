@@ -43,6 +43,8 @@ function AssignClassPage({
   changeHomeRoom,
 }) {
   const [visible, setVisible] = useState(false);
+  const [selectedGradeandsection, setselectedGradeandsection] = useState([]);
+
   const [visibleTeacher, setVisibleTeacher] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [confirmLoadingTeacher, setConfirmLoadingTeacher] = useState(false);
@@ -200,7 +202,12 @@ function AssignClassPage({
         }}
       >
         <h1>Manage Classes</h1>
-        <Filter></Filter>
+        <Filter
+          onChange={(value) => {
+            setselectedGradeandsection(value);
+            console.log(value);
+          }}
+        ></Filter>
       </div>
       <div
         style={{
@@ -302,7 +309,6 @@ function AssignClassPage({
               onClick={showModalTeacher}
               style={{ marginTop: "10px" }}
               icon={<PlusCircleFilled />}
-              
             >
               Add a Teacher
             </Button>
@@ -345,7 +351,10 @@ function AssignClassPage({
           </div>
         ) : (
           <div>
-            <Filter min={true}></Filter>
+            <Filter
+              min={true}
+              initialSelceted={selectedGradeandsection}
+            ></Filter>
             {unassignedStudents.length > 0 ? (
               <div>
                 <h5 style={{ margin: "5px" }}>
@@ -409,7 +418,6 @@ function AssignClassPage({
         title="Add a Teacher"
         visible={visibleTeacher}
         onOk={handleOkTeacher}
-        
         footer={[
           <Button
             type="primary"
@@ -456,7 +464,10 @@ function AssignClassPage({
               {children}
             </Select> */}
 
-            <Filter min={true}></Filter>
+            <Filter
+              min={true}
+              initialSelceted={selectedGradeandsection}
+            ></Filter>
             <Select
               allowClear
               disabled={!filter.grade || !filter.section}

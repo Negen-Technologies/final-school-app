@@ -29,8 +29,10 @@ function StudentsFilterCriteria({
   add = true,
   isPending,
   error,
+  onChange,
   onRequestStudents,
   classList,
+  initialSelceted,
   loadingTrue,
   getClassList,
   setFilter,
@@ -119,6 +121,7 @@ function StudentsFilterCriteria({
 
   const onFinish = () => {
     const cl = classList.find((c) => c.grade == grade && c.section == section);
+    onChange([grade,section]);
     onRequestStudents(cl.uuid);
     getAClass(cl.uuid);
   };
@@ -141,8 +144,15 @@ function StudentsFilterCriteria({
           <Col style={{ marginRight: "5px" }} className="gutter-row">
             <Select
               style={{ width: 232, marginBottom: "2px" }}
-              onChange={(value) => handleClassChange(value)}
+              onChange={(value) => {
+                handleClassChange(value);
+              }}
               placeholder="Select Class"
+              defaultValue={
+                initialSelceted != (null || undefined)
+                  ? initialSelceted[0]
+                  : null
+              }
             >
               {classes.map((cl) => (
                 <Select.Option value={cl.grade} key={cl.grade}>
@@ -155,8 +165,15 @@ function StudentsFilterCriteria({
             <Select
               style={{ width: 232, marginBottom: "2px" }}
               value={section}
-              onChange={handleSectionChange}
+              onChange={() => {
+                handleSectionChange(section);
+              }}
               placeholder="Select Section"
+              defaultValue={
+                initialSelceted != (null || undefined)
+                  ? initialSelceted[1]
+                  : null
+              }
             >
               {sectionsList.map((sec) => (
                 <Select.Option key={sec.key}>{sec.value}</Select.Option>

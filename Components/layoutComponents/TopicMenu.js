@@ -23,15 +23,23 @@ export default function TopicMenu({ items, selectedKey, changeSelectedKey }) {
     <>
       <div
         style={{
-          height: "50px",
+          height: "120px",
           margin: "12px",
           background: "rgba(255, 255, 255, 0)",
           textAlign: "left",
+          marginBottom: "0px",
+          display:"grid",
+          placeItems:"center"
         }}
       >
-        <img src="/logo-with-text.png" alt="logo" height={40}/>
+        <img
+          src="/primary-color-logo.png"
+          alt="logo"
+          height={110}
+          style={{ textAlign: "center" }}
+        />
       </div>
-      <br/>
+
       <Menu
         selectedKeys={[selectedKey]}
         defaultSelectedKeys={["0"]}
