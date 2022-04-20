@@ -258,8 +258,7 @@ function StudentsFilterCriteria({
                   error={error}
                   disabled={
                     !section ||
-                    totalAssessmentValue == 100 ||
-                    totalAssessmentValue == 0
+                    totalAssessmentValue == 100
                   }
                 >
                   Create Assessment

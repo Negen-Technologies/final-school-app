@@ -63,6 +63,7 @@ export const createAssessmentAction = (
       })
       .catch((err) => {
         var errorData;
+        console.log(err.response.data.message)
         if (err.response != null) {
           errorData = err.response.data.message;
         } else {
