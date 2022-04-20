@@ -5,6 +5,8 @@ import Loading from "../Components/loadingComponents/Loading";
 import Message from "../Components/messageComponents/Message";
 import { Provider } from "react-redux";
 
+// The development branch (dev) is created and we push to that branch before the main
+
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
