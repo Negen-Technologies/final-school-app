@@ -41,25 +41,25 @@ export default function AttendanceMonth({ day, absentDays, width }) {
               }
             : absentOn.includes(value.date())
             ? {
-                backgroundColor: "#eb6841",
+                backgroundColor: "#FF0000",
                 width: width ? "60px" : "35px",
                 height: "40px",
               }
             : value.year() < maxyear
             ? {
-                backgroundColor: "#9ec583",
+                backgroundColor: "#EBEBE4",
                 width: width ? "60px" : "35px",
                 height: "40px",
               }
             : maxmonth < value.month() + 1 ||
               (maxmonth === value.month() + 1 && maxdate <= value.date())
             ? {
-                backgroundColor: "#bbb",
+                backgroundColor: "#EBEBE4",
                 width: width ? "60px" : "35px",
                 height: "40px",
               }
-            : {
-                backgroundColor: "#9ec583",
+            :  {
+                backgroundColor: "#EBEBE4",
                 width: width ? "60px" : "35px",
                 height: "40px",
               }
@@ -69,8 +69,14 @@ export default function AttendanceMonth({ day, absentDays, width }) {
           style={{
             color:
               maxmonth === value.month() + 1 && maxdate === value.date()
-                ? "green"
-                : "white",
+                ? "#0466c8" : absentOn.includes(value.date()) ? 'white' : (value.format("dddd").toString() === "Saturday" ||
+                value.format("dddd").toString() === "Sunday" ||
+                noClassDays.includes(value.format("DD-MM-YYYY"))) ? 'white': 
+                (value.year() < maxyear ) ? '#0466c8':
+                  (maxmonth > value.month() + 1 ||
+                (maxmonth === value.month() + 1 && maxdate >= value.date())) ? '#0466c8' :  
+                
+                 "white",
             fontSize: "15px",
             paddingTop: "6px",
           }}

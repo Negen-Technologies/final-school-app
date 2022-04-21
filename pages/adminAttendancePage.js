@@ -92,7 +92,7 @@ function adminAttendancePage({
                 absentDays={[]} />
             <DaysLateCard day={5}
               label="Days Absent"
-              col="#eb6841" /> */}
+              col="#FF0000" /> */}
     </div>
   );
 }
