@@ -121,7 +121,7 @@ function StudentsFilterCriteria({
 
   const onFinish = () => {
     const cl = classList.find((c) => c.grade == grade && c.section == section);
-    onChange([grade,section]);
+    onChange ? onChange([grade, section]) : null;
     onRequestStudents(cl.uuid);
     getAClass(cl.uuid);
   };
