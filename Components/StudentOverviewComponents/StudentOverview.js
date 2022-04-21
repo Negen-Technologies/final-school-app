@@ -67,12 +67,12 @@ export default function StudentOverview({ studentAttendance, studentNotification
                 <DaysLateCard
                   day={absentDays.length}
                   label="Days Absent"
-                  col="#eb6841"
+                  col="#FF0000"
                 ></DaysLateCard>
                 <DaysLateCard
                   day={getPresentDays()}
                   label="Days Present"
-                  col="#9ec583"
+                  col="#0466c8"
                 ></DaysLateCard>
               </Row>
             </Col>

@@ -94,7 +94,7 @@ function StudentAttendance({
             <DaysLateCard
               day={daysAbsent}
               label="Days Absent"
-              col="#eb6841"
+              col="#FF0000"
             ></DaysLateCard>
           </Row>
         </Col>
